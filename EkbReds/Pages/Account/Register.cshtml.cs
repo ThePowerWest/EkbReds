@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using ApplicationCore.Entities.Main;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace EkbReds.Pages.Account
+{
+    [AllowAnonymous]
+    public class RegisterModel : PageModel
+    {
+        private readonly SignInManager<User> SignInManager;
+        private readonly UserManager<User> UserManager;
+
+
+        public RegisterModel(SignInManager<User> signInManager, UserManager<User> userManager)
+        {
+            SignInManager = signInManager;
+            UserManager = userManager;
+        }
+
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+
+
+
+        public void OnGet()
+        {
+        }
+
+        //При корректном вводе создается новый пользователь и автоматически входит в систему.
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User { Email = Input.Email, UserName=Input.UserName };
+                var result = await UserManager.CreateAsync(user, Input.Password);
+                if (result.Succeeded) await SignInManager.SignInAsync(user, isPersistent: false);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return Page();
+        }
+
+        //Модель ввода данных со страницы.
+        public class InputModel
+        {
+            [Required]
+            [StringLength(20,
+                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 4)]
+            [Display(Name = "Имя пользователя")]
+            public string UserName { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(30,
+                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Пароль")]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Подтвердите пароль")]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+            public string ConfirmPassword { get; set; }
+        }
+
+    }
+}
