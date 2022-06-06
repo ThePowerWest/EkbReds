@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using ApplicationCore.Entities.Main;
+using ApplicationCore.Entities.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

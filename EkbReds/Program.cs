@@ -2,7 +2,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using ApplicationCore.Entities.Main;
+using ApplicationCore.Entities.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
