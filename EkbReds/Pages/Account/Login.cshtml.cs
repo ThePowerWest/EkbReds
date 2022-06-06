@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using ApplicationCore.Entities.Main;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using ApplicationCore.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
