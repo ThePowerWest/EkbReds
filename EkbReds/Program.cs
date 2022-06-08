@@ -2,6 +2,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ApplicationCore.Entities.Identity;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,5 +37,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+var fileOptions = new StaticFileOptions
+{
+    OnPrepareResponse = (context) => context.Context.Response.Headers[HeaderNames.CacheControl] = "public, max-age=604800"
+};
+app.UseStaticFiles(fileOptions);
 
 app.Run();
