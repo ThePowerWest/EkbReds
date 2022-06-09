@@ -40,7 +40,7 @@ namespace EkbReds.Pages.Account
             {
                 var user = new User { Email = Input.Email, UserName=Input.UserName };
                 var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) await SignInManager.SignInAsync(user, isPersistent: false);
+                if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
