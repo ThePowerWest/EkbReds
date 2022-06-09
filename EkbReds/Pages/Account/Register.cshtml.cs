@@ -31,7 +31,9 @@ namespace EkbReds.Pages.Account
         {
         }
 
-        //При корректном вводе создается новый пользователь и автоматически входит в систему.
+        /// <summary>
+        /// Регистрация.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)

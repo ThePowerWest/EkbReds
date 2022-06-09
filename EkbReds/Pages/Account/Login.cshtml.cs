@@ -27,7 +27,9 @@ namespace EkbReds.Pages.Account
         }
 
 
-
+        /// <summary>
+        /// Вход в систему.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -45,7 +47,9 @@ namespace EkbReds.Pages.Account
         }
 
 
-
+        /// <summary>
+        /// Модель ввода данных со страницы.
+        /// </summary>
         public class InputModel
         {
             [Required]

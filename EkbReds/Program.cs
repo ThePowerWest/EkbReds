@@ -5,7 +5,6 @@ using ApplicationCore.Entities.Identity;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
-
 DotNetEnv.Env.Load();
 string connection = Environment.GetEnvironmentVariable("DB_STRING");
 
@@ -14,7 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<MainContext>(options =>
     options.UseSqlServer(connection));
 
-builder.Services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<MainContext>()
                     .AddDefaultTokenProviders();
 
