@@ -2,15 +2,18 @@ using ApplicationCore.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
     public class RolesModel : PageModel
     {
         RoleManager<Role> RoleManager;
-        public RolesModel(RoleManager<Role> roleManager)
+        public IEnumerable<Role> Roles;
+        public RolesModel(RoleManager<Role> roleManager, IEnumerable<Role> roles)
         {
             RoleManager = roleManager;
+            Roles = roles;
         }
 
         [BindProperty]
@@ -18,6 +21,7 @@ namespace Web.Pages.Admin
 
         public void OnGet()
         {
+            Roles = RoleManager.Roles.ToList();
         }
         /// <summary>
         /// Добавляет новую роль.
@@ -28,7 +32,7 @@ namespace Web.Pages.Admin
             if (!string.IsNullOrEmpty(Input.Name))
             {
                 IdentityResult result = await RoleManager.CreateAsync(new Role { Name = Input.Name });
-                if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
+                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
                 else
                 {
                     foreach (var error in result.Errors)
@@ -51,7 +55,7 @@ namespace Web.Pages.Admin
                 if (role != null) 
                 {
                     IdentityResult result = await RoleManager.DeleteAsync(role);
-                    if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
+                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
                     else
                     {
                         foreach (var error in result.Errors)
@@ -68,6 +72,7 @@ namespace Web.Pages.Admin
 
     public class InputModel
     {
+        [Display(Name = "Название роли")]
         public string Name { get; set; }
     }
 

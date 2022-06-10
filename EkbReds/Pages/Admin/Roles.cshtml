@@ -2,10 +2,11 @@
 @model Web.Pages.Admin.RolesModel
 @{
 }
-<div  style="height: 300px;overflow:hidden;width:100%;">
+<div  style="height: 300px;width:100%; padding: 140px 0 300px 0">
     <img style="height: 300px; width:100%" src="/images/innerbanner.jpg" />
 </div>
 <div class="container" style="padding:30px 0 20px 0">
+    <!--Добавление и удаление-->
     <div class="row">
         <div class="col-md-6">
             <h2>Добавить новую роль</h2>
@@ -19,7 +20,7 @@
                 </div>
                 <br />
                     <div class="form-group float-end">
-                        <button type="submit" asp-page-handler="AddRole" class="btn btn-dark">Добавить</button>
+                        <button type="submit" asp-page-handler="AddRole" class="btn btn-success">Добавить</button>
                     </div>
             </form>
         </div>
@@ -35,17 +36,45 @@
                 </div>
                 <br />
                     <div class="form-group float-end">
-                        <button type="submit" asp-page-handler="DeleteRole" class="btn btn-dark">Удалить</button>
+                        <button type="submit" asp-page-handler="DeleteRole" class="btn btn-danger">Удалить</button>
                     </div>
             </form>
         </div>
     </div>
-
+    <!--Конец добавления и удаления-->
+    <!--Список ролей-->
+    <div class="row" style="padding:30px 0 30px 0">
+        <div class="col-md-12">
+            <h2 class="text-center">Список ролей</h2>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">NormalizedName</th>
+                        <th scope="col">ConcurrencyStamp</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var roles in Model.Roles)
+                {
+                    <form method="post">
+                    <tr>
+                    <td>@roles.Id</td>
+                    <td>@roles.Name</td>
+                    <td>@roles.NormalizedName</td>
+                    <td>@roles.ConcurrencyStamp</td>
+                    <td>
+                        <button type="submit" asp-page="/Admin/EditRole" asp-route-name="@roles.Name" asp-route-id="@roles.Id" class="btn btn-warning">Редактировать</button>
+                    </td>
+                    </tr>
+                    </form>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--Коней списка ролей-->
 </div>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
