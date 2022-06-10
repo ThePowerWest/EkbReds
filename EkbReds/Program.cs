@@ -36,10 +36,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
-var fileOptions = new StaticFileOptions
-{
-    OnPrepareResponse = (context) => context.Context.Response.Headers[HeaderNames.CacheControl] = "public, max-age=604800"
-};
-app.UseStaticFiles(fileOptions);
+//var fileOptions = new StaticFileOptions
+//{
+//    OnPrepareResponse = (context) => context.Context.Response.Headers[HeaderNames.CacheControl] = "public, max-age=604800"
+//};
+//app.UseStaticFiles(fileOptions);
 
 app.Run();
