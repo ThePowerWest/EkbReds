@@ -68,8 +68,6 @@ namespace Web.Pages.Admin
             return Page();
         }
     }
-
-
     public class InputModel
     {
         [Display(Name = "Название роли")]
@@ -77,4 +75,3 @@ namespace Web.Pages.Admin
     }
 
 }
-

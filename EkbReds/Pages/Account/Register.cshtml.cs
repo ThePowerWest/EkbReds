@@ -24,9 +24,6 @@ namespace EkbReds.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-
-
-
         public void OnGet()
         {
         }
@@ -80,6 +77,5 @@ namespace EkbReds.Pages.Account
             [Compare("Password", ErrorMessage = "Пароли не совпадают")]
             public string ConfirmPassword { get; set; }
         }
-
     }
 }

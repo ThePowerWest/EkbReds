@@ -20,6 +20,9 @@ namespace Web.Pages.Admin
         public async void OnGet()
         {
         }
+        /// <summary>
+        /// Изменияет название роли.
+        /// </summary>
         public async Task<IActionResult> OnPostEditRoleAsync()
         {
             if (!string.IsNullOrEmpty(Input.Name))
