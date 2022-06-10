@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
-{   /// <summary>
+{   
+    /// <summary>
     /// Контекст БД.
     /// </summary>
     public class MainContext : IdentityDbContext<User, Role, string>

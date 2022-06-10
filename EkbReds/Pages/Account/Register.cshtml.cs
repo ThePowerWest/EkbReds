@@ -50,7 +50,9 @@ namespace EkbReds.Pages.Account
             return Page();
         }
 
-        //Модель ввода данных со страницы.
+        /// <summary>
+        /// Модель ввода данных со страницы.
+        /// </summary>
         public class InputModel
         {
             [Required]

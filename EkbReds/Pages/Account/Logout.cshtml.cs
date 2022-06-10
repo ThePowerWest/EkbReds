@@ -13,7 +13,9 @@ namespace EkbReds.Pages.Account
         {
             SignInManager = signInManager;
         }
-
+        /// <summary>
+        /// Выход из системы.
+        /// </summary>
         public async Task<IActionResult> OnGet()
         {
             await SignInManager.SignOutAsync();

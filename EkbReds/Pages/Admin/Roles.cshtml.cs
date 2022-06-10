@@ -19,8 +19,10 @@ namespace Web.Pages.Admin
         public void OnGet()
         {
         }
-
-        public async Task<IActionResult> OnPostAsync()
+        /// <summary>
+        /// Добавляет новую роль.
+        /// </summary>
+        public async Task<IActionResult> OnPostAddRoleAsync()
         {
 
             if (!string.IsNullOrEmpty(Input.Name))
@@ -32,6 +34,30 @@ namespace Web.Pages.Admin
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return Page();
+        }
+        /// <summary>
+        /// Удаляет существующую роль по ее названию.
+        /// </summary>
+        public async Task<IActionResult> OnPostDeleteRoleAsync()
+        {
+
+            if (!string.IsNullOrEmpty(Input.Name))
+            {
+                Role role = await RoleManager.FindByNameAsync(Input.Name);
+                if (role != null) 
+                {
+                    IdentityResult result = await RoleManager.DeleteAsync(role);
+                    if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
             }
