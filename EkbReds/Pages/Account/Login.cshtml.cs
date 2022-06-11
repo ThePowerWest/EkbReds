@@ -8,28 +8,26 @@ namespace EkbReds.Pages.Account
 {
     public class LoginModel : PageModel
     {
-
         private readonly SignInManager<User> SignInManager;
-
 
         [BindProperty]
         public InputModel Input { get; set; }
 
-
+            /// <summary>
+            /// Внедрение зависимостей
+            /// </summary>
         public LoginModel(SignInManager<User> signInManager)
         {
             SignInManager = signInManager;
         }
 
-
         public void OnGet()
         {
         }
 
-
-        /// <summary>
-        /// Вход в систему.
-        /// </summary>
+            /// <summary>
+            /// Вход в систему
+            /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -46,10 +44,9 @@ namespace EkbReds.Pages.Account
             return Page();
         }
 
-
-        /// <summary>
-        /// Модель ввода данных со страницы.
-        /// </summary>
+            /// <summary>
+            /// Модель ввода данных со страницы
+            /// </summary>
         public class InputModel
         {
             [Required]

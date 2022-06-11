@@ -11,6 +11,9 @@ namespace Web.Pages.Admin
         private readonly UserManager<User> UserManager;
         public IEnumerable<User> Users;
 
+            /// <summary>
+            /// Внедрение зависимостей
+            /// </summary>
         public UsersModel(UserManager<User> userManager, IEnumerable<User> users)
         {
             UserManager = userManager;
@@ -20,14 +23,19 @@ namespace Web.Pages.Admin
         [BindProperty]
         public InputUserModel Input { get; set; }
 
-        public async void OnGet()
+            /// <summary>
+            /// Получает список пользователей
+            /// </summary>
+        public void OnGet()
         {
             Users = UserManager.Users.ToList();
         }
 
+            /// <summary>
+            /// Удаляет пользователя
+            /// </summary>
         public async Task<IActionResult> OnPostDeleteUserAsync(string id)
         {
-
             if (!string.IsNullOrEmpty(id))
             {
                 User user = await UserManager.FindByIdAsync(id);
@@ -47,6 +55,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
+            /// <summary>
+            /// Добавляет пользователя
+            /// </summary>
         public async Task<IActionResult> OnPostAddUserAsync()
         {
             if (ModelState.IsValid)
@@ -62,35 +73,34 @@ namespace Web.Pages.Admin
 
             return Page();
         }
-    }
-    public class InputUserModel
-    {
-        [Required]
-        [StringLength(20,
-            ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-            MinimumLength = 4)]
-        [Display(Name = "Имя пользователя")]
-        public string UserName { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+            /// <summary>
+            /// Модель ввода данных со страницы
+            /// </summary>
+        public class InputUserModel
+        {
+            [Required]
+            [StringLength(20,
+                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 4)]
+            [Display(Name = "Имя пользователя")]
+            public string UserName { get; set; }
 
-        [Required]
-        [StringLength(30,
-            ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-            MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Подтвердите пароль")]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        public string ConfirmPassword { get; set; }
+            [Required]
+            [StringLength(30,
+                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 1)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Пароль")]
+            public string Password { get; set; }
 
-        [Display(Name = "Подтвержден")]
-        public bool EmailConfirmed { get; set; }
+            [Display(Name = "Подтвержден")]
+            public bool EmailConfirmed { get; set; }
+        }
     }
 }

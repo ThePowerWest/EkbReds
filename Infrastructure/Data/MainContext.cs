@@ -4,13 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {   
-    /// <summary>
-    /// Контекст БД.
-    /// </summary>
+        /// <summary>
+        /// Контекст БД
+        /// </summary>
     public class MainContext : IdentityDbContext<User, Role, string>
     {
+        /// <summary>
+        /// Конфигурация контекста
+        /// </summary>
         public MainContext(DbContextOptions<MainContext> options) : base(options) { }
 
+        /// <summary>
+        /// Присвоение Id для пользователей и ролей
+        /// </summary>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().Property(e => e.Id).ValueGeneratedOnAdd();

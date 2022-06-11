@@ -9,13 +9,17 @@ namespace EkbReds.Pages.Account
     {
         private readonly SignInManager<User> SignInManager;
 
+            /// <summary>
+            /// Внедрение зависимостей
+            /// </summary>
         public LogoutModel(SignInManager<User> signInManager)
         {
             SignInManager = signInManager;
         }
-        /// <summary>
-        /// Выход из системы.
-        /// </summary>
+
+            /// <summary>
+            /// Выход из системы
+            /// </summary>
         public async Task<IActionResult> OnGet()
         {
             await SignInManager.SignOutAsync();

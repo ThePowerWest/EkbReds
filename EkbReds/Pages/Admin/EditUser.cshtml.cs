@@ -9,16 +9,25 @@ namespace Web.Pages.Admin
     public class EditUserModel : PageModel
     {
         private readonly UserManager<User> UserManager;
+
+            /// <summary>
+            /// Внедрение зависимостей
+            /// </summary>
         public EditUserModel(UserManager<User> userManager)
         {
             UserManager = userManager;
         }
+
         [BindProperty]
         public InputModel Input { get; set; }
+
         public void OnGet()
         {
         }
 
+            /// <summary>
+            /// Изменяет пользователя
+            /// </summary>
         public async Task<IActionResult> OnPostEditUserAsync()
         {
             if (ModelState.IsValid)
@@ -37,6 +46,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
+            /// <summary>
+            /// Модель ввода данных со страницы
+            /// </summary>
         public class InputModel
         {
             [Required]
@@ -53,6 +65,5 @@ namespace Web.Pages.Admin
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
         }
-
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-/// <summary>
-/// Самогенерирующийся идентификатор
-/// </summary>
+
+    /// <summary>
+    /// Самогенерирующийся идентификатор
+    /// </summary>
 public class BaseEntity
 {
     [Key]
