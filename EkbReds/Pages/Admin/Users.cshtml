@@ -8,49 +8,13 @@
     <img style="height: 300px; width:100%" src="/images/innerbanner.jpg" />
 </div>
 <div class="container" style="padding:30px 0 20px 0">
-    <!--Добавление-->
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Добавить нового пользователя</h2>
-            <form method="post">
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.UserName"></label>
-                    <input asp-for="Input.UserName" class="form-control" />
-                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.EmailConfirmed">
-                        <input asp-for="Input.EmailConfirmed" />
-                        @Html.DisplayNameFor(m => m.Input.EmailConfirmed)
-                        </label>
-                    </div>
-                </div>
-                <br />
-                    <div class="form-group float-end">
-                        <button type="submit" asp-page-handler="AddUser" class="btn btn-success">Добавить</button>
-                    </div>
-            </form>
-        </div>
-    </div>
-    <!--Конец добавления-->
     <!--Список пользователей-->
     <div class="row" style="padding:30px 0 30px 0">
         <div class="col-md-12">
             <h2 class="text-center">Список пользователей</h2>
-            <br />
+            <!--Триггер-->
+            <button type="button" data-toggle="modal" data-target="#AddUserForm" class="btn btn-success" style="margin:0 0 10px 0">Добавить</button>
+            <!--Триггер-->
             <table class="table">
                 <thead>
                     <tr>
@@ -85,4 +49,49 @@
         </div>
     </div>
     <!--Конец списка пользователей-->
+</div>
+<!-- Модальное окно -->
+<div class="modal fade" id="AddUserForm" tabindex="-1" aria-labelledby="AddUserFormLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="AddUserFormLabel">Добавить нового пользователя</h2>
+      </div>
+      <div class="modal-body">
+          <form method="post" id="AddForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.EmailConfirmed">
+                        <input asp-for="Input.EmailConfirmed" />
+                        @Html.DisplayNameFor(m => m.Input.EmailConfirmed)
+                        </label>
+                    </div>
+                </div>
+                <br />
+                    <div class="form-group float-end">
+                        <button type="submit" asp-page-handler="AddUser" class="btn btn-success">Добавить</button>
+                    </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
 </div>
