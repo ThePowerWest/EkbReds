@@ -51,22 +51,19 @@ namespace EkbReds.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage ="Поле обязательно!")]
             [StringLength(20,
-                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                ErrorMessage = "{0} должно содержать от {2} до {1} символов.",
                 MinimumLength = 4)]
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Поле обязательно!")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(30,
-                ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-                MinimumLength = 1)]
+            [Required(ErrorMessage = "Поле обязательно!")]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }

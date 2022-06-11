@@ -80,6 +80,7 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputModel
         {
+            [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Название роли")]
             public string Name { get; set; }
         }

@@ -55,6 +55,7 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputModel
         {
+            [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name="Новое название роли")]
             public string NewName { get; set; }
             [Display(Name = "Старое название роли")]

@@ -49,11 +49,11 @@ namespace EkbReds.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Поле обязательно!")]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
