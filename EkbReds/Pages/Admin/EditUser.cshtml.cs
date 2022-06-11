@@ -10,9 +10,9 @@ namespace Web.Pages.Admin
     {
         private readonly UserManager<User> UserManager;
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public EditUserModel(UserManager<User> userManager)
         {
             UserManager = userManager;
@@ -25,9 +25,9 @@ namespace Web.Pages.Admin
         {
         }
 
-            /// <summary>
-            /// Изменяет пользователя
-            /// </summary>
+        /// <summary>
+        /// Изменяет пользователя
+        /// </summary>
         public async Task<IActionResult> OnPostEditUserAsync()
         {
             if (ModelState.IsValid)
@@ -46,9 +46,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputModel
         {
             [Required]

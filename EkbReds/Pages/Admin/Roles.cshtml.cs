@@ -11,9 +11,9 @@ namespace Web.Pages.Admin
         RoleManager<Role> RoleManager;
         public IEnumerable<Role> Roles;
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public RolesModel(RoleManager<Role> roleManager, IEnumerable<Role> roles)
         {
             RoleManager = roleManager;
@@ -23,17 +23,17 @@ namespace Web.Pages.Admin
         [BindProperty]
         public InputModel Input { get; set; }
 
-            /// <summary>
-            /// Получает список ролей
-            /// </summary>
+        /// <summary>
+        /// Получает список ролей
+        /// </summary>
         public void OnGet()
         {
             Roles = RoleManager.Roles.ToList();
         }
 
-            /// <summary>
-            /// Добавляет новую роль
-            /// </summary>
+        /// <summary>
+        /// Добавляет новую роль
+        /// </summary>
         public async Task<IActionResult> OnPostAddRoleAsync()
         {
             if (!string.IsNullOrEmpty(Input.Name))
@@ -51,9 +51,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Удаляет существующую роль по ее названию
-            /// </summary>
+        /// <summary>
+        /// Удаляет существующую роль по ее названию
+        /// </summary>
         public async Task<IActionResult> OnPostDeleteRoleAsync(string name)
         {
             if (!string.IsNullOrEmpty(name))
@@ -75,9 +75,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputModel
         {
             [Display(Name = "Название роли")]

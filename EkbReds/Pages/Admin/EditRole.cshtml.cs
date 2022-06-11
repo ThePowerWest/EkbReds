@@ -10,9 +10,9 @@ namespace Web.Pages.Admin
     {
         RoleManager<Role> RoleManager;
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public EditRoleModel(RoleManager<Role> roleManager)
         {
             RoleManager = roleManager;
@@ -25,9 +25,9 @@ namespace Web.Pages.Admin
         {
         }
 
-            /// <summary>
-            /// Изменияет название роли
-            /// </summary>
+        /// <summary>
+        /// Изменияет название роли
+        /// </summary>
         public async Task<IActionResult> OnPostEditRoleAsync()
         {
             if (!string.IsNullOrEmpty(Input.Name))
@@ -50,9 +50,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputModel
         {
             [Display(Name="Новое название роли")]

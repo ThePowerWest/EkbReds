@@ -12,9 +12,9 @@ namespace EkbReds.Pages.Account
     {
         private readonly UserManager<User> UserManager;
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public RegisterModel(UserManager<User> userManager)
         {
             UserManager = userManager;
@@ -27,9 +27,9 @@ namespace EkbReds.Pages.Account
         {
         }
 
-            /// <summary>
-            /// Регистрация
-            /// </summary>
+        /// <summary>
+        /// Регистрация
+        /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -46,9 +46,9 @@ namespace EkbReds.Pages.Account
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputModel
         {
             [Required]
@@ -70,11 +70,6 @@ namespace EkbReds.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Подтвердите пароль")]
-            [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-            public string ConfirmPassword { get; set; }
         }
     }
 }

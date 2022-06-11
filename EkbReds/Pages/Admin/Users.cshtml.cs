@@ -11,9 +11,9 @@ namespace Web.Pages.Admin
         private readonly UserManager<User> UserManager;
         public IEnumerable<User> Users;
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public UsersModel(UserManager<User> userManager, IEnumerable<User> users)
         {
             UserManager = userManager;
@@ -23,17 +23,17 @@ namespace Web.Pages.Admin
         [BindProperty]
         public InputUserModel Input { get; set; }
 
-            /// <summary>
-            /// Получает список пользователей
-            /// </summary>
+        /// <summary>
+        /// Получает список пользователей
+        /// </summary>
         public void OnGet()
         {
             Users = UserManager.Users.ToList();
         }
 
-            /// <summary>
-            /// Удаляет пользователя
-            /// </summary>
+        /// <summary>
+        /// Удаляет пользователя
+        /// </summary>
         public async Task<IActionResult> OnPostDeleteUserAsync(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -55,9 +55,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Добавляет пользователя
-            /// </summary>
+        /// <summary>
+        /// Добавляет пользователя
+        /// </summary>
         public async Task<IActionResult> OnPostAddUserAsync()
         {
             if (ModelState.IsValid)
@@ -74,9 +74,9 @@ namespace Web.Pages.Admin
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputUserModel
         {
             [Required]

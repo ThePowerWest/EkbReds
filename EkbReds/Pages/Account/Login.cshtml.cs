@@ -13,9 +13,9 @@ namespace EkbReds.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-            /// <summary>
-            /// Внедрение зависимостей
-            /// </summary>
+        /// <summary>
+        /// ctor
+        /// </summary>
         public LoginModel(SignInManager<User> signInManager)
         {
             SignInManager = signInManager;
@@ -25,9 +25,9 @@ namespace EkbReds.Pages.Account
         {
         }
 
-            /// <summary>
-            /// Вход в систему
-            /// </summary>
+        /// <summary>
+        /// Вход в систему
+        /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -44,9 +44,9 @@ namespace EkbReds.Pages.Account
             return Page();
         }
 
-            /// <summary>
-            /// Модель ввода данных со страницы
-            /// </summary>
+        /// <summary>
+        /// Модель ввода данных со страницы
+        /// </summary>
         public class InputModel
         {
             [Required]
