@@ -13,9 +13,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<MainContext>(options =>
     options.UseSqlServer(connection));
 
-builder.Services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<MainContext>()
-                    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, Role>(options => 
+{ 
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+})
+    .AddEntityFrameworkStores<MainContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

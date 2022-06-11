@@ -46,12 +46,12 @@ namespace Web.Pages.Admin
         /// <summary>
         /// Удаляет существующую роль по ее названию.
         /// </summary>
-        public async Task<IActionResult> OnPostDeleteRoleAsync()
+        public async Task<IActionResult> OnPostDeleteRoleAsync(string name)
         {
 
-            if (!string.IsNullOrEmpty(Input.Name))
+            if (!string.IsNullOrEmpty(name))
             {
-                Role role = await RoleManager.FindByNameAsync(Input.Name);
+                Role role = await RoleManager.FindByNameAsync(name);
                 if (role != null) 
                 {
                     IdentityResult result = await RoleManager.DeleteAsync(role);

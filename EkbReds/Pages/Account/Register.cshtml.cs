@@ -10,13 +10,11 @@ namespace EkbReds.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> SignInManager;
         private readonly UserManager<User> UserManager;
 
 
-        public RegisterModel(SignInManager<User> signInManager, UserManager<User> userManager)
+        public RegisterModel(UserManager<User> userManager)
         {
-            SignInManager = signInManager;
             UserManager = userManager;
         }
 
@@ -35,7 +33,7 @@ namespace EkbReds.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Email = Input.Email, UserName=Input.UserName };
+                var user = new User { Email = Input.Email, UserName = Input.UserName};
                 var result = await UserManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
                 foreach (var error in result.Errors)
