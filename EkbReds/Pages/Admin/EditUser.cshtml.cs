@@ -1,4 +1,5 @@
 using ApplicationCore.Entities.Identity;
+using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,21 +9,28 @@ namespace Web.Pages.Admin
 {
     public class EditUserModel : PageModel
     {
-        private readonly UserManager<User> UserManager;
+        public UserManager<User> UserManager;
+        private readonly RoleManager<Role> RoleManager;
+        private readonly IUserService UserService;
+        public IEnumerable<Role> Roles;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public EditUserModel(UserManager<User> userManager)
+        public EditUserModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService, IEnumerable<Role> roles)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
+            UserService = userService;
+            Roles = roles;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public void OnGet()
+        public void OnPost()
         {
+            Roles = RoleManager.Roles.ToList();
         }
 
         /// <summary>
@@ -36,6 +44,24 @@ namespace Web.Pages.Admin
                 if (Input.NewUserName != null) user.UserName = Input.NewUserName;
                 user.Email=Input.Email;
                 user.EmailConfirmed = Input.EmailConfirmed;
+                if (Input.Role=="Admin")
+                {
+                    try
+                    {
+                        await UserService.RemoveFromRoleAsync(user.Id, "User");
+                    }
+                    catch { }
+                    await UserService.AddToRoleAsync(user.Id, Input.Role);
+                }
+                if (Input.Role == "User")
+                {
+                    try
+                    {
+                        await UserService.RemoveFromRoleAsync(user.Id, "Admin");
+                    }
+                    catch { }
+                    await UserService.AddToRoleAsync(user.Id, Input.Role);
+                }
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Users"));
                 foreach (var error in result.Errors)
@@ -65,6 +91,10 @@ namespace Web.Pages.Admin
 
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
+
+            [Required(ErrorMessage = "Поле обязательно!")]
+            [Display(Name ="Роль")]
+            public string Role { get; set; }
         }
     }
 }

@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.NewUserName"></label>
-                    <input asp-for="Input.NewUserName" class="form-control" placeholder="Новое имя пользователя"/>
+                    <input asp-for="Input.NewUserName" class="form-control" value="@Model.Input.UserName" placeholder="Новое имя пользователя"/>
                     <span asp-validation-for="Input.NewUserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -25,6 +25,18 @@
                     <input asp-for="Input.Email" class="form-control" placeholder="Новый Email" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
+                @{
+                    foreach (var inputRole in Model.Roles)
+                    {
+                        <div class="form-group">
+                            <div class="radio">
+                                <label asp-for="Input.Role">
+                                <input asp-for="Input.Role" type="radio" value="@inputRole.Name"/> @inputRole.Name
+                                </label>
+                            </div>
+                        </div>
+                    }
+                }
                 @*Первый вариант чекбокса
                 @Html.EditorFor(x => x.Input.EmailConfirmed)*@
 
@@ -32,7 +44,7 @@
                 <div class="form-group">
                     <div class="checkbox">
                         <label asp-for="Input.EmailConfirmed">
-                        <input asp-for="Input.EmailConfirmed" />
+                        <input type="checkbox" asp-for="Input.EmailConfirmed"/>
                         @Html.DisplayNameFor(m => m.Input.EmailConfirmed)
                         </label>
                     </div>

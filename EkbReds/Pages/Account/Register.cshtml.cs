@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ApplicationCore.Entities.Identity;
+using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +12,15 @@ namespace EkbReds.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly UserManager<User> UserManager;
+        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public RegisterModel(UserManager<User> userManager)
+        public RegisterModel(UserManager<User> userManager, IUserService userService)
         {
             UserManager = userManager;
+            UserService = userService;
         }
 
         [BindProperty]
@@ -36,7 +39,11 @@ namespace EkbReds.Pages.Account
             {
                 var user = new User { Email = Input.Email, UserName = Input.UserName};
                 var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) return LocalRedirect(Url.Content("~/"));
+                if (result.Succeeded) 
+                {
+                    await UserService.AddToRoleAsync(user.Id, "User");
+                    return LocalRedirect(Url.Content("~/"));
+                }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

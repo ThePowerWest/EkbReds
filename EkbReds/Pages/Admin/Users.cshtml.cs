@@ -8,7 +8,7 @@ namespace Web.Pages.Admin
 {
     public class UsersModel : PageModel
     {
-        private readonly UserManager<User> UserManager;
+        public UserManager<User> UserManager;
         public IEnumerable<User> Users;
 
         /// <summary>
@@ -98,6 +98,8 @@ namespace Web.Pages.Admin
 
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
+
+            public string Role { get; set; }
         }
     }
 }

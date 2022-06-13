@@ -2,6 +2,8 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ApplicationCore.Entities.Identity;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 //using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,7 @@ DotNetEnv.Env.Load();
 string connection = Environment.GetEnvironmentVariable("DB_STRING");
 
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<MainContext>(options =>
     options.UseSqlServer(connection));
 

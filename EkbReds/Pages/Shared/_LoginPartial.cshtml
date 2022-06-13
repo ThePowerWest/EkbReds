@@ -6,11 +6,26 @@
 <ul class="navbar-nav d-inline-block">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link" asp-area="Identity" asp-page="/Index" title="Manage">Привет @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-page="/Account/Logout">Выйти</a>
+    <li class="nav-item dropdown">
+        <!--Кнопка-->
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+            Привет @User.Identity?.Name !
+          </a>
+          <!--Кнопка-->
+          <!--Меню-->
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+              @if (User.IsInRole("Admin"))
+                {
+                    <li><a class="dropdown-item" asp-page="/Admin/Roles">Роли</a></li>
+                    <li><a class="dropdown-item" asp-page="/Admin/Users">Пользователи</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                }
+              <li><a class="dropdown-item" href="#">Какая то кнопка</a></li>
+              <li><a class="dropdown-item" href="#">Какая то кнопка</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" asp-page="/Account/Logout">Выйти</a></li>
+          </ul>
+          <!--Меню-->
     </li>
 }
 else
