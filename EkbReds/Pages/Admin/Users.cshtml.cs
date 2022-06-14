@@ -1,4 +1,6 @@
 using ApplicationCore.Entities.Identity;
+using ApplicationCore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,18 +8,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class UsersModel : PageModel
     {
         public UserManager<User> UserManager;
+        private readonly RoleManager<Role> RoleManager;
         public IEnumerable<User> Users;
+        public IEnumerable<Role> Roles;
+        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public UsersModel(UserManager<User> userManager, IEnumerable<User> users)
+        public UsersModel(UserManager<User> userManager, IEnumerable<User> users, RoleManager<Role> roleManager, IEnumerable<Role> roles, IUserService userService)
         {
             UserManager = userManager;
             Users = users;
+            RoleManager = roleManager;
+            Roles = roles;
+            UserService = userService;
         }
 
         [BindProperty]
@@ -29,6 +38,7 @@ namespace Web.Pages.Admin
         public void OnGet()
         {
             Users = UserManager.Users.ToList();
+            Roles = RoleManager.Roles.ToList();
         }
 
         /// <summary>
@@ -64,13 +74,19 @@ namespace Web.Pages.Admin
             {
                 var user = new User { Email = Input.Email, UserName = Input.UserName, EmailConfirmed=Input.EmailConfirmed };
                 var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Users"));
-                foreach (var error in result.Errors)
+                if (result.Succeeded) 
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    await UserService.AddToRoleAsync(user.Id, Input.Role);
+                    return LocalRedirect(Url.Content("~/Admin/Users"));
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
-
             return Page();
         }
 
@@ -99,6 +115,7 @@ namespace Web.Pages.Admin
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
 
+            [Required(ErrorMessage = "Поле обязательно!")]
             public string Role { get; set; }
         }
     }

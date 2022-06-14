@@ -6,26 +6,27 @@
 <ul class="navbar-nav d-inline-block">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item dropdown">
-        <!--Кнопка-->
+    <li class="nav-item dropdown noclose">
+          <!--Кнопка-->
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
             Привет @User.Identity?.Name !
           </a>
           <!--Кнопка-->
-          <!--Меню-->
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+          <div class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
               @if (User.IsInRole("Admin"))
                 {
-                    <li><a class="dropdown-item" asp-page="/Admin/Roles">Роли</a></li>
-                    <li><a class="dropdown-item" asp-page="/Admin/Users">Пользователи</a></li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <!--Кнопка-->
+                    <a class="dropdown-item" href="#admin" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="admin">Админка</a>
+                    <!--Кнопка-->
+                    <div class="collapse" id="admin">
+                        <a class="dropdown-item" asp-page="/Admin/Users">Пользователи</a>
+                        <a class="dropdown-item" asp-page="/Admin/Roles">Роли</a>
+                    </div>
                 }
-              <li><a class="dropdown-item" href="#">Какая то кнопка</a></li>
-              <li><a class="dropdown-item" href="#">Какая то кнопка</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" asp-page="/Account/Logout">Выйти</a></li>
-          </ul>
-          <!--Меню-->
+              <a class="dropdown-item" href="#">Какая то кнопка</a>
+              <a class="dropdown-item" href="#">Какая то кнопка</a>
+              <a class="dropdown-item" asp-page="/Account/Logout">Выйти</a>
+          </div>
     </li>
 }
 else

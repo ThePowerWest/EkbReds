@@ -1,4 +1,5 @@
-jQuery(document).ready(function($) {
+$(document).on("click.bs.dropdown.data-api", ".noclose", function (e) { e.stopPropagation() });
+jQuery(document).ready(function ($) {
     "use strict"
     // Header scroll class
     if ($('#main-header').length) {

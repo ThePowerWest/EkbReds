@@ -10,13 +10,17 @@ namespace ApplicationCore.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> UserManager;
+        private readonly RoleManager<Role> RoleManager;
+        public IEnumerable<Role> Roles;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public UserService(UserManager<User> userManager)
+        public UserService(UserManager<User> userManager, RoleManager<Role> roleManager, IEnumerable<Role> roles)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
+            Roles = roles;
         }
 
         /// <summary>
@@ -24,14 +28,17 @@ namespace ApplicationCore.Services
         /// </summary>
         public async Task AddToRoleAsync(string userId, string roleName)
         {
+            Roles = RoleManager.Roles.ToList();
             var user = await UserManager.FindByIdAsync(userId);
+            foreach (var role in Roles)
+            {
+                try
+                {
+                    await UserManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                catch{}
+            }
             await UserManager.AddToRoleAsync(user, roleName);
-        }
-
-        public async Task RemoveFromRoleAsync(string userId, string roleName)
-        {
-            var user = await UserManager.FindByIdAsync(userId);
-            await UserManager.RemoveFromRoleAsync(user, roleName);
         }
     }
 }

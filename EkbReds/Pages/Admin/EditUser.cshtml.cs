@@ -1,5 +1,6 @@
 using ApplicationCore.Entities.Identity;
 using ApplicationCore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class EditUserModel : PageModel
     {
         public UserManager<User> UserManager;
@@ -44,24 +46,7 @@ namespace Web.Pages.Admin
                 if (Input.NewUserName != null) user.UserName = Input.NewUserName;
                 user.Email=Input.Email;
                 user.EmailConfirmed = Input.EmailConfirmed;
-                if (Input.Role=="Admin")
-                {
-                    try
-                    {
-                        await UserService.RemoveFromRoleAsync(user.Id, "User");
-                    }
-                    catch { }
-                    await UserService.AddToRoleAsync(user.Id, Input.Role);
-                }
-                if (Input.Role == "User")
-                {
-                    try
-                    {
-                        await UserService.RemoveFromRoleAsync(user.Id, "Admin");
-                    }
-                    catch { }
-                    await UserService.AddToRoleAsync(user.Id, Input.Role);
-                }
+                await UserService.AddToRoleAsync(user.Id, Input.Role);
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Users"));
                 foreach (var error in result.Errors)

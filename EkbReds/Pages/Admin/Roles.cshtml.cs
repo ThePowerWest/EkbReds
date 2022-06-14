@@ -1,4 +1,5 @@
 using ApplicationCore.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class RolesModel : PageModel
     {
         RoleManager<Role> RoleManager;
