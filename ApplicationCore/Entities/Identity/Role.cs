@@ -3,7 +3,7 @@
 namespace ApplicationCore.Entities.Identity
 {
     /// <summary>
-    /// Класс роли пользователя
+    /// Роль пользователя
     /// </summary>
     public class Role : IdentityRole<string>
     {

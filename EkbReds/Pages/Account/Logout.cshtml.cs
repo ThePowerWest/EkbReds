@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EkbReds.Pages.Account
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<User> SignInManager;

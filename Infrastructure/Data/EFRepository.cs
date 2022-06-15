@@ -4,8 +4,7 @@ using ApplicationCore.Interfaces;
 namespace Infrastructure.Data;
 
 /// <summary>
-/// Репозиторий 
-/// Через конструктор добавлен контекст БД
+/// EF Репозиторий
 /// </summary>
 public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class
 {
@@ -13,6 +12,5 @@ public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepositor
     /// ctor
     /// </summary>
     public EfRepository(MainContext dbContext) : base(dbContext)
-    {
-    }
+    {}
 }

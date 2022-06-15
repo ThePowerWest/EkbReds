@@ -3,7 +3,7 @@
 namespace ApplicationCore.Entities.Identity
 {
     /// <summary>
-    /// Класс пользователя
+    /// Пользователь
     /// </summary>
     public class User : IdentityUser<string>
     {
