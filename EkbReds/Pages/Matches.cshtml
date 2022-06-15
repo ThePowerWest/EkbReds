@@ -1,0 +1,12 @@
+﻿@page
+@model Web.Pages.MatchesModel
+@{
+}
+<div class="row">
+    @foreach (var match in Model.Matches)
+    {
+        <div class="col-md-6">
+            <h4>@match.Data. VS @match</h4>
+        </div>
+    }
+</div>

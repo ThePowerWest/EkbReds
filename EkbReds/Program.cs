@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using ApplicationCore.Entities.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
+using ApplicationCore.Entities.DTO;
 //using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ string connection = Environment.GetEnvironmentVariable("DB_STRING");
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMatchLoadService, MatchLoadService>();
+builder.Services.AddScoped<IList<Match>, List<Match>>();
 builder.Services.AddDbContext<MainContext>(options =>
     options.UseSqlServer(connection));
 

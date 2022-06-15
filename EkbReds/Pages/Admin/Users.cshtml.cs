@@ -35,7 +35,7 @@ namespace Web.Pages.Admin
         /// <summary>
         /// Получает список пользователей
         /// </summary>
-        public void OnGet()
+        public async void OnGet()
         {
             Users = UserManager.Users.ToList();
             Roles = RoleManager.Roles.ToList();
