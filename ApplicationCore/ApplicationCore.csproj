@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\Main\**" />
-    <EmbeddedResource Remove="Entities\Main\**" />
-    <None Remove="Entities\Main\**" />
+    <Compile Remove="Interfaces\Base\**" />
+    <EmbeddedResource Remove="Interfaces\Base\**" />
+    <None Remove="Interfaces\Base\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Base\" />
+    <Folder Include="Entities\Main\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

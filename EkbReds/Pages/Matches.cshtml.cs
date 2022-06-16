@@ -1,4 +1,4 @@
-using ApplicationCore.Entities.DTO;
+using ApplicationCore;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

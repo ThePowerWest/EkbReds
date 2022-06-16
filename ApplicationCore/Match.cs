@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ApplicationCore.Entities.DTO
+namespace ApplicationCore
 {
     /// <summary>
     /// DTO матча
@@ -14,7 +14,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Ветка data
     /// </summary>
-    public class Data 
+    public class Data
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -50,7 +50,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Команда
     /// </summary>
-    public class Team 
+    public class Team
     {
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -62,7 +62,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Счет
     /// </summary>
-    public class Score 
+    public class Score
     {
         [JsonProperty("current")]
         public int Current { get; set; }
@@ -77,7 +77,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Лига
     /// </summary>
-    public class League 
+    public class League
     {
         [JsonProperty("name_translations")]
         public NameTranslation[] NameTranslation { get; set; }
@@ -89,7 +89,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Название лиги
     /// </summary>
-    public class NameTranslation 
+    public class NameTranslation
     {
         [JsonProperty("ru")]
         public string Ru { get; set; }
@@ -98,7 +98,7 @@ namespace ApplicationCore.Entities.DTO
     /// <summary>
     /// Сезон
     /// </summary>
-    public class Season 
+    public class Season
     {
         [JsonProperty("name")]
         public string Name { get; set; }

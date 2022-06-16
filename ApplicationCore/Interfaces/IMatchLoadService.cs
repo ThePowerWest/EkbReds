@@ -1,6 +1,4 @@
-﻿using ApplicationCore.Entities.DTO;
-
-namespace ApplicationCore.Interfaces
+﻿namespace ApplicationCore.Interfaces
 {
     /// <summary>
     /// Интерфейс сервиса для загрузки матчей

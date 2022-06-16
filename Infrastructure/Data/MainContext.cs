@@ -14,7 +14,7 @@ namespace Infrastructure.Data
         /// </summary>
         public MainContext(DbContextOptions<MainContext> options) : base(options) { }
 
-        /// <inheritdoc cref="IdentityDbContext{TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken}.OnModelCreating(ModelBuilder)"/>
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().Property(e => e.Id).ValueGeneratedOnAdd();
