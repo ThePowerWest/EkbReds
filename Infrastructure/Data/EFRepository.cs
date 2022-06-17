@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Entities.Main;
 
 namespace Infrastructure.Data;
 
@@ -8,9 +9,13 @@ namespace Infrastructure.Data;
 /// </summary>
 public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class
 {
+    protected readonly MainContext Context;
+
     /// <summary>
     /// ctor
     /// </summary>
-    public EfRepository(MainContext dbContext) : base(dbContext)
-    {}
+    public EfRepository(MainContext context) : base(context)
+    {
+        Context = context;
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities.Identity;
+using ApplicationCore.Entities.Main;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ namespace Infrastructure.Data
         /// ctor
         /// </summary>
         public MainContext(DbContextOptions<MainContext> options) : base(options) { }
+
+        public DbSet<ApiToken> Tokens { get; set; }
 
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
