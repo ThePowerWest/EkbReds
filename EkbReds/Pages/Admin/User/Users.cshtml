@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.Users)
+                    @foreach (var user in Model.UserManager.Users)
                 {
                     <form method="post">
                     <tr>
@@ -91,7 +91,7 @@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 @{
-                    foreach (var inputRole in Model.Roles)
+                    foreach (var inputRole in Model.RoleManager.Roles)
                     {
                         <div class="form-group">
                             <div class="radio">

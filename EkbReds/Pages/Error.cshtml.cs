@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace EkbReds.Pages
 {
+    /// <summary>
+    /// Страница ошибки
+    /// </summary>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
     public class ErrorModel : PageModel

@@ -2,10 +2,10 @@
 
 namespace EkbReds.Pages
 {
+    /// <summary>
+    /// Главная страница
+    /// </summary>
     public class IndexModel : PageModel
     {
-        public void OnGet()
-        {
-        }
     }
 }

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EkbReds.Pages.Account
 {
+    /// <summary>
+    /// Страница регистрации
+    /// </summary>
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
@@ -23,12 +26,11 @@ namespace EkbReds.Pages.Account
             UserService = userService;
         }
 
+        /// <summary>
+        /// Элемент передачи данных со страницы
+        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public void OnGet()
-        {
-        }
 
         /// <summary>
         /// Регистрация
@@ -37,9 +39,9 @@ namespace EkbReds.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Email = Input.Email, UserName = Input.UserName};
+                var user = new User { Email = Input.Email, UserName = Input.UserName };
                 var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) 
+                if (result.Succeeded)
                 {
                     await UserService.AddToRoleAsync(user.Id, "User");
                     return LocalRedirect(Url.Content("~/"));
@@ -58,18 +60,27 @@ namespace EkbReds.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage ="Поле обязательно!")]
+            /// <summary>
+            /// Имя пользователя
+            /// </summary>
+            [Required(ErrorMessage = "Поле обязательно!")]
             [StringLength(20,
                 ErrorMessage = "{0} должно содержать от {2} до {1} символов.",
                 MinimumLength = 4)]
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
+            /// <summary>
+            /// Почта
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Пароль
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]

@@ -7,31 +7,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    /// <summary>
+    /// Страница с ролями
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class RolesModel : PageModel
     {
-        RoleManager<Role> RoleManager;
-        public IEnumerable<Role> Roles;
+        public RoleManager<Role> RoleManager;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public RolesModel(RoleManager<Role> roleManager, IEnumerable<Role> roles)
+        public RolesModel(RoleManager<Role> roleManager)
         {
             RoleManager = roleManager;
-            Roles = roles;
         }
-
-        [BindProperty]
-        public InputModel Input { get; set; }
 
         /// <summary>
-        /// Получает список ролей
+        /// Элемент передачи данных со страницы
         /// </summary>
-        public void OnGet()
-        {
-            Roles = RoleManager.Roles.ToList();
-        }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         /// <summary>
         /// Добавляет новую роль
@@ -61,7 +57,7 @@ namespace Web.Pages.Admin
             if (!string.IsNullOrEmpty(name))
             {
                 Role role = await RoleManager.FindByNameAsync(name);
-                if (role != null) 
+                if (role != null)
                 {
                     IdentityResult result = await RoleManager.DeleteAsync(role);
                     if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
@@ -82,6 +78,9 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputModel
         {
+            /// <summary>
+            /// Название роли
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Название роли")]
             public string Name { get; set; }

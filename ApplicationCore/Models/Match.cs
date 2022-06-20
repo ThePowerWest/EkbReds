@@ -7,7 +7,10 @@ namespace ApplicationCore.Models
     /// </summary>
     public class Match
     {
+        /// <summary>
+        /// Ветка Data
+        /// </summary>
         [JsonProperty("data")]
         public Data[] Data { get; set; }
-    }  
+    }
 }

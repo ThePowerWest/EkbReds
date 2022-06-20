@@ -15,8 +15,6 @@ namespace Infrastructure.Data
         /// </summary>
         public MainContext(DbContextOptions<MainContext> options) : base(options) { }
 
-        public DbSet<ApiToken> Tokens { get; set; }
-
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,5 +23,10 @@ namespace Infrastructure.Data
 
             base.OnModelCreating(builder);
         }
+
+        /// <summary>
+        /// Коллекция токенов в БД
+        /// </summary>
+        public DbSet<ApiToken> Tokens { get; set; }
     }
 }

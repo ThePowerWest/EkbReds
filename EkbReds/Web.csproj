@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\lib\**" />
-    <Content Remove="wwwroot\lib\**" />
-    <EmbeddedResource Remove="wwwroot\lib\**" />
-    <None Remove="wwwroot\lib\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
     <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.0.1" />

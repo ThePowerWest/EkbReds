@@ -26,7 +26,7 @@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 @{
-                    foreach (var inputRole in Model.Roles)
+                    foreach (var inputRole in Model.RoleManager.Roles)
                     {
                         <div class="form-group">
                             <div class="radio">

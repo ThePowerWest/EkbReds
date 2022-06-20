@@ -3,7 +3,7 @@
     /// <summary>
     /// Токен API
     /// </summary>
-    public class ApiToken:BaseEntity
+    public class ApiToken : BaseEntity
     {
         /// <summary>
         /// Ключ

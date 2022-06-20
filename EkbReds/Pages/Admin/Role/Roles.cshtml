@@ -25,19 +25,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var roles in Model.Roles)
+                    @foreach (var role in Model.RoleManager.Roles)
                 {
                     <form method="post">
                     <tr>
-                    <td>@roles.Id</td>
-                    <td>@roles.Name</td>
-                    <td>@roles.NormalizedName</td>
-                    <td>@roles.ConcurrencyStamp</td>
+                    <td>@role.Id</td>
+                    <td>@role.Name</td>
+                    <td>@role.NormalizedName</td>
+                    <td>@role.ConcurrencyStamp</td>
                     <td>
-                        <button type="submit" asp-page="/Admin/EditRole" asp-route-name="@roles.Name" asp-route-id="@roles.Id" class="btn btn-warning">Редактировать</button>
+                        <button type="submit" asp-page="/Admin/EditRole" asp-route-name="@role.Name" asp-route-id="@role.Id" class="btn btn-warning">Редактировать</button>
                     </td>
                     <td>
-                        <button type="submit" asp-page-handler="DeleteRole" asp-route-name="@roles.Name" class="btn btn-danger">Удалить</button>
+                        <button type="submit" asp-page-handler="DeleteRole" asp-route-name="@role.Name" class="btn btn-danger">Удалить</button>
                     </td>
                     </tr>
                     </form>

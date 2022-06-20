@@ -7,6 +7,9 @@ namespace ApplicationCore.Models
     /// </summary>
     public class Season
     {
+        /// <summary>
+        /// Название сезона
+        /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
     }

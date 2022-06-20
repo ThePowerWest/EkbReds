@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace EkbReds.Pages.Account
 {
     /// <summary>
-    /// 
+    /// Страница выхода из системы
     /// </summary>
     public class LogoutModel : PageModel
     {

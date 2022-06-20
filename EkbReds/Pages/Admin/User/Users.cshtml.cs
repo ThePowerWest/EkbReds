@@ -8,38 +8,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    /// <summary>
+    /// Страница с пользователями
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class UsersModel : PageModel
     {
         public UserManager<User> UserManager;
-        private readonly RoleManager<Role> RoleManager;
-        public IEnumerable<User> Users;
-        public IEnumerable<Role> Roles;
+        public RoleManager<Role> RoleManager;
         private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public UsersModel(UserManager<User> userManager, IEnumerable<User> users, RoleManager<Role> roleManager, IEnumerable<Role> roles, IUserService userService)
+        public UsersModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService)
         {
             UserManager = userManager;
-            Users = users;
             RoleManager = roleManager;
-            Roles = roles;
             UserService = userService;
         }
 
+        /// <summary>
+        /// Элемент передачи данных со страницы
+        /// </summary>
         [BindProperty]
         public InputUserModel Input { get; set; }
-
-        /// <summary>
-        /// Получает список пользователей
-        /// </summary>
-        public async void OnGet()
-        {
-            Users = UserManager.Users.ToList();
-            Roles = RoleManager.Roles.ToList();
-        }
 
         /// <summary>
         /// Удаляет пользователя
@@ -72,9 +65,9 @@ namespace Web.Pages.Admin
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Email = Input.Email, UserName = Input.UserName, EmailConfirmed=Input.EmailConfirmed };
+                var user = new User { Email = Input.Email, UserName = Input.UserName, EmailConfirmed = Input.EmailConfirmed };
                 var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) 
+                if (result.Succeeded)
                 {
                     await UserService.AddToRoleAsync(user.Id, Input.Role);
                     return LocalRedirect(Url.Content("~/Admin/Users"));
@@ -95,6 +88,9 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputUserModel
         {
+            /// <summary>
+            /// Имя пользователя
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [StringLength(20,
                 ErrorMessage = "{0} должно содержать от {2} до {1} символов.",
@@ -102,19 +98,31 @@ namespace Web.Pages.Admin
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
+            /// <summary>
+            /// Почта
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Пароль
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
 
+            /// <summary>
+            /// Подтвержден
+            /// </summary>
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
 
+            /// <summary>
+            /// Роль
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             public string Role { get; set; }
         }

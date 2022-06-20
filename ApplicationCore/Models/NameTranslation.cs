@@ -7,6 +7,9 @@ namespace ApplicationCore.Models
     /// </summary>
     public class NameTranslation
     {
+        /// <summary>
+        /// Переведенное название лиги
+        /// </summary>
         [JsonProperty("ru")]
         public string Ru { get; set; }
     }

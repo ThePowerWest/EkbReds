@@ -6,13 +6,10 @@ namespace ApplicationCore.Models
     /// </summary>
     public class Score
     {
+        /// <summary>
+        /// Текущий счет
+        /// </summary>
         [JsonProperty("current")]
         public int Current { get; set; }
-
-        [JsonProperty("period_1")]
-        public int Period1 { get; set; }
-
-        [JsonProperty("period_2")]
-        public int Period2 { get; set; }
     }
 }

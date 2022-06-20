@@ -8,32 +8,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    /// <summary>
+    /// Страница редактирования пользователя
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class EditUserModel : PageModel
     {
-        public UserManager<User> UserManager;
-        private readonly RoleManager<Role> RoleManager;
+        private readonly UserManager<User> UserManager;
+        public RoleManager<Role> RoleManager;
         private readonly IUserService UserService;
-        public IEnumerable<Role> Roles;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public EditUserModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService, IEnumerable<Role> roles)
+        public EditUserModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService)
         {
             UserManager = userManager;
             RoleManager = roleManager;
             UserService = userService;
-            Roles = roles;
         }
 
+        /// <summary>
+        /// Элемент передачи данных со страницы
+        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public void OnPost()
-        {
-            Roles = RoleManager.Roles.ToList();
-        }
 
         /// <summary>
         /// Изменяет пользователя
@@ -44,7 +43,7 @@ namespace Web.Pages.Admin
             {
                 var user = UserManager.Users.FirstOrDefault(x => x.UserName == Input.UserName);
                 if (Input.NewUserName != null) user.UserName = Input.NewUserName;
-                user.Email=Input.Email;
+                user.Email = Input.Email;
                 user.EmailConfirmed = Input.EmailConfirmed;
                 await UserService.AddToRoleAsync(user.Id, Input.Role);
                 var result = await UserManager.UpdateAsync(user);
@@ -62,23 +61,38 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputModel
         {
+            /// <summary>
+            /// Почта
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [EmailAddress]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Имя пользователя
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
+            /// <summary>
+            /// Новое имя пользователя
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Новое Имя пользователя")]
             public string NewUserName { get; set; }
 
+            /// <summary>
+            /// Подтвержден
+            /// </summary>
             [Display(Name = "Подтвержден")]
             public bool EmailConfirmed { get; set; }
 
+            /// <summary>
+            /// Роль
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
-            [Display(Name ="Роль")]
+            [Display(Name = "Роль")]
             public string Role { get; set; }
         }
     }

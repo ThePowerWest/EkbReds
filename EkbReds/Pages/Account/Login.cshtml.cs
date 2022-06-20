@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EkbReds.Pages.Account
 {
+    /// <summary>
+    /// Страница авторизации
+    /// </summary>
     public class LoginModel : PageModel
     {
         private readonly SignInManager<User> SignInManager;
 
+        /// <summary>
+        /// Элемент передачи данных со страницы
+        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -19,10 +25,6 @@ namespace EkbReds.Pages.Account
         public LoginModel(SignInManager<User> signInManager)
         {
             SignInManager = signInManager;
-        }
-
-        public void OnGet()
-        {
         }
 
         /// <summary>
@@ -49,15 +51,24 @@ namespace EkbReds.Pages.Account
         /// </summary>
         public class InputModel
         {
+            /// <summary>
+            /// Имя пользователя
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
 
+            /// <summary>
+            /// Пароль
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
 
+            /// <summary>
+            /// Запомнить пользователя
+            /// </summary>
             [Display(Name = "Запомнить меня")]
             public bool RememberMe { get; set; }
         }

@@ -6,12 +6,12 @@ namespace Infrastructure.Data.Repositories
     /// <summary>
     /// Репозиторий токенов
     /// </summary>
-    public class TokenRepository:EfRepository<ApiToken>, IReadRepository<ApiToken>, IRepository<ApiToken>
+    public class TokenRepository : EfRepository<ApiToken>, IReadRepository<ApiToken>, IRepository<ApiToken>
     {
         /// <summary>
         /// ctor
         /// </summary>
-        public TokenRepository(MainContext context):base (context)
-        {}
+        public TokenRepository(MainContext context) : base(context)
+        { }
     }
 }

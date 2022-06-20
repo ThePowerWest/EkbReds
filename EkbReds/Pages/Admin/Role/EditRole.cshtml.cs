@@ -7,10 +7,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Pages.Admin
 {
+    /// <summary>
+    /// Страница редактирования роли
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class EditRoleModel : PageModel
     {
-        RoleManager<Role> RoleManager;
+        private readonly RoleManager<Role> RoleManager;
 
         /// <summary>
         /// ctor
@@ -20,12 +23,11 @@ namespace Web.Pages.Admin
             RoleManager = roleManager;
         }
 
+        /// <summary>
+        /// Элемент передачи данных со страницы
+        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public void OnGet()
-        {
-        }
 
         /// <summary>
         /// Изменияет название роли
@@ -57,11 +59,22 @@ namespace Web.Pages.Admin
         /// </summary>
         public class InputModel
         {
+            /// <summary>
+            /// Новое название роли
+            /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
-            [Display(Name="Новое название роли")]
+            [Display(Name = "Новое название роли")]
             public string NewName { get; set; }
+
+            /// <summary>
+            /// Старое название роли
+            /// </summary>
             [Display(Name = "Старое название роли")]
             public string Name { get; set; }
+
+            /// <summary>
+            /// Иднетификатор
+            /// </summary>
             public string Id { get; set; }
         }
     }
