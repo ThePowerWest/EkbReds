@@ -7,7 +7,7 @@ using Web.Configuration;
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
 
-Dependencies.ConfigureServices(builder.Configuration, builder.Services);
+Dependencies.ConfigureServices(builder.Services);
 
 builder.Services.AddIdentity<User, Role>(options =>
 {

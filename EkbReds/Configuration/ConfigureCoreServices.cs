@@ -18,7 +18,7 @@ namespace Web.Configuration
             services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMatchLoadService, MatchLoadService>();
+            //services.AddScoped<IMatchLoadService, MatchLoadService>();
             services.AddScoped<TokenRepository>();
 
             return services;
