@@ -37,7 +37,7 @@ namespace Web.Pages.Admin
             if (!string.IsNullOrEmpty(Input.Name))
             {
                 IdentityResult result = await RoleManager.CreateAsync(new Role { Name = Input.Name });
-                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
+                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Role/Roles"));
                 else
                 {
                     foreach (var error in result.Errors)
@@ -60,7 +60,7 @@ namespace Web.Pages.Admin
                 if (role != null)
                 {
                     IdentityResult result = await RoleManager.DeleteAsync(role);
-                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
+                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Role/Roles"));
                     else
                     {
                         foreach (var error in result.Errors)

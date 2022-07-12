@@ -45,7 +45,7 @@ namespace Web.Pages.Admin
                 if (user != null)
                 {
                     IdentityResult result = await UserManager.DeleteAsync(user);
-                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Users"));
+                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/User/Users"));
                     else
                     {
                         foreach (var error in result.Errors)
@@ -70,7 +70,7 @@ namespace Web.Pages.Admin
                 if (result.Succeeded)
                 {
                     await UserService.AddToRoleAsync(user.Id, Input.Role);
-                    return LocalRedirect(Url.Content("~/Admin/Users"));
+                    return LocalRedirect(Url.Content("~/Admin/User/Users"));
                 }
                 else
                 {

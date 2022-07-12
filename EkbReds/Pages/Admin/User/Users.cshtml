@@ -47,7 +47,7 @@
                         }
                     </td>
                     <td>
-                        <button type="submit" asp-page="/Admin/EditUser" asp-route-role="@{IList<string> inputRoles = await Model.UserManager.GetRolesAsync(await Model.UserManager.FindByIdAsync(user.Id));
+                        <button type="submit" asp-page="/Admin/User/EditUser" asp-route-role="@{IList<string> inputRoles = await Model.UserManager.GetRolesAsync(await Model.UserManager.FindByIdAsync(user.Id));
                             foreach (var role in roles)
                             {
                                 @role

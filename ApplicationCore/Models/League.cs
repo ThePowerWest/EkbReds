@@ -11,7 +11,7 @@ namespace ApplicationCore.Models
         /// Название лиги
         /// </summary>
         [JsonProperty("name_translations")]
-        public NameTranslation[] NameTranslation { get; set; }
+        public NameTranslation NameTranslation { get; set; }
 
         /// <summary>
         /// Логотип лиги

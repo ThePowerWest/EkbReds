@@ -34,7 +34,7 @@
                     <td>@role.NormalizedName</td>
                     <td>@role.ConcurrencyStamp</td>
                     <td>
-                        <button type="submit" asp-page="/Admin/EditRole" asp-route-name="@role.Name" asp-route-id="@role.Id" class="btn btn-warning">Редактировать</button>
+                        <button type="submit" asp-page="/Admin/Role/EditRole" asp-route-name="@role.Name" asp-route-id="@role.Id" class="btn btn-warning">Редактировать</button>
                     </td>
                     <td>
                         <button type="submit" asp-page-handler="DeleteRole" asp-route-name="@role.Name" class="btn btn-danger">Удалить</button>

@@ -11,6 +11,12 @@ namespace ApplicationCore.Models
         /// Ветка Data
         /// </summary>
         [JsonProperty("data")]
-        public Data[] Data { get; set; }
+        public IEnumerable<Data> Data { get; set; }
+
+        /// <summary>
+        /// Ветка Meta
+        /// </summary>
+        [JsonProperty("meta")]
+        public Meta Meta { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Web.Pages.Admin
                 {
                     role.Name = Input.NewName;
                     IdentityResult result = await RoleManager.UpdateAsync(role);
-                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Roles"));
+                    if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Role/Roles"));
                     else
                     {
                         foreach (var error in result.Errors)

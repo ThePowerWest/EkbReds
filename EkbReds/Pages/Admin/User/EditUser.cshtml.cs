@@ -47,7 +47,7 @@ namespace Web.Pages.Admin
                 user.EmailConfirmed = Input.EmailConfirmed;
                 await UserService.AddToRoleAsync(user.Id, Input.Role);
                 var result = await UserManager.UpdateAsync(user);
-                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Users"));
+                if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/User/Users"));
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
