@@ -33,6 +33,6 @@
         /// <summary>
         /// Список туров
         /// </summary>
-        public virtual IEnumerable<Tour> Tours { get; set; }
+        //public virtual IEnumerable<Tour> Tours { get; set; }
     }
 }
