@@ -20,13 +20,8 @@ namespace Web.Configuration
             services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMatchLoadService, MatchLoadService>();
+            services.AddScoped<IMUMatches, MUMatches>();
             services.AddScoped<ISportScoreService, SportScoreService>();
-            services.AddScoped<TokenRepository>();
-            services.AddScoped<SeasonRepository>();
-            services.AddScoped<PredictionRepository>();
-            services.AddScoped<MatchRepository>();
-            services.AddScoped<LeagueRepository>();
 
             return services;
         }

@@ -9,19 +9,19 @@ namespace EkbReds.Pages
     /// </summary>
     public class IndexModel : PageModel
     {
-        public IMatchLoadService MatchLoadService;
-        public Match Matches;
+        public IMUMatches MUMatches;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public IndexModel(IMatchLoadService matchLoadService)
+        public IndexModel(IMUMatches muMatches)
         {
-            MatchLoadService = matchLoadService;
+            MUMatches = muMatches;
         }
 
         public async Task OnGet() 
         {
+            await MUMatches.GetNextGame();
         }
     }
 }
