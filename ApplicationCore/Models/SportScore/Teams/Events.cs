@@ -9,7 +9,7 @@ namespace ApplicationCore.Models.SportScore.Teams
         internal IEnumerable<EventData> Data { get; set; }
     }
 
-    internal class EventData
+    public class EventData
     {
         [JsonProperty("season_id")]
         public int? SeasonId { get; set; }
