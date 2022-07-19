@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Models.SportScore
 {
-    internal class Meta
+    public class Meta
     {
         [JsonProperty("current_page")]
         public int CurrentPage { get; set; }

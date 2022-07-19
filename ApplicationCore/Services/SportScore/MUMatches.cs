@@ -17,7 +17,7 @@ namespace ApplicationCore.Services.SportScore
         private const string hostUrl = "sportscore1.p.rapidapi.com";
         private const string rapidKey = "992bc22e39msh4e86352ddcf589fp10ef4djsnb8b62195991a";//"a93e34cda0msh3c73e3045a8444dp11d393jsn51083f1e13c4";//
 
-        public async Task<EventData> GetNextGame()
+        public async Task<List<EventData>> GetNextGames()
         {
             IEnumerable<int> tournamentIds = await GetTournamentsThisSeason();
 
@@ -33,8 +33,7 @@ namespace ApplicationCore.Services.SportScore
                 }
             }
 
-            return currentEvents.OrderBy(@event => @event.StartAt)
-                                .FirstOrDefault(@event => DateTime.Now < @event.StartAt);
+            return currentEvents.Where(@event => DateTime.Now < @event.StartAt).OrderBy(@event => @event.StartAt).ToList();
         }
 
         /// <summary>

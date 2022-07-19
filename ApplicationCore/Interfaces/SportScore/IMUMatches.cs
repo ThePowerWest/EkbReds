@@ -5,6 +5,6 @@ namespace ApplicationCore.Interfaces.SportScore
 {
     public interface IMUMatches
     {
-        Task<EventData> GetNextGame();
+        Task<List<EventData>> GetNextGames();
     }
 }

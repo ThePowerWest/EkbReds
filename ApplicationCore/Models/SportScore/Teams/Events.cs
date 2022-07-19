@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 
 namespace ApplicationCore.Models.SportScore.Teams
 {
-    internal class Events : BaseSportScore
+    public class Events : BaseSportScore
     {
         [JsonProperty("data")]
-        internal IEnumerable<EventData> Data { get; set; }
+        public IEnumerable<EventData> Data { get; set; }
     }
 
     public class EventData
@@ -25,5 +25,8 @@ namespace ApplicationCore.Models.SportScore.Teams
 
         [JsonProperty("away_team")]
         public Team AwayTeam { get; set; }
+
+        [JsonProperty("season")]
+        public SeasonData Season { get; set; }
     }
 }

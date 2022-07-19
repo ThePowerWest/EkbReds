@@ -8,24 +8,24 @@ namespace ApplicationCore.Models.SportScore.Teams
         internal IEnumerable<SeasonData> Data { get; set; }        
     }
 
-    internal class SeasonData
+    public class SeasonData
     {
         [JsonProperty("id")]
-        internal int Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("league_id")]
-        internal int LeagueId { get; set; }
+        public int LeagueId { get; set; }
 
         [JsonProperty("slug")]
-        internal string Slug { get; set; }
+        public string Slug { get; set; }
 
         [JsonProperty("name")]
-        internal string Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("year_start")]
-        internal string YearStart { get; set; }
+        public string YearStart { get; set; }
 
         [JsonProperty("year_end")]
-        internal string YearEnd { get; set; }
+        public string YearEnd { get; set; }
     }
 }

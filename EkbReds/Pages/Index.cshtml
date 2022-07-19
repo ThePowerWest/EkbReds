@@ -147,21 +147,19 @@
           <div class="col-lg-4 col-md-6"> 
             <!--Next Match Widget Start-->
             <div class="next-match-widget">
-              <h5 class="title">Next Match</h5>
+              <h5 class="title">Следующий матч</h5>
               <div class="nmw-wrap">
                 <ul class="match-teams-vs">
-                  <li class="team-logo"><img src="images/mlogo1.png" alt=""> <strong>FC Champs</strong> </li>
+                  <li class="team-logo"><img src="@Model.Matches[0].HomeTeam.Logo" alt="" width="80"> <strong>@Model.Matches[0].HomeTeam.Name</strong> </li>
                   <li class="mvs"> <strong class="vs">VS</strong> </li>
-                  <li class="team-logo"><img src="images/mlogo2.png" alt=""> <strong>Tigers</strong> </li>
+                  <li class="team-logo"><img src="@Model.Matches[0].AwayTeam.Logo" alt="" width="80"> <strong>@Model.Matches[0].AwayTeam.Name</strong> </li>
                 </ul>
                 <ul class="nmw-txt">
-                  <li><strong>Super Euro League</strong></li>
-                  <li>20 December, 2020</li>
-                  <li>04:00 PM GMT+</li>
-                  <li><span>New Expo Stadium, NYK</span></li>
+                  <li><strong>@Model.Matches[0].Season.Name</strong></li>
+                  <li>@Model.Matches[0].StartAt</li>
                 </ul>
                 <div class="defaultCountdown"></div>
-                <div class="buy-ticket"><a href="#">Buy Your Ticket</a></div>
+                <div class="buy-ticket"><a href="#">Сделать прогноз</a></div>
               </div>
             </div>
             <!--Next Match Widget End--> 
@@ -170,48 +168,33 @@
             <!--Next Match Fixtures Width Start  -->
             <div class="next-match-fixtures">
               <ul class="match-teams-vs">
-                <li class="team-logo"><img src="images/nmf-logo1.png" alt=""> <strong>FC Champs</strong> </li>
+                <li class="team-logo"><img src="@Model.Matches[1].HomeTeam.Logo" alt="" width="80"> <strong>@Model.Matches[1].HomeTeam.Name</strong> </li>
                 <li class="mvs">
-                  <p> <strong>Super Asia Cup</strong> 20 December, 2020
-                    04:00 PM GMT+ </p>
+                  <p> <strong>@Model.Matches[1].Season.Name</strong> @Model.Matches[1].StartAt </p>
                   <strong class="vs">VS</strong> </li>
-                <li class="team-logo"><img src="images/nmf-logo2.png" alt=""> <strong>Tigers</strong> </li>
-              </ul>
-              <ul class="nmf-loc">
-                <li><i class="fas fa-location-arrow"></i> New Expo Stadium, NYK</li>
-                <li><a href="#"><i class="fas fa-ticket-alt"></i> Book Tickets</a></li>
+                <li class="team-logo"><img src="@Model.Matches[1].AwayTeam.Logo" alt="" width="80"> <strong>@Model.Matches[1].AwayTeam.Name</strong> </li>
               </ul>
             </div>
             <!--Next Match Fixtures Width End  --> 
             <!--Next Match Fixtures Width Start  -->
             <div class="next-match-fixtures">
               <ul class="match-teams-vs">
-                <li class="team-logo"><img src="images/nmf-logo2.png" alt=""> <strong>Tigers</strong> </li>
+                <li class="team-logo"><img src="@Model.Matches[2].HomeTeam.Logo" alt="" width="80"> <strong>@Model.Matches[2].HomeTeam.Name</strong> </li>
                 <li class="mvs">
-                  <p> <strong>Super Asia Cup</strong> 25 December, 2020
-                    04:00 PM GMT+ </p>
+                  <p> <strong>@Model.Matches[2].Season.Name</strong> @Model.Matches[2].StartAt </p>
                   <strong class="vs">VS</strong> </li>
-                <li class="team-logo"><img src="images/nmf-logo3.png" alt=""> <strong>Indy Eleven</strong> </li>
-              </ul>
-              <ul class="nmf-loc">
-                <li><i class="fas fa-location-arrow"></i> King Power Stadium</li>
-                <li><a href="#"><i class="fas fa-ticket-alt"></i> Book Tickets</a></li>
+                <li class="team-logo"><img src="@Model.Matches[2].AwayTeam.Logo" alt="" width="80"> <strong>@Model.Matches[2].AwayTeam.Name</strong> </li>
               </ul>
             </div>
             <!--Next Match Fixtures Width End  --> 
             <!--Next Match Fixtures Width Start  -->
             <div class="next-match-fixtures">
               <ul class="match-teams-vs">
-                <li class="team-logo"><img src="images/nmf-logo1.png" alt=""> <strong>kangaroos</strong> </li>
+                <li class="team-logo"><img src="@Model.Matches[3].HomeTeam.Logo" alt="" width="80"> <strong>@Model.Matches[3].HomeTeam.Name</strong> </li>
                 <li class="mvs">
-                  <p> <strong>Super Asia Cup</strong> 30 December, 2020
-                    04:00 PM GMT+ </p>
+                  <p> <strong>@Model.Matches[3].Season.Name</strong> @Model.Matches[3].StartAt </p>
                   <strong class="vs">VS</strong> </li>
-                <li class="team-logo"><img src="images/nmf-logo2.png" alt=""> <strong>Man Utd</strong> </li>
-              </ul>
-              <ul class="nmf-loc">
-                <li><i class="fas fa-location-arrow"></i>  Old Trafford, Manchester</li>
-                <li><a href="#"><i class="fas fa-ticket-alt"></i> Book Tickets</a></li>
+                <li class="team-logo"><img src="@Model.Matches[3].AwayTeam.Logo" alt="" width="80"> <strong>@Model.Matches[3].AwayTeam.Name</strong> </li>
               </ul>
             </div>
             <!--Next Match Fixtures Width End  --> 

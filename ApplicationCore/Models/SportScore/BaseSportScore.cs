@@ -1,6 +1,6 @@
 ﻿namespace ApplicationCore.Models.SportScore
 {
-    internal class BaseSportScore
+    public class BaseSportScore
     {
         public Meta Meta { get; set; }
     }
