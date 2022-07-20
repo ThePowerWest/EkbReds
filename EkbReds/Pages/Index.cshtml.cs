@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Interfaces.SportScore;
-using ApplicationCore.Models.SportScore.Teams;
+﻿using ApplicationCore.Models.SportScore.Teams;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EkbReds.Pages
@@ -9,20 +8,17 @@ namespace EkbReds.Pages
     /// </summary>
     public class IndexModel : PageModel
     {
-        public IMUMatches MUMatches;
         public List<EventData> Matches;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public IndexModel(IMUMatches muMatches)
+        public IndexModel()
         {
-            MUMatches = muMatches;
         }
 
         public async Task OnGet() 
         {
-            Matches = await MUMatches.GetNextGames();
         }
     }
 }

@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Interfaces\Base\**" />
+    <Compile Remove="Settings\**" />
     <EmbeddedResource Remove="Interfaces\Base\**" />
+    <EmbeddedResource Remove="Settings\**" />
     <None Remove="Interfaces\Base\**" />
+    <None Remove="Settings\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Settings\" />
+    <Folder Include="Interfaces\SportScore\" />
+    <Folder Include="Services\SportScore\" />
   </ItemGroup>
 
 </Project>
