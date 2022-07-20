@@ -2,25 +2,28 @@
 
 namespace ApplicationCore.Entities.Main
 {
-    public class Prediction
+    /// <summary>
+    /// Прогнозы
+    /// </summary>
+    public class Prediction : BaseEntity
     {
         /// <summary>
-        /// Пользователь
+        /// Пользователь который проставил прогноз
         /// </summary>
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
         /// <summary>
         /// Матч
         /// </summary>
-        public virtual Match Match { get; set; }
+        public Match Match { get; set; }
 
         /// <summary>
-        /// Прогноз на домашнюю команду
+        /// Прогноз/Счёт на домашнюю команду
         /// </summary>
         public byte HomeTeamPredict { get; set; }
 
         /// <summary>
-        /// Прогноз на выездную команду
+        /// Прогноз/Счёт на выездную команду
         /// </summary>
         public byte AwayTeamPredict { get; set; }
     }

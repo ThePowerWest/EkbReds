@@ -11,28 +11,18 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Год старта лиги
+        /// Год начала сезона
         /// </summary>
         public int YearStart { get; set; }
 
         /// <summary>
-        /// Год окончания лиги
+        /// Год окончания сезона
         /// </summary>
         public int YearEnd { get; set; }
 
         /// <summary>
-        /// Объект закрыт и больше не может использоваться
+        /// Список турниров в сезоне
         /// </summary>
-        public bool IsEnded { get; set; }
-
-        /// <summary>
-        /// Текущая лига
-        /// </summary>
-        public virtual League League { get; set; }
-
-        /// <summary>
-        /// Список туров
-        /// </summary>
-        //public virtual IEnumerable<Tour> Tours { get; set; }
+        public IEnumerable<Tournament> Tournaments { get; set; }
     }
 }

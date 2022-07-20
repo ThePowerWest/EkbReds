@@ -9,6 +9,11 @@ namespace ApplicationCore.Services
         /// </summary>
         public SportScoreService() { }
 
+        public void CheckSeason()
+        {
+            
+        }
+
         public void CheckNewMatchesAndSeason()
         {
             if (IsNewSeason())
