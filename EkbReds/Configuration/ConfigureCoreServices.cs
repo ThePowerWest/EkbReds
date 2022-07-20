@@ -3,7 +3,6 @@ using ApplicationCore.Interfaces.SportScore;
 using ApplicationCore.Services;
 using ApplicationCore.Services.SportScore;
 using Infrastructure.Data;
-using Infrastructure.Data.Repositories;
 
 namespace Web.Configuration
 {
@@ -19,6 +18,7 @@ namespace Web.Configuration
         {
             services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMUMatches, MUMatches>();
             services.AddScoped<ISportScoreService, SportScoreService>();

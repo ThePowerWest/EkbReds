@@ -1,24 +1,42 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Entities.Main;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Specification.Season;
 
 namespace ApplicationCore.Services
 {
+    /// <summary>
+    /// Сервис для работы с API SportScore
+    /// </summary>
     public class SportScoreService : ISportScoreService
     {
+        ISeasonRepository SeasonRepository;
+
         /// <summary>
         /// ctor
         /// </summary>
-        public SportScoreService() { }
-
-        public void CheckSeason()
+        public SportScoreService(ISeasonRepository seasonRepository) 
         {
-            
+            SeasonRepository = seasonRepository;
         }
 
-        public void CheckNewMatchesAndSeason()
+        /// <summary>
+        /// Обновление матчей
+        /// </summary>
+        public void UpdateMatches()
         {
-            if (IsNewSeason())
+            CheckSeason();
+        }
+
+        /// <summary>
+        /// Проверим, начался ли новый сезон
+        /// </summary>
+        private async Task CheckSeason()
+        {
+            Season lastSeason = await SeasonRepository.LastAsync();
+            if (lastSeason == null)
             {
-                CreateNewSeason();
+                CreateSeason();
             }
             else
             {
@@ -26,12 +44,12 @@ namespace ApplicationCore.Services
             }
         }
 
-        private bool IsNewSeason()
+        private void CreateSeason()
         {
-            return false;
+
         }
 
-        private void CreateNewSeason()
+        private void GetLastSeason()
         {
 
         }
