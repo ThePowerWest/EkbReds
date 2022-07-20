@@ -6,14 +6,14 @@ namespace Infrastructure.Data;
 /// <summary>
 /// EF Репозиторий
 /// </summary>
-public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class
+public class EFRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class
 {
     protected readonly MainContext Context;
 
     /// <summary>
     /// ctor
     /// </summary>
-    public EfRepository(MainContext context) : base(context)
+    public EFRepository(MainContext context) : base(context)
     {
         Context = context;
     }

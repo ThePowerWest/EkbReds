@@ -1,17 +1,22 @@
 ﻿using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
 {
-    /// <summary>
-    /// Репозиторий сезонов
-    /// </summary>
-    public class SeasonRepository : EfRepository<Season>, IReadRepository<Season>, IRepository<Season>
+    public class SeasonRepository : EFRepository<Season>, IReadRepository<Season>, IRepository<Season>
     {
         /// <summary>
         /// ctor
         /// </summary>
         public SeasonRepository(MainContext context) : base(context)
         { }
+
+        public async Task<Season> LastAsync()
+        {
+            return await Context.Seasons
+                             .OrderByDescending(season => season.Id)
+                             .FirstOrDefaultAsync();
+        }
     }
 }
