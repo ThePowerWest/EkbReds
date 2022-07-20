@@ -44,7 +44,8 @@ namespace ApplicationCore.Services.SportScore
         {
             HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/seasons");
             Seasons seasons = JsonConvert.DeserializeObject<Seasons>(await response.Content.ReadAsStringAsync());
-            string currentDataSeason = seasons.Data.OrderByDescending(season => season.Id).First().Slug;
+            string currentDataSeason = seasons.Data.OrderByDescending(season => season.Id)
+                                                   .First().Slug;
 
             return seasons.Data.Where(season => season.Slug.Contains(currentDataSeason))
                                .Select(season => season.Id);

@@ -6,7 +6,7 @@ namespace Infrastructure.Data.Repositories
     /// <summary>
     /// Репозиторий токенов
     /// </summary>
-    public class TokenRepository : EfRepository<ApiToken>, IReadRepository<ApiToken>, IRepository<ApiToken>
+    public class TokenRepository : EfRepository<SportScoreToken>, IReadRepository<SportScoreToken>, IRepository<SportScoreToken>
     {
         /// <summary>
         /// ctor

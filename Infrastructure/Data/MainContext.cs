@@ -27,26 +27,26 @@ namespace Infrastructure.Data
         /// <summary>
         /// Коллекция токенов в БД
         /// </summary>
-        public DbSet<ApiToken> Tokens { get; set; }
+        public DbSet<SportScoreToken> SportScoreTokens { get; set; }
 
         /// <summary>
         /// Коллекция сезонов в БД
         /// </summary>
-        public DbSet<Season> Seasons { get; set; }
+        //public DbSet<Season> Seasons { get; set; }
 
-        /// <summary>
-        /// Коллекция матчей в БД
-        /// </summary>
-        public DbSet<Match> Matches { get; set; }
+        ///// <summary>
+        ///// Коллекция матчей в БД
+        ///// </summary>
+        //public DbSet<Match> Matches { get; set; }
 
-        /// <summary>
-        /// Коллекция лиг в БД
-        /// </summary>
-        public DbSet<League> Leagues { get; set; }
+        ///// <summary>
+        ///// Коллекция лиг в БД
+        ///// </summary>
+        //public DbSet<League> Leagues { get; set; }
 
-        /// <summary>
-        /// Коллекция прогнозов в БД
-        /// </summary>
-        public DbSet<Prediction> Predictions { get; set; }
+        ///// <summary>
+        ///// Коллекция прогнозов в БД
+        ///// </summary>
+        //public DbSet<Prediction> Predictions { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace ApplicationCore.Entities.Main
 {
     /// <summary>
-    /// Токен API
+    /// API токен для авторизации на SportScore
     /// </summary>
-    public class ApiToken : BaseEntity
+    public class SportScoreToken : BaseEntity
     {
         /// <summary>
-        /// Ключ
+        /// Ключ токена
         /// </summary>
         public string Key { get; set; }
     }

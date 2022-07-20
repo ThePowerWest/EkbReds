@@ -8,5 +8,27 @@ namespace ApplicationCore.Services
         /// ctor
         /// </summary>
         public SportScoreService() { }
+
+        public void CheckNewMatchesAndSeason()
+        {
+            if (IsNewSeason())
+            {
+                CreateNewSeason();
+            }
+            else
+            {
+
+            }
+        }
+
+        private bool IsNewSeason()
+        {
+            return false;
+        }
+
+        private void CreateNewSeason()
+        {
+
+        }
     }
 }
