@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Interfaces.SportScore;
+﻿using ApplicationCore.Entities.Main;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.SportScore;
 using ApplicationCore.Models;
 using ApplicationCore.Models.SportScore.Teams;
 using Newtonsoft.Json;
@@ -11,11 +13,20 @@ namespace ApplicationCore.Services.SportScore
     /// </summary>
     public class MUMatches : IMUMatches
     {
+        IReadRepository<SportScoreToken> SportScoreTokenReadRepository;
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public MUMatches(IReadRepository<SportScoreToken> sportScoreTokenReadRepository)
+        {
+            SportScoreTokenReadRepository = sportScoreTokenReadRepository;          
+        }
+
         private const string teamId = "138";
         private const string headerHost = "x-rapidapi-host";
         private const string hederKey = "x-rapidapi-key";
         private const string hostUrl = "sportscore1.p.rapidapi.com";
-        private const string rapidKey = "992bc22e39msh4e86352ddcf589fp10ef4djsnb8b62195991a";//"a93e34cda0msh3c73e3045a8444dp11d393jsn51083f1e13c4";//
 
         public async Task<List<EventData>> GetNextGames()
         {
@@ -33,7 +44,9 @@ namespace ApplicationCore.Services.SportScore
                 }
             }
 
-            return currentEvents.Where(@event => DateTime.Now < @event.StartAt).OrderBy(@event => @event.StartAt).ToList();
+            return currentEvents.Where(@event => DateTime.Now < @event.StartAt)
+                                .OrderBy(@event => @event.StartAt)
+                                .ToList();
         }
 
         /// <summary>
@@ -51,24 +64,19 @@ namespace ApplicationCore.Services.SportScore
                                .Select(season => season.Id);
         }
 
-        private async Task<HttpResponseMessage> Post(string url)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(headerHost, hostUrl);
-                client.DefaultRequestHeaders.Add(hederKey, rapidKey);
-
-                HttpResponseMessage response = await client.PostAsync(url, new StringContent(string.Empty, Encoding.UTF8));
-                return response;
-            }
-        }
-
+        /// <summary>
+        /// Отправить Get запрос в SportScore
+        /// </summary>
+        /// <param name="url">Адрес на который уйдет запрос</param>
+        /// <returns>Модель ответа</returns>
         private async Task<HttpResponseMessage> GetAsync(string url)
         {
+            IEnumerable<SportScoreToken> sportScoreTokens = await SportScoreTokenReadRepository.ListAsync();
+
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add(headerHost, hostUrl);
-                client.DefaultRequestHeaders.Add(hederKey, rapidKey);
+                client.DefaultRequestHeaders.Add(hederKey, sportScoreTokens.First().Key);
 
                 HttpResponseMessage response = await client.GetAsync(url);
                 return response;
