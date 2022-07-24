@@ -6,11 +6,6 @@
     public class Season : BaseEntity
     {
         /// <summary>
-        /// Название сезона
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Год начала сезона
         /// </summary>
         public int YearStart { get; set; }

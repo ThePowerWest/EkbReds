@@ -8,10 +8,16 @@
 
   <ItemGroup>
     <Compile Remove="Interfaces\Base\**" />
+    <Compile Remove="Interfaces\SportScore\**" />
+    <Compile Remove="Services\SportScore\**" />
     <Compile Remove="Settings\**" />
     <EmbeddedResource Remove="Interfaces\Base\**" />
+    <EmbeddedResource Remove="Interfaces\SportScore\**" />
+    <EmbeddedResource Remove="Services\SportScore\**" />
     <EmbeddedResource Remove="Settings\**" />
     <None Remove="Interfaces\Base\**" />
+    <None Remove="Interfaces\SportScore\**" />
+    <None Remove="Services\SportScore\**" />
     <None Remove="Settings\**" />
   </ItemGroup>
 
@@ -22,11 +28,6 @@
     <PackageReference Include="Hangfire" Version="1.7.30" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\SportScore\" />
-    <Folder Include="Services\SportScore\" />
   </ItemGroup>
 
 </Project>

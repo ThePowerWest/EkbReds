@@ -8,8 +8,6 @@ namespace EkbReds.Pages
     /// </summary>
     public class IndexModel : PageModel
     {
-        public List<EventData> Matches;
-
         /// <summary>
         /// ctor
         /// </summary>
