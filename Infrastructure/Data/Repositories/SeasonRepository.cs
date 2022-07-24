@@ -1,10 +1,14 @@
 ﻿using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
 {
-    public class SeasonRepository : EFRepository<Season>, IReadRepository<Season>, IRepository<Season>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SeasonRepository : EFRepository<Season>, IReadRepository<Season>, IRepository<Season>, ISeasonRepository
     {
         /// <summary>
         /// ctor
@@ -15,8 +19,9 @@ namespace Infrastructure.Data.Repositories
         public async Task<Season> LastAsync()
         {
             return await Context.Seasons
-                             .OrderByDescending(season => season.Id)
-                             .FirstOrDefaultAsync();
+                .Include(season => season.Tournaments)
+                .OrderByDescending(season => season.Id)
+                .FirstOrDefaultAsync();
         }
     }
 }

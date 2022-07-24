@@ -13,7 +13,7 @@
         /// <summary>
         /// Ссылка на эмблему домашней команды
         /// </summary>
-        public string LogoHomeTeam { get; set; }
+        public string HomeTeamLogo { get; set; }
 
         /// <summary>
         /// Название выездной команды
@@ -23,12 +23,17 @@
         /// <summary>
         /// Ссылка на эмблему выездной команды
         /// </summary>
-        public string LogoAwayTeam { get; set; }
+        public string AwayTeamLogo { get; set; }
 
         /// <summary>
         /// Дата и время начала матча
         /// </summary>
         public DateTime StartDate { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Tournament Tournament { get; set; }
 
         /// <summary>
         /// Список прогнозов участников на матч

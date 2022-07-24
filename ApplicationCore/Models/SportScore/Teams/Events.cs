@@ -25,8 +25,5 @@ namespace ApplicationCore.Models.SportScore.Teams
 
         [JsonProperty("away_team")]
         public Team AwayTeam { get; set; }
-
-        [JsonProperty("season")]
-        public SeasonData Season { get; set; }
     }
 }

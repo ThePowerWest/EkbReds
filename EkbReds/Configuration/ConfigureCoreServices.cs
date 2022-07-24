@@ -1,6 +1,9 @@
 ﻿using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Services;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 
 namespace Web.Configuration
 {
@@ -19,6 +22,7 @@ namespace Web.Configuration
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISportScoreService, SportScoreService>();
+            services.AddScoped<ISeasonRepository, SeasonRepository>();
 
             return services;
         }

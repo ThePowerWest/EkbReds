@@ -5,10 +5,10 @@ namespace ApplicationCore.Models.SportScore.Teams
     internal class Seasons : BaseSportScore
     {
         [JsonProperty("data")]
-        internal IEnumerable<SeasonData> Data { get; set; }        
+        internal IEnumerable<Tournament> Data { get; set; }        
     }
 
-    public class SeasonData
+    public class Tournament
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -23,9 +23,9 @@ namespace ApplicationCore.Models.SportScore.Teams
         public string Name { get; set; }
 
         [JsonProperty("year_start")]
-        public string YearStart { get; set; }
+        public int? YearStart { get; set; }
 
         [JsonProperty("year_end")]
-        public string YearEnd { get; set; }
+        public int? YearEnd { get; set; }
     }
 }

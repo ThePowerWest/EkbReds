@@ -1,4 +1,5 @@
 using ApplicationCore.Entities.Identity;
+using Hangfire;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,7 @@ builder.Services.AddIdentity<User, Role>(options =>
   .AddDefaultTokenProviders();
 
 builder.Services.AddCoreServices(builder.Configuration);
+builder.HangfireInitialize();
 
 builder.Services.AddRazorPages();
 
@@ -31,6 +33,11 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseHangfireDashboard("/Dashboard");
 }
 
 app.UseHttpsRedirection();
