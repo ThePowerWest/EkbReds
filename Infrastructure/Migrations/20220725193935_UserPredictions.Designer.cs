@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20220725193935_UserPredictions")]
+    partial class UserPredictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +152,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Matches", (string)null);
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Prediction", b =>
@@ -179,7 +181,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Predictions", (string)null);
+                    b.ToTable("Predictions");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Season", b =>
@@ -198,7 +200,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Seasons", (string)null);
+                    b.ToTable("Seasons");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.SportScoreToken", b =>
@@ -215,7 +217,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SportScoreTokens", (string)null);
+                    b.ToTable("SportScoreTokens");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Tournament", b =>
@@ -237,7 +239,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SeasonId");
 
-                    b.ToTable("Tournaments", (string)null);
+                    b.ToTable("Tournaments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

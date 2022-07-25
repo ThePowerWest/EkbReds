@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ApplicationCore.Entities.Main;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationCore.Entities.Identity
 {
@@ -7,5 +8,6 @@ namespace ApplicationCore.Entities.Identity
     /// </summary>
     public class User : IdentityUser<string>
     {
+        public IEnumerable<Prediction>? Predictions { get; set; }
     }
 }
