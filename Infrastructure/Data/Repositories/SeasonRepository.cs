@@ -20,6 +20,7 @@ namespace Infrastructure.Data.Repositories
         {
             return await Context.Seasons
                 .Include(season => season.Tournaments)
+                    .ThenInclude(tournament => tournament.Matches)
                 .OrderByDescending(season => season.Id)
                 .FirstOrDefaultAsync();
         }
