@@ -66,65 +66,75 @@ namespace ApplicationCore.Services
 
         public async Task UpdateTournaments()
         {
-            Season lastSeason = await SeasonRepository.LastAsync();
+            Season currentSeason = await SeasonRepository.LastAsync();
+            IEnumerable<SSTournament> tournaments = await GetTournamentsForThisSeason(currentSeason.YearStart);
 
-            IEnumerable<SSTournament> tournaments = await GetTournamentsForThisSeason(lastSeason.YearStart);
-
-            if (lastSeason.Tournaments == null)
+            if (currentSeason.Tournaments == null)
             {
                 await TournamentCRUDRepository.AddRangeAsync(tournaments.Select(tournament =>
                         new Tournament
                         {
                             Name = tournament.Name,
-                            Season = lastSeason
+                            Season = currentSeason
                         }));
             }
             else
             {
-                IEnumerable<string> newTournaments = tournaments.Select(x => x.Name)
-                    .Except(lastSeason.Tournaments.Select(c => c.Name));
+                IEnumerable<string> newTournaments = tournaments.Select(tournament => tournament.Name)
+                    .Except(currentSeason.Tournaments.Select(tournament => tournament.Name));
 
-                // TODO добавить добавление новых турниров
+                foreach (string tournamentName in newTournaments)
+                {
+                    SSTournament thisTournament = tournaments.First(tournament => tournament.Name == tournamentName);
+
+                    await TournamentCRUDRepository.AddAsync(
+                        new Tournament
+                        {
+                            Name = thisTournament.Name,
+                            Season = currentSeason,
+                        });
+                }
             }
         }
 
         public async Task UpdateMatches()
         {
-            //TODO добавить получение текущих турниров в каждый матч
+            Season season = await SeasonRepository.LastAsync();
+            IEnumerable<Tournament> tournaments = season.Tournaments;
 
-            //IEnumerable<Match> currentMatches = await MatchCRUDRepository.ListAsync();
-            //int countMatches = currentMatches.Where(match => DateTime.Now < match.StartDate).Count();
-            //if (countMatches == 4) return;
+            IEnumerable<Match> currentMatches = await MatchCRUDRepository.ListAsync();
+            int countMatches = currentMatches.Where(match => DateTime.Now < match.StartDate).Count();
+            if (countMatches == 4) return;
 
-            //IEnumerable<int> tournamentIds = await GetTournamentsThisSeason();
+            IEnumerable<int> tournamentIds = await GetTournamentsThisSeason();
 
-            //HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
-            //Events events = JsonConvert.DeserializeObject<Events>(await response.Content.ReadAsStringAsync());
+            HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
+            Events events = JsonConvert.DeserializeObject<Events>(await response.Content.ReadAsStringAsync());
 
-            //List<EventData> currentEvents = new List<EventData>();
-            //foreach (EventData @event in events.Data)
-            //{
-            //    if (tournamentIds.Any(tournamentId => tournamentId == @event.SeasonId))
-            //    {
-            //        currentEvents.Add(@event);
-            //    }
-            //}
+            List<EventData> currentEvents = new List<EventData>();
+            foreach (EventData @event in events.Data)
+            {
+                if (tournamentIds.Any(tournamentId => tournamentId == @event.SeasonId))
+                {
+                    currentEvents.Add(@event);
+                }
+            }
 
-            //IEnumerable<EventData> newMatches =
-            //    currentEvents.Where(@event => DateTime.Now < @event.StartAt)
-            //                 .OrderBy(@event => @event.StartAt)
-            //                 .Take(4 - countMatches);
+            IEnumerable<EventData> newMatches =
+                currentEvents.Where(@event => DateTime.Now < @event.StartAt)
+                             .OrderBy(@event => @event.StartAt)
+                             .Take(4 - countMatches);
 
-            //await MatchCRUDRepository.AddRangeAsync(newMatches.Select(match =>
-            //        new Match
-            //        {
-            //            HomeTeamName = match.HomeTeam.Name,
-            //            HomeTeamLogo = match.HomeTeam.Logo,
-            //            AwayTeamName = match.AwayTeam.Name,
-            //            AwayTeamLogo = match.AwayTeam.Logo,
-            //            StartDate = match.StartAt,
-            //            Tournament = 
-            //        }));
+            await MatchCRUDRepository.AddRangeAsync(newMatches.Select(match =>
+                    new Match
+                    {
+                        HomeTeamName = match.HomeTeam.Name,
+                        HomeTeamLogo = match.HomeTeam.Logo,
+                        AwayTeamName = match.AwayTeam.Name,
+                        AwayTeamLogo = match.AwayTeam.Logo,
+                        StartDate = match.StartAt,
+                        Tournament = tournaments.First(tournament => tournament.Name == match.Season.Name)
+                    }));
         }
 
         #region Private region

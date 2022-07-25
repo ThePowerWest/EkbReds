@@ -38,6 +38,6 @@
         /// <summary>
         /// Список прогнозов участников на матч
         /// </summary>
-        public IEnumerable<Prediction> Predictions { get; set; }
+        public IEnumerable<Prediction>? Predictions { get; set; }
     }
 }

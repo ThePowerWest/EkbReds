@@ -2,10 +2,10 @@
 
 namespace ApplicationCore.Models.SportScore.Teams
 {
-    internal class Seasons : BaseSportScore
+    public class Seasons : BaseSportScore
     {
         [JsonProperty("data")]
-        internal IEnumerable<Tournament> Data { get; set; }        
+        public IEnumerable<Tournament> Data { get; set; }        
     }
 
     public class Tournament
