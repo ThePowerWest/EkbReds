@@ -45,7 +45,7 @@ namespace ApplicationCore.Services
         /// <inheritdoc />
         public async Task UpdateSeason()
         {
-            Season lastSeason = await SeasonRepository.LastAsync();
+            Season lastSeason = await SeasonRepository.CurrentAsync();
             if (lastSeason == null)
             {
                 await CreateSeasonAsync();
@@ -68,7 +68,7 @@ namespace ApplicationCore.Services
         /// <inheritdoc />
         public async Task UpdateTournaments()
         {
-            Season currentSeason = await SeasonRepository.LastAsync();
+            Season currentSeason = await SeasonRepository.CurrentAsync();
             IEnumerable<SSTournament> tournaments = await GetTournamentsForThisSeason(currentSeason.YearStart);
 
             if (currentSeason.Tournaments == null)
@@ -102,7 +102,7 @@ namespace ApplicationCore.Services
         /// <inheritdoc />
         public async Task UpdateMatches()
         {
-            Season season = await SeasonRepository.LastAsync();
+            Season season = await SeasonRepository.CurrentAsync();
             IEnumerable<Tournament> tournaments = season.Tournaments;
 
             IEnumerable<Match> currentMatches = await MatchCRUDRepository.ListAsync();

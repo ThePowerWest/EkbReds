@@ -17,13 +17,12 @@ namespace Infrastructure.Data.Repositories
         { }
 
         /// <inheritdoc />
-        public async Task<Season> LastAsync()
-        {
-            return await Context.Seasons
+        public async Task<Season> CurrentAsync() =>
+            await Context.Seasons
                 .Include(season => season.Tournaments)
                     .ThenInclude(tournament => tournament.Matches)
                 .OrderByDescending(season => season.Id)
+                .AsNoTracking()
                 .FirstAsync();
-        }
     }
 }

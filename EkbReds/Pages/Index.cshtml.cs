@@ -5,7 +5,6 @@ using ApplicationCore.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 
 namespace EkbReds.Pages
 {
@@ -17,29 +16,57 @@ namespace EkbReds.Pages
         private readonly UserManager<User> UserManager;
         private readonly IRepository<Prediction> PredictionCRUDRepository;
         private readonly ISeasonRepository SeasonRepository;
-        public IEnumerable<Match> Matches;
+        private readonly IMatchRepository MatchRepository;
+        private readonly IRepository<Match> MatchCRUDRepository;
+        private readonly IPredictionRepository PredictionRepository;
 
-        [BindProperty]
-        public Predict Predict { get; set; }
-
-        public bool IsPredictMaded { get; set; }
+        public IList<MatchViewModel> Matches = new List<MatchViewModel>();
 
         /// <summary>
-        /// Модель ввода данных со страницы
+        /// Модель отображения данных 
+        /// на View для сущности Матча
         /// </summary>
-        public class Predict
+        public class MatchViewModel
         {
             /// <summary>
-            /// Счет домашней команды
+            /// Идентификатор матча
             /// </summary>
-            [Required(ErrorMessage = "Поле обязательно!")]
-            public byte HomeTeamPredict { get; set; }
+            public int Id { get; set; }
 
             /// <summary>
-            /// Счет команды на выезде
+            /// Название домашней команды
             /// </summary>
-            [Required(ErrorMessage = "Поле обязательно!")]
-            public byte AwayTeamPredict { get; set; }
+            public string HomeTeamName { get; set; }
+
+            /// <summary>
+            /// Ссылка на эмблему домашней команды
+            /// </summary>
+            public string HomeTeamLogo { get; set; }
+
+            /// <summary>
+            /// Название выездной команды
+            /// </summary>
+            public string AwayTeamName { get; set; }
+
+            /// <summary>
+            /// Ссылка на эмблему выездной команды
+            /// </summary>
+            public string AwayTeamLogo { get; set; }
+
+            /// <summary>
+            /// Дата и время начала матча
+            /// </summary>
+            public DateTime StartDate { get; set; }
+
+            /// <summary>
+            /// Турнир, по которому идет матч
+            /// </summary>
+            public Tournament Tournament { get; set; }
+
+            /// <summary>
+            /// Список прогнозов
+            /// </summary>
+            public Prediction Prediction { get; set; }
         }
 
         /// <summary>
@@ -48,39 +75,74 @@ namespace EkbReds.Pages
         public IndexModel(
             ISeasonRepository seasonRepository,
             IRepository<Prediction> predictionCRUDRepository,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IMatchRepository matchRepository,
+            IPredictionRepository predictionRepository,
+            IRepository<Match> matchCRUDRepository)
         {
             SeasonRepository = seasonRepository;
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
+            MatchRepository = matchRepository;
+            PredictionRepository = predictionRepository;
+            MatchCRUDRepository = matchCRUDRepository;
         }
 
+        /// <summary>
+        /// Отобразить страницу с прогнозами
+        /// </summary>
+        /// <returns></returns>
         public async Task OnGet()
         {
-            Season currentSeason = await SeasonRepository.LastAsync();
-            Matches = currentSeason.Tournaments.SelectMany(tournament => tournament.Matches);
+            IEnumerable<Match> matches = MatchRepository.Next(4);
+            
+            for(int countMatch = 0; countMatch < matches.Count(); countMatch++)
+            {
+                Matches.Add(new MatchViewModel
+                {
+                    Id = matches.ElementAt(countMatch).Id,
+                    HomeTeamName = matches.ElementAt(countMatch).HomeTeamName,
+                    HomeTeamLogo = matches.ElementAt(countMatch).HomeTeamLogo,
+                    AwayTeamName = matches.ElementAt(countMatch).AwayTeamName,
+                    AwayTeamLogo = matches.ElementAt(countMatch).AwayTeamLogo,
+                    StartDate = matches.ElementAt(countMatch).StartDate,
+                    Tournament = matches.ElementAt(countMatch).Tournament,
+                    Prediction = countMatch == 0 ? await PredictionRepository.FirstOrDefaultAsync(
+                                                            matches.ElementAt(countMatch),
+                                                            await UserManager.GetUserAsync(User)) : null
+
+            });
+            }
         }
 
-        ///// <summary>
-        ///// Создать прогноз на выбранный матч 
-        ///// </summary>
-        //public async Task<IActionResult> OnPostMakePredictAsync(int matchId, string username)
-        //{
-        //    Season currentSeason = await SeasonRepository.LastAsync();
-        //    IEnumerable<Match> matches = currentSeason.Tournaments.First().Matches;
+        /// <summary>
+        /// Создать прогноз на выбранный матч 
+        /// </summary>
+        public async Task<IActionResult> OnPostMakePredictionAsync(MatchViewModel match)
+        {
+            // TODO переделать на один запрос в БД
+            if (match.Prediction.Id != 0)
+            {
+                Prediction prediction = await PredictionCRUDRepository.GetByIdAsync(match.Prediction.Id);
+                prediction.AwayTeamPredict = match.Prediction.AwayTeamPredict;
+                prediction.HomeTeamPredict = match.Prediction.HomeTeamPredict;
 
-        //    Match match = matches.Where(match => match.Id == matchId).First();
-        //    User user = await UserManager.FindByNameAsync(username);
-
-        //    await PredictionCRUDRepository.AddAsync(
-        //        new Prediction
-        //        {
-        //            Match = match,
-        //            User = user,
-        //            HomeTeamPredict = Predict.HomeTeamPredict,
-        //            AwayTeamPredict = Predict.AwayTeamPredict
-        //        });
-        //    return LocalRedirect(Url.Content("~/"));
-        //}
+                await PredictionCRUDRepository.UpdateAsync(prediction);
+            }
+            else
+            {
+                Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
+                await PredictionCRUDRepository.AddAsync(
+                    new Prediction
+                    {
+                        Match = currentMatch,
+                        User = await UserManager.GetUserAsync(User),
+                        HomeTeamPredict = match.Prediction.HomeTeamPredict,
+                        AwayTeamPredict = match.Prediction.AwayTeamPredict
+                    });
+            }
+           
+            return LocalRedirect(Url.Content("~/"));
+        }
     }
 }

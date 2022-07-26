@@ -11,6 +11,6 @@ namespace ApplicationCore.Interfaces.Repositories
         /// Получить последний (текущий) сезон
         /// </summary>
         /// <returns>Текущий сезон</returns>
-        Task<Season> LastAsync();
+        Task<Season> CurrentAsync();
     }
 }
