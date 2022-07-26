@@ -4,8 +4,15 @@ using Hangfire.SqlServer;
 
 namespace Web.Configuration
 {
+    /// <summary>
+    /// Конфигурация шедулера Hangfire
+    /// </summary>
     public static class ConfigureHangfire
     {
+        /// <summary>
+        /// Инициализация
+        /// </summary>
+        /// <param name="builder">Билдер веб приложения</param>
         public static void HangfireInitialize(this WebApplicationBuilder builder)
         {
             string connection = Environment.GetEnvironmentVariable("DB_STRING");

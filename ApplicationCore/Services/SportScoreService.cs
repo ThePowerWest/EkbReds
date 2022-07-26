@@ -10,7 +10,7 @@ using Tournament = ApplicationCore.Entities.Main.Tournament;
 namespace ApplicationCore.Services
 {
     /// <summary>
-    /// 
+    /// Реализация сервиса для работы с API SportScore
     /// </summary>
     public class SportScoreService : ISportScoreService
     {
@@ -42,6 +42,7 @@ namespace ApplicationCore.Services
             MatchCRUDRepository = matchCRUDRepository;
         }
 
+        /// <inheritdoc />
         public async Task UpdateSeason()
         {
             Season lastSeason = await SeasonRepository.LastAsync();
@@ -64,6 +65,7 @@ namespace ApplicationCore.Services
             }
         }
 
+        /// <inheritdoc />
         public async Task UpdateTournaments()
         {
             Season currentSeason = await SeasonRepository.LastAsync();
@@ -97,6 +99,7 @@ namespace ApplicationCore.Services
             }
         }
 
+        /// <inheritdoc />
         public async Task UpdateMatches()
         {
             Season season = await SeasonRepository.LastAsync();
@@ -133,17 +136,17 @@ namespace ApplicationCore.Services
                         AwayTeamName = match.AwayTeam.Name,
                         AwayTeamLogo = match.AwayTeam.Logo,
                         StartDate = match.StartAt,
-                        Tournament = tournaments.First(tournament => tournament.Name == match.Season.Name)
+                        Tournament = tournaments.First(tournament => tournament.Name == match.Tournament.Name)
                     }));
         }
 
         #region Private region
 
         /// <summary>
-        /// 
+        /// Получить список всех турниров за этот сезон
         /// </summary>
-        /// <param name="yearStart"></param>
-        /// <returns></returns>
+        /// <param name="yearStart">Год начала сезона</param>
+        /// <returns>Список турниров</returns>
         private async Task<IEnumerable<SSTournament>> GetTournamentsForThisSeason(int yearStart)
         {
             HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/seasons");
@@ -152,9 +155,8 @@ namespace ApplicationCore.Services
         }
 
         /// <summary>
-        /// 
+        /// Создать новый сезон
         /// </summary>
-        /// <returns></returns>
         private async Task CreateSeasonAsync()
         {
             HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/seasons");
@@ -171,11 +173,10 @@ namespace ApplicationCore.Services
         }
 
         /// <summary>
-        /// 
+        /// Создать новый сезон
         /// </summary>
-        /// <param name="yearStart"></param>
-        /// <param name="yearEnd"></param>
-        /// <returns></returns>
+        /// <param name="yearStart">Год начала сезона</param>
+        /// <param name="yearEnd">Год окончания сезона</param>
         private async Task CreateSeasonAsync(int yearStart, int yearEnd)
         {
             await SeasonCRUDRepository.AddAsync(new Season
@@ -219,97 +220,6 @@ namespace ApplicationCore.Services
                                .Select(season => season.Id);
         }
 
-        #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Проверим, начался ли новый сезон
-        /// </summary>
-        private async Task CheckSeason()
-        {
-            //Season lastSeason = await SeasonRepository.LastAsync();
-            //if (lastSeason == null)
-            //{
-            //    return CreateSeason();
-            //}
-            //else
-            //{
-
-            //}
-        }
-
-
-
-        ///// <summary>
-        ///// Добавляет турниры в бд
-        ///// </summary>
-        ///// <returns></returns>
-        //private async Task CreateTournaments()
-        //{
-        //    var currentDataSeason = Seasons.Data.OrderByDescending(season => season.Id)
-        //                                           .First();
-        //    List<Tournament> tournaments = new List<Tournament>();
-        //    foreach (var _tournament in Seasons.Data.Where(season => season.Slug.Contains(currentDataSeason.Slug)))
-        //    {
-        //        var tournament = new Tournament
-        //        {
-        //            Name = _tournament.Name,
-        //            Season = await SeasonsRepository.FirstOrDefaultAsync(spec)
-        //        };
-        //        tournaments.Add(tournament);
-        //    }
-        //}
-
-        //private async Task AddMatches()
-        //{
-        //    //var events = await GetNextGames();
-        //    //var matches = new List<Match>();
-        //    //foreach (var _event in events)
-        //    //{
-        //    //    var match = new Match
-        //    //    {
-        //    //        HomeTeamName = _event.HomeTeam.Name,
-        //    //        AwayTeamName = _event.AwayTeam.Name,
-        //    //        LogoHomeTeam = _event.HomeTeam.Logo,
-        //    //        LogoAwayTeam = _event.AwayTeam.Logo,
-        //    //        StartDate = _event.StartAt
-        //    //    };
-        //    //    matches.Add(match);
-        //    //}
-        //}
-
-        //public async Task<List<EventData>> GetNextGames()
-        //{
-        //    IEnumerable<int> tournamentIds = await GetTournamentsThisSeason();
-
-        //    HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
-        //    Events events = JsonConvert.DeserializeObject<Events>(await response.Content.ReadAsStringAsync());
-
-        //    List<EventData> currentEvents = new List<EventData>();
-        //    foreach (EventData @event in events.Data)
-        //    {
-        //        if (tournamentIds.Any(tournamentId => tournamentId == @event.SeasonId))
-        //        {
-        //            currentEvents.Add(@event);
-        //        }
-        //    }
-
-        //    return currentEvents.Where(@event => DateTime.Now < @event.StartAt)
-        //                        .OrderBy(@event => @event.StartAt)
-        //                        .ToList();
-        //}       
+        #endregion  
     }
 }

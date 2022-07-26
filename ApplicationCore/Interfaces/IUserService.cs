@@ -6,7 +6,7 @@
     public interface IUserService
     {
         /// <summary>
-        /// Добавляет роль пользователю
+        /// Добавить роль пользователю
         /// </summary>
         Task AddToRoleAsync(string userId, string roleName);
     }

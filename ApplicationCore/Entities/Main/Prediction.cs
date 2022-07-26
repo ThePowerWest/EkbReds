@@ -13,17 +13,17 @@ namespace ApplicationCore.Entities.Main
         public User User { get; set; }
 
         /// <summary>
-        /// Матч
+        /// Матч на который проставлен прогноз
         /// </summary>
         public Match Match { get; set; }
 
         /// <summary>
-        /// Прогноз/Счёт на домашнюю команду
+        /// Счёт на домашнюю команду
         /// </summary>
         public byte HomeTeamPredict { get; set; }
 
         /// <summary>
-        /// Прогноз/Счёт на выездную команду
+        /// Счёт на выездную команду
         /// </summary>
         public byte AwayTeamPredict { get; set; }
     }
