@@ -64,10 +64,43 @@ namespace EkbReds.Pages
             public Tournament Tournament { get; set; }
 
             /// <summary>
-            /// Список прогнозов
+            /// Прогноз на матч
             /// </summary>
-            public Prediction Prediction { get; set; }
+            public PredictionViewModel? Prediction { get; set; }
         }
+
+        /// <summary>
+        /// Модель отображения данных 
+        /// на View для сущности Прогноз
+        /// </summary>
+        public class PredictionViewModel
+        {
+            /// <summary>
+            /// Идентификатор прогноза
+            /// </summary>  
+            public int Id { get; set; }
+
+            /// <summary>
+            /// Пользователь который проставил прогноз
+            /// </summary>
+            public User User { get; set; }
+
+            /// <summary>
+            /// Матч на который проставлен прогноз
+            /// </summary>
+            public Match Match { get; set; }
+
+            /// <summary>
+            /// Счёт на домашнюю команду
+            /// </summary>
+            public byte HomeTeamPredict { get; set; }
+
+            /// <summary>
+            /// Счёт на выездную команду
+            /// </summary>
+            public byte AwayTeamPredict { get; set; }
+        }
+
 
         /// <summary>
         /// ctor
@@ -95,9 +128,13 @@ namespace EkbReds.Pages
         public async Task OnGet()
         {
             IEnumerable<Match> matches = MatchRepository.Next(4);
-            
-            for(int countMatch = 0; countMatch < matches.Count(); countMatch++)
+
+            for (int countMatch = 0; countMatch < matches.Count(); countMatch++)
             {
+                Prediction currentPrediction = countMatch == 0 ? await PredictionRepository
+                    .FirstOrDefaultAsync(matches.ElementAt(countMatch), await UserManager.GetUserAsync(User))
+                                                               : null;
+
                 Matches.Add(new MatchViewModel
                 {
                     Id = matches.ElementAt(countMatch).Id,
@@ -107,11 +144,15 @@ namespace EkbReds.Pages
                     AwayTeamLogo = matches.ElementAt(countMatch).AwayTeamLogo,
                     StartDate = matches.ElementAt(countMatch).StartDate,
                     Tournament = matches.ElementAt(countMatch).Tournament,
-                    Prediction = countMatch == 0 ? await PredictionRepository.FirstOrDefaultAsync(
-                                                            matches.ElementAt(countMatch),
-                                                            await UserManager.GetUserAsync(User)) : null
+                    Prediction = countMatch == 0 && currentPrediction != null ?
+                            new PredictionViewModel
+                            {
+                                Id = currentPrediction.Id,
+                                HomeTeamPredict = currentPrediction.HomeTeamPredict,
+                                AwayTeamPredict = currentPrediction.AwayTeamPredict
+                            } : null
 
-            });
+                });
             }
         }
 
@@ -141,7 +182,7 @@ namespace EkbReds.Pages
                         AwayTeamPredict = match.Prediction.AwayTeamPredict
                     });
             }
-           
+
             return LocalRedirect(Url.Content("~/"));
         }
     }
