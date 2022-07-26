@@ -21,7 +21,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <form method="post" asp-page-handler="MakePrediction">
-                    <input asp-for="@Model.Prediction.Id" type="hidden" class="form-control">
+                    <input asp-for="@Model.Prediction.Id" type="hidden" name="Prediction.Id" id="Prediction.Id" class="form-control">
                     <input asp-for="@Model.Id" type="hidden" class="form-control">
                     <div class="container">
                         <div class="row" style="padding: 10px 0 0 0">
