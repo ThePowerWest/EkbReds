@@ -2,8 +2,15 @@
 
 namespace ApplicationCore.Interfaces.Repositories
 {
+    /// <summary>
+    /// Интерфейс репозитория сущности Сезон
+    /// </summary>
     public interface ISeasonRepository
     {
-        Task<Season> LastAsync();
+        /// <summary>
+        /// Получить последний (текущий) сезон
+        /// </summary>
+        /// <returns>Текущий сезон</returns>
+        Task<Season> CurrentAsync();
     }
 }

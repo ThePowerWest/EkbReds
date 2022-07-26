@@ -23,6 +23,8 @@ namespace Web.Configuration
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISportScoreService, SportScoreService>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<IMatchRepository, MatchRepository>();
+            services.AddScoped<IPredictionRepository, PredictionRepository>();
 
             return services;
         }

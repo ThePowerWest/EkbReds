@@ -19,9 +19,7 @@ namespace ApplicationCore.Services
             UserManager = userManager;
         }
 
-        /// <summary>
-        /// Добавляет роль пользователю
-        /// </summary>
+        /// <inheritdoc />
         public async Task AddToRoleAsync(string userId, string roleName)
         {
             var user = await UserManager.FindByIdAsync(userId);

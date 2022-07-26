@@ -31,12 +31,12 @@
         public DateTime StartDate { get; set; }
 
         /// <summary>
-        /// 
+        /// Турнир, по которому идет матч
         /// </summary>
         public Tournament Tournament { get; set; }
 
         /// <summary>
-        /// Список прогнозов участников на матч
+        /// Список прогнозов
         /// </summary>
         public IEnumerable<Prediction>? Predictions { get; set; }
     }

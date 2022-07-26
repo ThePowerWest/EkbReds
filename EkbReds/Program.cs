@@ -22,6 +22,7 @@ builder.Services.AddIdentity<User, Role>(options =>
 }).AddEntityFrameworkStores<MainContext>()
   .AddDefaultTokenProviders();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddCoreServices(builder.Configuration);
 builder.HangfireInitialize();
 

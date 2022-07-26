@@ -8,6 +8,9 @@ namespace ApplicationCore.Entities.Identity
     /// </summary>
     public class User : IdentityUser<string>
     {
+        /// <summary>
+        /// Прогнозы пользователя на матчи
+        /// </summary>
         public IEnumerable<Prediction>? Predictions { get; set; }
     }
 }
