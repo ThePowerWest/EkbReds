@@ -4,6 +4,45 @@
     ViewBag.Title = "Reds Bets";
 }
 
+<style>
+    #after {
+        position: relative;
+        white-space: pre-line;
+    }
+
+        #after input, #after label {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            #after input:nth-of-type(n+2), #after label:nth-of-type(n+2) {
+                margin-top: .5em;
+            }
+
+        #after input {
+            margin-left: 90px;
+            padding: .6em .3em .6em 2em;
+        }
+
+            #after input + label:after {
+                content: attr(data-fon);
+                position: absolute;
+                left: 97px;
+                color: rgb(218, 218, 218);
+            }
+
+            #after input:focus + label:after, #after input:hover + label:after {
+                color: rgb(150, 150, 150);
+            }
+
+            #after input + label:before {
+                content: attr(data-text);
+                position: absolute;
+                left: 0;
+            }
+
+</style>
+
 <!--Main Slider Start-->
 <div class="main-slider">
     <div class="home2-slider rev_slider_wrapper">
@@ -338,3 +377,17 @@
     <!--Team Squad End-->
 </div>
 <!--Main Content End-->
+
+@section Scripts
+{
+    <script>
+        // ------- countdown ------- //
+        if ($('.defaultCountdown').length) {
+            austDay = new Date(@Model.Matches.First().StartDate.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
+            $('.defaultCountdown').countdown({
+                until: austDay
+            });
+            $('#year').text(austDay.getFullYear());
+        }
+    </script>
+}
