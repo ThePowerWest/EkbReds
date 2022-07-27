@@ -16,16 +16,16 @@ namespace Web.Pages.Admin
     {
         private readonly UserManager<User> UserManager;
         public RoleManager<Role> RoleManager;
-        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public EditUserModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService)
+        public EditUserModel(
+            UserManager<User> userManager, 
+            RoleManager<Role> roleManager)
         {
             UserManager = userManager;
             RoleManager = roleManager;
-            UserService = userService;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Web.Pages.Admin
                 if (Input.NewUserName != null) user.UserName = Input.NewUserName;
                 user.Email = Input.Email;
                 user.EmailConfirmed = Input.EmailConfirmed;
-                await UserService.AddToRoleAsync(user.Id, Input.Role);
+                //await UserService.AddToRoleAsync(user.Id, Input.Role);
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/User/Users"));
                 foreach (var error in result.Errors)

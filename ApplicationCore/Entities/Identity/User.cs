@@ -9,6 +9,16 @@ namespace ApplicationCore.Entities.Identity
     public class User : IdentityUser<string>
     {
         /// <summary>
+        /// Имя
+        /// </summary>
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Фамилия
+        /// </summary>
+        public string SurName { get; set; }
+
+        /// <summary>
         /// Прогнозы пользователя на матчи
         /// </summary>
         public IEnumerable<Prediction>? Predictions { get; set; }

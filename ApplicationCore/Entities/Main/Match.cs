@@ -16,6 +16,11 @@
         public string HomeTeamLogo { get; set; }
 
         /// <summary>
+        /// Количество голов, которые забила домашняя команда
+        /// </summary>
+        public byte? HomeTeamScore { get; set; }
+
+        /// <summary>
         /// Название выездной команды
         /// </summary>
         public string AwayTeamName { get; set; }
@@ -24,6 +29,11 @@
         /// Ссылка на эмблему выездной команды
         /// </summary>
         public string AwayTeamLogo { get; set; }
+
+        /// <summary>
+        /// Количество голов, которые забила выездная команда
+        /// </summary>
+        public byte? AwayTeamScore { get; set; }
 
         /// <summary>
         /// Дата и время начала матча

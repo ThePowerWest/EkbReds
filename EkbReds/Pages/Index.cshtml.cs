@@ -15,12 +15,12 @@ namespace EkbReds.Pages
     {
         private readonly UserManager<User> UserManager;
         private readonly IRepository<Prediction> PredictionCRUDRepository;
-        private readonly ISeasonRepository SeasonRepository;
         private readonly IMatchRepository MatchRepository;
         private readonly IRepository<Match> MatchCRUDRepository;
         private readonly IPredictionRepository PredictionRepository;
 
         public IList<MatchViewModel> Matches = new List<MatchViewModel>();
+        public IEnumerable<User> Users;
 
         /// <summary>
         /// Модель отображения данных 
@@ -106,14 +106,12 @@ namespace EkbReds.Pages
         /// ctor
         /// </summary>
         public IndexModel(
-            ISeasonRepository seasonRepository,
             IRepository<Prediction> predictionCRUDRepository,
             UserManager<User> userManager,
             IMatchRepository matchRepository,
             IPredictionRepository predictionRepository,
             IRepository<Match> matchCRUDRepository)
         {
-            SeasonRepository = seasonRepository;
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
             MatchRepository = matchRepository;
@@ -127,6 +125,9 @@ namespace EkbReds.Pages
         /// <returns></returns>
         public async Task OnGet()
         {
+            MatchRepository.Currents();
+
+            Users = UserManager.Users.Take(10);
             IEnumerable<Match> matches = MatchRepository.Next(4);
 
             for (int countMatch = 0; countMatch < matches.Count(); countMatch++)

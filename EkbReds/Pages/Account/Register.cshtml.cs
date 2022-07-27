@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using ApplicationCore.Entities.Identity;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -15,68 +16,44 @@ namespace EkbReds.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly UserManager<User> UserManager;
-        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public RegisterModel(UserManager<User> userManager, IUserService userService)
+        public RegisterModel(
+            UserManager<User> userManager)
         {
             UserManager = userManager;
-            UserService = userService;
         }
 
-        /// <summary>
-        /// Элемент передачи данных со страницы
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
         /// <summary>
-        /// Регистрация
-        /// </summary>
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new User { Email = Input.Email, UserName = Input.UserName };
-                var result = await UserManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                {
-                    await UserService.AddToRoleAsync(user.Id, "User");
-                    return LocalRedirect(Url.Content("~/"));
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
-
-            return Page();
-        }
-
-        /// <summary>
-        /// Модель ввода данных со страницы
+        /// Данные для регистрации пользователя
         /// </summary>
         public class InputModel
         {
             /// <summary>
-            /// Имя пользователя
+            /// Логин пользователя
             /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
-            [StringLength(20,
-                ErrorMessage = "{0} должно содержать от {2} до {1} символов.",
-                MinimumLength = 4)]
-            [Display(Name = "Имя пользователя")]
+            [Display(Name = "Логин")]
             public string UserName { get; set; }
 
             /// <summary>
-            /// Почта
+            /// Имя
             /// </summary>
             [Required(ErrorMessage = "Поле обязательно!")]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
+            [Display(Name = "Имя")]
+            public string FirstName { get; set; }
+
+            /// <summary>
+            /// Фамилия
+            /// </summary>
+            [Required(ErrorMessage = "Поле обязательно!")]
+            [Display(Name = "Фамилия")]
+            public string SurName { get; set; }
 
             /// <summary>
             /// Пароль
@@ -85,6 +62,51 @@ namespace EkbReds.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
             public string Password { get; set; }
+        }
+
+        /// <summary>
+        /// Регистрация
+        /// </summary>
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    Email = Input.UserName + "@ekaterinburgreds.ru",
+                    UserName = Input.UserName,
+                    FirstName = Input.FirstName,
+                    SurName = Input.SurName
+                };
+
+                IdentityResult result = await UserManager.CreateAsync(user, Input.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user, "User");
+                    return LocalRedirect(Url.Content($"~/Account/RegisterDone?" +
+                        $"fullName={WebUtility.UrlEncode(user.FirstName + " " + user.SurName)}"));
+                }
+                foreach (IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, TranslationErrorCode(error.Code));
+                }
+            }
+
+            return Page();
+        }
+
+        /// <summary>
+        /// Перевод ошибок
+        /// </summary>
+        /// <param name="code">Код ошибки</param>
+        /// <returns>Русифицированная версия полученной ошибки</returns>
+        private string TranslationErrorCode(string code)
+        {
+            switch (code)
+            {
+                case "DuplicateUserName": return "Такое имя пользователя уже существует";
+                default: return "Неизвестная ошибка, обратитесь к администратору";
+            }
         }
     }
 }

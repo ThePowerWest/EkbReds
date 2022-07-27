@@ -8,6 +8,12 @@ namespace ApplicationCore.Interfaces.Repositories
     public interface IMatchRepository
     {
         /// <summary>
+        /// Список матчей за этот сезон
+        /// </summary>
+        ///<returns>Матчи</returns>
+        IEnumerable<Match> Currents();
+
+        /// <summary>
         /// Получить следующие матчи
         /// </summary>
         /// <returns>Список следующих матчей</returns>

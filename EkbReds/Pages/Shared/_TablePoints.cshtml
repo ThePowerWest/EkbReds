@@ -1,0 +1,27 @@
+﻿@model IEnumerable<User>
+@{
+    int userCount = 1;
+}
+<div class="col-lg-4">
+    <div class="point-table-widget">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Имя</th>
+                    <th>Очки</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (User user in Model)
+                {
+                    <tr>
+                        <td>@(userCount++)</td>
+                        <td><img src="images/tl-logo1.png" alt=""> <strong>@user.FirstName @user.SurName</strong></td>
+                        <td><strong>140</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
