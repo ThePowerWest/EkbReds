@@ -32,7 +32,7 @@ namespace Infrastructure.Data.Repositories
         /// <inheritdoc />
         public IEnumerable<Match> Next(int count) => 
             Context.Matches
-                .Include(match => match.Tournament)
+                .Include(match => match.Tournament.Season)
                 .OrderBy(match => match.StartDate)
                     .AsNoTracking()
                 .Where(match => DateTime.Now < match.StartDate)

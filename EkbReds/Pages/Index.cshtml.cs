@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Interfaces;
 
 namespace EkbReds.Pages
 {
@@ -18,9 +19,10 @@ namespace EkbReds.Pages
         private readonly IMatchRepository MatchRepository;
         private readonly IRepository<Match> MatchCRUDRepository;
         private readonly IPredictionRepository PredictionRepository;
+        private readonly IBestPlayersService BestPlayersService;
 
         public IList<MatchViewModel> Matches = new List<MatchViewModel>();
-        public IEnumerable<User> Users;
+        public Dictionary<User, int> BestUsers;
 
         /// <summary>
         /// Модель отображения данных 
@@ -110,13 +112,15 @@ namespace EkbReds.Pages
             UserManager<User> userManager,
             IMatchRepository matchRepository,
             IPredictionRepository predictionRepository,
-            IRepository<Match> matchCRUDRepository)
+            IRepository<Match> matchCRUDRepository,
+            IBestPlayersService bestPlayersService)
         {
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
             MatchRepository = matchRepository;
             PredictionRepository = predictionRepository;
             MatchCRUDRepository = matchCRUDRepository;
+            BestPlayersService = bestPlayersService;
         }
 
         /// <summary>
@@ -127,7 +131,6 @@ namespace EkbReds.Pages
         {
             MatchRepository.Currents();
 
-            Users = UserManager.Users.Take(10);
             IEnumerable<Match> matches = MatchRepository.Next(4);
 
             for (int countMatch = 0; countMatch < matches.Count(); countMatch++)
@@ -155,6 +158,11 @@ namespace EkbReds.Pages
 
                 });
             }
+
+            BestUsers = BestPlayersService.GetSumPointsForAllTours(UserManager.Users, matches
+                .First().Tournament.Season.Id)
+                .Take(10)
+                .ToDictionary(x => x.Key, x => x.Value);
         }
 
         /// <summary>

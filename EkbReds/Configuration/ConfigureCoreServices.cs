@@ -4,6 +4,8 @@ using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
+using Web.Interfaces;
+using Web.Services;
 
 namespace Web.Configuration
 {
@@ -26,6 +28,7 @@ namespace Web.Configuration
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IPredictionRepository, PredictionRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<IBestPlayersService, BestPlayersService>();
 
             return services;
         }

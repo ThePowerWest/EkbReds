@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model Dictionary<User, int>
 @{
     int userCount = 1;
 }
@@ -13,12 +13,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (User user in Model)
+                @foreach (var user in Model)
                 {
                     <tr>
                         <td>@(userCount++)</td>
-                        <td><img src="images/tl-logo1.png" alt=""> <strong>@user.FirstName @user.SurName</strong></td>
-                        <td><strong>140</strong></td>
+                        <td><img src="images/tl-logo1.png" alt=""> <strong>@user.Key.UserName | @user.Key.FirstName @user.Key.SurName</strong></td>
+                        <td><strong>@user.Value</strong></td>
                     </tr>
                 }
             </tbody>
