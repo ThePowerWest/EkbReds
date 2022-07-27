@@ -1,0 +1,25 @@
+﻿@page
+@model Web.Pages.Account.RegisterDoneModel
+@{
+    ViewBag.Title = "Регистрация успешна";
+}
+
+<!--Main Slider Start-->
+<div class="inner-banner-header wf100">
+    <h1 data-generated="@ViewBag.Title">@ViewBag.Title</h1>
+</div>
+<!--Main Slider Start-->
+<!--Main Content Start-->
+<div class="main-content p80 innerpagebg wf100">
+    <div class="error-page-404">
+        <div class="container">
+            <div class="p404-wrap">
+                <h2> <em>Уважаемый</em> @Model.FullName</h2>
+                <p>Вы успешно зарегистрированы, через некоторое время Вам будет предоставлен доступ до проставления прогнозов</p>
+                <p>Удачи!!!</p>
+                <a href="~/index" class="b2home"><i class="fas fa-home"></i> На главную страницу</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Main Content End--> 

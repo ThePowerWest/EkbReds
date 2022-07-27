@@ -13,9 +13,6 @@ namespace EkbReds.Pages.Account
     {
         private readonly SignInManager<User> SignInManager;
 
-        /// <summary>
-        /// Элемент передачи данных со страницы
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 

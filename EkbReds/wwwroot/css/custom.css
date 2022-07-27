@@ -212,7 +212,7 @@ html body {
 }
 
 .innerpagebg {
-    background: url(../images/innerpagebg.jpg) no-repeat top center;
+    background: url(../images/innerpagebg2.jpg) no-repeat top center;
     background-attachment: fixed;
 }
 /********** |== Header Start == | **********/
@@ -3783,7 +3783,7 @@ body button:focus {
 }
 
 .inner-banner-header {
-    background: url(../images/innerbanner.jpg) no-repeat;
+    background: url(../images/register.jpg) no-repeat;
     text-align: center;
     padding: 110px 0 0;
     position: relative;

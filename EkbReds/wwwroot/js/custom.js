@@ -190,17 +190,6 @@ jQuery(document).ready(function ($) {
             $('audio').audioPlayer();
         });
     }
-    //// ------- countdown ------- //
-    //if ($('.defaultCountdown').length) {
-    //    debugger;
-    //    var austDay = new Date();
-    //    austDay = new Date(2022,7,7);
-    //    $('.defaultCountdown').countdown({
-    //        until: austDay
-    //    });
-    //    $('#year').text(austDay.getFullYear());
-    //}
-    // ------- countdown End ------- // 
 
     // ------- News Grid ------- //
     if ($('.news-gallery .isotope').length) {

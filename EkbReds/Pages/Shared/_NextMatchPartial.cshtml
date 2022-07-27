@@ -28,17 +28,13 @@
                             <!--Home team(слева)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label style="text-align:center"><strong>Команда 1</strong></label>
-                                    <input asp-for="@Model.Prediction.HomeTeamPredict" class="form-control" />
-                                    <span asp-validation-for="@Model.Prediction.HomeTeamPredict" class="text-danger"></span>
+                                    <input asp-for="@Model.Prediction.HomeTeamPredict" class="form-control test" style="background: url(@Model.HomeTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.HomeTeamName"/>
                                 </div>
                             </div>
                             <!--Away team(справа)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label style="text-align:center"><strong>Команда 2</strong></label>
-                                    <input asp-for="@Model.Prediction.AwayTeamPredict" class="form-control" />
-                                    <span asp-validation-for="@Model.Prediction.AwayTeamPredict" class="text-danger"></span>
+                                    <input asp-for="@Model.Prediction.AwayTeamPredict" class="form-control" style="background: url(@Model.AwayTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.AwayTeamName"/>
                                 </div>
                             </div>
 
