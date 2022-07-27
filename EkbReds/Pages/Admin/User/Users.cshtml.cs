@@ -16,16 +16,16 @@ namespace Web.Pages.Admin
     {
         public UserManager<User> UserManager;
         public RoleManager<Role> RoleManager;
-        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public UsersModel(UserManager<User> userManager, RoleManager<Role> roleManager, IUserService userService)
+        public UsersModel(
+            UserManager<User> userManager, 
+            RoleManager<Role> roleManager)
         {
             UserManager = userManager;
             RoleManager = roleManager;
-            UserService = userService;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Web.Pages.Admin
                 var result = await UserManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await UserService.AddToRoleAsync(user.Id, Input.Role);
+                    //await UserService.AddToRoleAsync(user.Id, Input.Role);
                     return LocalRedirect(Url.Content("~/Admin/User/Users"));
                 }
                 else

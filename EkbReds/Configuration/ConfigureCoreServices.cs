@@ -25,6 +25,7 @@ namespace Web.Configuration
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IPredictionRepository, PredictionRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
 
             return services;
         }

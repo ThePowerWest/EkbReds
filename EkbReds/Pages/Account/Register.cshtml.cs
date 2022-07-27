@@ -16,17 +16,14 @@ namespace EkbReds.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly UserManager<User> UserManager;
-        private readonly IUserService UserService;
 
         /// <summary>
         /// ctor
         /// </summary>
         public RegisterModel(
-            UserManager<User> userManager,
-            IUserService userService)
+            UserManager<User> userManager)
         {
             UserManager = userManager;
-            UserService = userService;
         }
 
         [BindProperty]
@@ -87,15 +84,29 @@ namespace EkbReds.Pages.Account
                 {
                     await UserManager.AddToRoleAsync(user, "User");
                     return LocalRedirect(Url.Content($"~/Account/RegisterDone?" +
-                        $"fullName={ WebUtility.UrlEncode(user.FirstName + " " + user.SurName) }"));
+                        $"fullName={WebUtility.UrlEncode(user.FirstName + " " + user.SurName)}"));
                 }
                 foreach (IdentityError error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, TranslationErrorCode(error.Code));
                 }
             }
 
             return Page();
+        }
+
+        /// <summary>
+        /// Перевод ошибок
+        /// </summary>
+        /// <param name="code">Код ошибки</param>
+        /// <returns>Русифицированная версия полученной ошибки</returns>
+        private string TranslationErrorCode(string code)
+        {
+            switch (code)
+            {
+                case "DuplicateUserName": return "Такое имя пользователя уже существует";
+                default: return "Неизвестная ошибка, обратитесь к администратору";
+            }
         }
     }
 }

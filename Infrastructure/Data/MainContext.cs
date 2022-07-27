@@ -18,8 +18,10 @@ namespace Infrastructure.Data
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().Property(e => e.Id).ValueGeneratedOnAdd();
-            builder.Entity<Role>().Property(e => e.Id).ValueGeneratedOnAdd();
+            builder.Entity<User>().Property(user => user.Id).ValueGeneratedOnAdd();
+            builder.Entity<Role>().Property(role => role.Id).ValueGeneratedOnAdd();
+
+            builder.Entity<User>().HasMany(user => user.Predictions).WithOne(prediction => prediction.User).OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }

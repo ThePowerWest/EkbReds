@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20220727093637_cascade delete for User Predictions")]
+    partial class cascadedeleteforUserPredictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,9 +142,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte?>("AwayTeamScore")
-                        .HasColumnType("tinyint");
-
                     b.Property<string>("HomeTeamLogo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -150,9 +149,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("HomeTeamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte?>("HomeTeamScore")
-                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");

@@ -22,6 +22,14 @@ namespace Infrastructure.Data.Repositories
         }
 
         /// <inheritdoc />
+        public IEnumerable<Match> Currents() =>
+            Context.Matches
+                .Include(match => match.Tournament)
+                .Where(match =>
+                       match.Tournament.Season == Context.Seasons.OrderByDescending(season => season.YearStart)
+                                                                 .First());
+
+        /// <inheritdoc />
         public IEnumerable<Match> Next(int count) => 
             Context.Matches
                 .Include(match => match.Tournament)
