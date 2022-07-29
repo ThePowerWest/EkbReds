@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Entities.Main;
+﻿using ApplicationCore.Entities.Identity;
+using ApplicationCore.Entities.Main;
 
 namespace ApplicationCore.Interfaces.Repositories
 {
@@ -18,5 +19,11 @@ namespace ApplicationCore.Interfaces.Repositories
         /// </summary>
         /// <returns>Список следующих матчей</returns>
         IEnumerable<Match> Next(int count);
+
+        /// <summary>
+        /// Список матчей для отображения на главной странице
+        /// </summary>
+        /// <returns>Матчи</returns>
+        Task<IEnumerable<Match>> IndexList(User currentUser);
     }
 }

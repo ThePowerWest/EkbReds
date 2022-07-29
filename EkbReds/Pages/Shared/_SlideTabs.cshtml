@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MatchViewModel>
+
+<!--Slide tabs start-->
+    <div class="slider-tabs wf100">
+        <div class="container">
+            <div class="row">
+                <ul>
+                    @if (Model.Any())
+                    {
+                        @foreach (MatchViewModel match in Model)
+                        {
+                            <li class="col-lg-@(12 / Model.Count())">
+                                <div class="slidetab-box">
+                                    <span>
+                                        @(match.HomeTeamScore.HasValue ? match.HomeTeamScore.Value : "-"):@(match.AwayTeamScore.HasValue ? match.AwayTeamScore.Value : "-")
+                                    </span>
+                                    <h6><a href="#">@match.HomeTeamName VS @match.AwayTeamName</a></h6>
+                                    <strong>@(match.Prediction != null ? match.Prediction.HomeTeamPredict : "-"):@(match.Prediction != null ? match.Prediction.AwayTeamPredict : "-")</strong>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="col-lg-12">
+                            <div class="slidetab-box">
+                                <span>
+                                    MU
+                                </span>
+                                <h6><a href="#">Скоро здесь будут прошедшие матчи Manchester United</a></h6>
+                                <strong>Конечно же с победным счётом</strong>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--Slide tabs end-->

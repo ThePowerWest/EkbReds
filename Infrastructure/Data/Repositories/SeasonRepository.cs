@@ -22,7 +22,6 @@ namespace Infrastructure.Data.Repositories
                 .Include(season => season.Tournaments)
                     .ThenInclude(tournament => tournament.Matches)
                 .OrderByDescending(season => season.Id)
-                .AsNoTracking()
                 .FirstAsync();
     }
 }

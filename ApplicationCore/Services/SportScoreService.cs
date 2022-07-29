@@ -110,11 +110,11 @@ namespace ApplicationCore.Services
 
             foreach (EventData matchSS in currentMatchesSS)
             {
-                Match? foundMatch = currentMatchesDB.FirstOrDefault(matchDB => 
+                Match? foundMatch = currentMatchesDB.FirstOrDefault(matchDB =>
                                             matchSS.HomeTeam.Name == matchDB.HomeTeamName &&
                                             matchSS.AwayTeam.Name == matchDB.AwayTeamName &&
                                             matchSS.Tournament.Name == matchDB.Tournament.Name);
-                if(foundMatch == null)
+                if (foundMatch == null)
                 {
                     await MatchCRUDRepository.AddAsync(
                             new Match
@@ -129,67 +129,34 @@ namespace ApplicationCore.Services
                 }
                 else
                 {
-                    //foundMatch.
+                    if (matchSS.HomeScore != null && matchSS.AwayScore != null)
+                    {
+                        foundMatch.HomeTeamScore = matchSS.HomeScore.Current;
+                        foundMatch.AwayTeamScore = matchSS.AwayScore.Current;
 
-                    await MatchCRUDRepository.UpdateAsync(
-                            new Match
-                            {
-                                HomeTeamName = matchSS.HomeTeam.Name,
-                                HomeTeamLogo = matchSS.HomeTeam.Logo,
-                                AwayTeamName = matchSS.AwayTeam.Name,
-                                AwayTeamLogo = matchSS.AwayTeam.Logo,
-                                StartDate = matchSS.StartAt,
-                                Tournament = currentTournaments.First(tournament => tournament.Name == matchSS.Tournament.Name)
-                            });
+                        await MatchCRUDRepository.UpdateAsync(foundMatch);
+                    }
                 }
             }
-
-            //Season season = await SeasonRepository.CurrentAsync();
-            //IEnumerable<Tournament> tournaments = season.Tournaments;
-
-            //IEnumerable<Match> currentMatches = await MatchCRUDRepository.ListAsync();
-            //int countMatches = currentMatches.Where(match => DateTime.Now < match.StartDate).Count();
-            //if (countMatches == 4) return;
-
-            //IEnumerable<int> tournamentIds = await GetTournamentsThisSeason();
-
-            //HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
-            //Events events = JsonConvert.DeserializeObject<Events>(await response.Content.ReadAsStringAsync());
-
-            //List<EventData> currentEvents = new List<EventData>();
-            //foreach (EventData @event in events.Data)
-            //{
-            //    if (tournamentIds.Any(tournamentId => tournamentId == @event.SeasonId))
-            //    {
-            //        currentEvents.Add(@event);
-            //    }
-            //}
-
-            //IEnumerable<EventData> newMatches =
-            //    currentEvents.Where(@event => DateTime.Now < @event.StartAt)
-            //                 .OrderBy(@event => @event.StartAt)
-            //                 .Take(4 - countMatches);
-
-            //await MatchCRUDRepository.AddRangeAsync(newMatches.Select(match =>
-            //        new Match
-            //        {
-            //            HomeTeamName = match.HomeTeam.Name,
-            //            HomeTeamLogo = match.HomeTeam.Logo,
-            //            AwayTeamName = match.AwayTeam.Name,
-            //            AwayTeamLogo = match.AwayTeam.Logo,
-            //            StartDate = match.StartAt,
-            //            Tournament = tournaments.First(tournament => tournament.Name == match.Tournament.Name)
-            //        }));
         }
 
         #region Private region
 
+        /// <summary>
+        /// Получить список матчей за этот сезон из SportScore
+        /// </summary>
+        /// <returns>Список матчей</returns>
         private async Task<IEnumerable<EventData>> GetMatchesThisSeason()
         {
             SSTournament currentSeason = await GetCurrentSeason();
             return await GetMatches(currentSeason.YearEnd);
         }
 
+        /// <summary>
+        /// Получить список матчей
+        /// </summary>
+        /// <param name="yearEnd">Год окончания сезона</param>
+        /// <returns>Список матчей</returns>
         private async Task<IEnumerable<EventData>> GetMatches(int? yearEnd)
         {
             HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
@@ -249,28 +216,6 @@ namespace ApplicationCore.Services
                 YearEnd = yearEnd
             });
         }
-
-        /// <summary>
-        /// Получить турниры/лиги/чемпионаты в текущем сезоне
-        /// </summary>
-        /// <returns>Спиcок Id турниров</returns>
-        //private async Task<IEnumerable<int>> GetTournamentsThisSeason()
-        //{
-        //    HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/seasons");
-        //    Seasons seasons = JsonConvert.DeserializeObject<Seasons>(await response.Content.ReadAsStringAsync());
-        //    SSTournament currentSeason = await GetCurrentSeason();
-            
-        //    HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/seasons");
-        //    Seasons seasons = JsonConvert.DeserializeObject<Seasons>(await response.Content.ReadAsStringAsync());
-        //    string currentDataSeason = seasons.Data.OrderByDescending(season => season.Id)
-        //                                           .First().Slug;
-
-        //    return seasons.Data.Where(season => season.Slug.Contains(currentDataSeason))
-        //                       .Select(season => season.Id);
-
-        //    return seasons.Data.Where(season => season.Slug.Contains(currentSeason.Slug))
-        //                       .Select(season => season.Id);
-        //}
 
         /// <summary>
         /// Отправить Get запрос в SportScore

@@ -1,4 +1,4 @@
-﻿@model EkbReds.Pages.IndexModel.MatchViewModel
+﻿@model MatchViewModel
 
 <div class="col-lg-4 col-md-6">
     <!--Next Match Widget Start-->
@@ -10,12 +10,15 @@
                 <li class="mvs"> <strong class="vs">VS</strong> </li>
                 <li class="team-logo"><img src="@Model.AwayTeamLogo" alt="" width="60"> <strong>@Model.AwayTeamName</strong> </li>
             </ul>
+            <label>Матч начнётся через:</label>
+            <div class="defaultCountdown"></div>
             <ul class="nmw-txt">
                 <li><strong>@Model.Tournament.Name</strong></li>
                 <li>@Model.StartDate.ToLongDateString()</li>
                 <li>@Model.StartDate.ToLongTimeString()</li>
                 <li><span>@Model.HomeTeamName Stadium</span></li>
             </ul>
+            <label>Прогнозы закроются через:</label>
             <div class="defaultCountdown"></div>
 
             @if (User.Identity.IsAuthenticated)
@@ -28,13 +31,13 @@
                             <!--Home team(слева)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input asp-for="@Model.Prediction.HomeTeamPredict" class="form-control test" style="background: url(@Model.HomeTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.HomeTeamName"/>
+                                    <input asp-for="@Model.Prediction.HomeTeamPredict" class="form-control test" style="background: url(@Model.HomeTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.HomeTeamName" />
                                 </div>
                             </div>
                             <!--Away team(справа)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input asp-for="@Model.Prediction.AwayTeamPredict" class="form-control" style="background: url(@Model.AwayTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.AwayTeamName"/>
+                                    <input asp-for="@Model.Prediction.AwayTeamPredict" class="form-control" style="background: url(@Model.AwayTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" placeholder="@Model.AwayTeamName" />
                                 </div>
                             </div>
 
@@ -57,4 +60,4 @@
         </div>
     </div>
     <!--Next Match Widget End-->
-</div>                                 
+</div>
