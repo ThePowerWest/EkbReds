@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web.Interfaces;
 using Web.Models;
+using static Web.Services.ScoringService;
 
 namespace EkbReds.Pages
 {
@@ -20,13 +21,13 @@ namespace EkbReds.Pages
         private readonly IMatchRepository MatchRepository;
         private readonly IRepository<Match> MatchCRUDRepository;
         private readonly IPredictionRepository PredictionRepository;
-        private readonly IBestPlayersService BestPlayersService;
+        private readonly IScoringService ScoringService;
 
         public MatchViewModel NextMatch;
         public IEnumerable<MatchViewModel> ThreeAfterNextMatches;
         public IEnumerable<MatchViewModel> ThreeBeforeNextMatches;
         public IEnumerable<MatchViewModel> Matches;
-        public Dictionary<User, int> BestUsers;
+        public IEnumerable<PointTable> PointTable;
 
         /// <summary>
         /// ctor
@@ -37,14 +38,14 @@ namespace EkbReds.Pages
             IMatchRepository matchRepository,
             IPredictionRepository predictionRepository,
             IRepository<Match> matchCRUDRepository,
-            IBestPlayersService bestPlayersService)
+            IScoringService scoringService)
         {
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
             MatchRepository = matchRepository;
             PredictionRepository = predictionRepository;
             MatchCRUDRepository = matchCRUDRepository;
-            BestPlayersService = bestPlayersService;
+            ScoringService = scoringService;
         }
 
         /// <summary>
@@ -54,14 +55,15 @@ namespace EkbReds.Pages
         {
             User currentUser = await UserManager.GetUserAsync(User);
             IEnumerable<Match> matches = await MatchRepository.IndexList(currentUser);
+            matches = ConvertTimeToMatches(matches);
             NextMatch = GetNextMatch(matches);
+            NextMatch.StartDate = NextMatch.StartDate.AddHours(-2);
             ThreeAfterNextMatches = GetThreeMatchesAfterNext(matches);
             ThreeBeforeNextMatches = GetThreeMatchesBeforeNext(matches);
 
-            //BestUsers = BestPlayersService.GetSumPointsForAllTours(UserManager.Users, matches
-            //    .First().Tournament.Season.Id)
-            //    .Take(10)
-            //    .ToDictionary(x => x.Key, x => x.Value);
+            PointTable = ScoringService.TopPredictionsByUsers(UserManager.Users, NextMatch.Tournament.Season)
+                                       .OrderByDescending(point => point.Points)
+                                       .Take(10);
         }
 
         /// <summary>
@@ -92,6 +94,16 @@ namespace EkbReds.Pages
             }
 
             return LocalRedirect(Url.Content("~/"));
+        }
+
+        private IEnumerable<Match> ConvertTimeToMatches(IEnumerable<Match> matches)
+        {
+            foreach(Match match in matches)
+            {
+                match.StartDate = match.StartDate.AddHours(5);
+            }
+
+            return matches;
         }
 
         /// <summary>

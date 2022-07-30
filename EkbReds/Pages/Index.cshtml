@@ -78,36 +78,36 @@
 <!--Main Content Start-->
 <div class="main-content wf100">
     <partial name="_SlideTabs" model="Model.ThreeBeforeNextMatches">
-    <!--Sports Widgets Start-->
-    <section class="wf100 p80">
-        <div class="container">
-            <div class="row">
-                <partial name="_NextMatch" model="Model.NextMatch">
-                    <div class="col-lg-4 col-md-6">
-                        @foreach (MatchViewModel match in Model.ThreeAfterNextMatches)
-                        {
-                            <!--Next Match Fixtures Width Start  -->
-                            <div class="next-match-fixtures">
-                                <ul class="match-teams-vs">
-                                    <li class="team-logo"><img src="@match.HomeTeamLogo" alt="" width="60"> <strong>@match.HomeTeamName</strong> </li>
-                                    <li class="mvs">
-                                        <p>
-                                            <strong>@match.Tournament.Name</strong> @match.StartDate.ToLongDateString()
-                                            @match.StartDate.ToLongTimeString()
-                                        </p>
-                                        <strong class="vs">VS</strong>
-                                    </li>
-                                    <li class="team-logo"><img src="@match.AwayTeamLogo" alt="" width="60"> <strong>@match.AwayTeamName</strong> </li>
-                                </ul>
-                            </div>
-                            <!--Next Match Fixtures Width End  -->
-                        }
-                    </div>
-                    <partial name="_TablePoints" model="Model.BestUsers">
+        <!--Sports Widgets Start-->
+        <section class="wf100 p80">
+            <div class="container">
+                <div class="row">
+                    <partial name="_NextMatch" model="Model.NextMatch">
+                        <div class="col-lg-4 col-md-6">
+                            @foreach (MatchViewModel match in Model.ThreeAfterNextMatches)
+                            {
+                                <!--Next Match Fixtures Width Start  -->
+                                <div class="next-match-fixtures">
+                                    <ul class="match-teams-vs">
+                                        <li class="team-logo"><img src="@match.HomeTeamLogo" alt="" width="60"> <strong>@match.HomeTeamName</strong> </li>
+                                        <li class="mvs">
+                                            <p>
+                                                <strong>@match.Tournament.Name</strong> @match.StartDate.ToLongDateString()
+                                                @match.StartDate.ToLongTimeString()
+                                            </p>
+                                            <strong class="vs">VS</strong>
+                                        </li>
+                                        <li class="team-logo"><img src="@match.AwayTeamLogo" alt="" width="60"> <strong>@match.AwayTeamName</strong> </li>
+                                    </ul>
+                                </div>
+                                <!--Next Match Fixtures Width End  -->
+                            }
+                        </div>
+                        <partial name="_TablePoints" model="Model.PointTable">
+                </div>
             </div>
-        </div>
-    </section>
-    <!--Sports Widgets End-->
+        </section>
+        <!--Sports Widgets End-->
 </div>
 <!--Main Content End-->
 @section Scripts
@@ -117,9 +117,18 @@
         if ($('.defaultCountdown').length) {
             austDay = new Date(@Model.NextMatch.StartDate.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
             $('.defaultCountdown').countdown({
-                until: austDay
+                until: austDay,
+                onExpiry: function() {
+                    hidePrediction();
+                }
             });
             $('#year').text(austDay.getFullYear());
+        }
+
+        function hidePrediction() {
+            $('#makePrediction').hide();
+            $('#homePredict').prop("readonly", true);
+            $('#awayPredict').prop("readonly", true);
         }
     </script>
 }

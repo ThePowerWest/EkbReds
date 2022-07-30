@@ -49,6 +49,11 @@ namespace Web.Models
         public DateTime StartDate { get; set; }
 
         /// <summary>
+        /// Дата и время окончания ставок
+        /// </summary>
+        public DateTime EndTimeForPrediction { get; set; }
+
+        /// <summary>
         /// Турнир, по которому идет матч
         /// </summary>
         public Tournament Tournament { get; set; }
