@@ -28,7 +28,7 @@ namespace Web.Configuration
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IPredictionRepository, PredictionRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
-            services.AddScoped<IBestPlayersService, BestPlayersService>();
+            services.AddScoped<IScoringService, ScoringService>();
 
             return services;
         }

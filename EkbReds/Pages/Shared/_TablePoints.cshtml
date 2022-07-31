@@ -1,4 +1,5 @@
-﻿@model Dictionary<User, int>
+﻿@model IEnumerable<PointTable>
+@using Web.Models
 @{
     int userCount = 1;
 }
@@ -13,12 +14,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (PointTable point in Model)
                 {
                     <tr>
                         <td>@(userCount++)</td>
-                        <td><img src="images/tl-logo1.png" alt=""> <strong>@user.Key.UserName | @user.Key.FirstName @user.Key.SurName</strong></td>
-                        <td><strong>@user.Value</strong></td>
+                        <td><img src="images/tl-logo1.png" alt=""> <strong>@point.User.FirstName @point.User.SurName</strong></td>
+                        <td><strong>@point.Points</strong></td>
                     </tr>
                 }
             </tbody>

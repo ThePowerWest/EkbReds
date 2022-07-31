@@ -45,10 +45,22 @@ namespace ApplicationCore.Models.SportScore.Teams
         public Team HomeTeam { get; set; }
 
         /// <summary>
+        /// Очки домашней команды
+        /// </summary>
+        [JsonProperty("home_score")]
+        public Score? HomeScore { get; set; }
+
+        /// <summary>
         /// Гостевая команда
         /// </summary>
         [JsonProperty("away_team")]
         public Team AwayTeam { get; set; }
+
+        /// <summary>
+        /// Очки гостевой команды
+        /// </summary>
+        [JsonProperty("away_score")]
+        public Score? AwayScore { get; set; }
 
         /// <summary>
         /// Турнир

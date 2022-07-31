@@ -19,6 +19,7 @@ namespace Infrastructure.Data.Repositories
         /// <inheritdoc />
         public IEnumerable<Tournament> Currents() => 
             Context.Tournaments.Where(tournament => 
-                tournament.Season == Context.Seasons.OrderByDescending(season => season.YearStart)).AsNoTracking();
+                tournament.Season == Context.Seasons.OrderByDescending(season => season.YearStart)
+                                                    .First());
     }
 }

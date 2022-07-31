@@ -22,7 +22,5 @@ namespace Infrastructure.Data.Repositories
             => await Context.Predictions.AsNoTracking()
                       .FirstOrDefaultAsync(prediction => prediction.Match == match &&
                                                          prediction.User == user);
-
-
     }
 }
