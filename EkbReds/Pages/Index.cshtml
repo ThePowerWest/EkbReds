@@ -83,27 +83,8 @@
             <div class="container">
                 <div class="row">
                     <partial name="_NextMatch" model="Model.NextMatch">
-                        <div class="col-lg-4 col-md-6">
-                            @foreach (MatchViewModel match in Model.ThreeAfterNextMatches)
-                            {
-                                <!--Next Match Fixtures Width Start  -->
-                                <div class="next-match-fixtures">
-                                    <ul class="match-teams-vs">
-                                        <li class="team-logo"><img src="@match.HomeTeamLogo" alt="" width="60"> <strong>@match.HomeTeamName</strong> </li>
-                                        <li class="mvs">
-                                            <p>
-                                                <strong>@match.Tournament.Name</strong> @match.StartDate.ToLongDateString()
-                                                @match.StartDate.ToLongTimeString()
-                                            </p>
-                                            <strong class="vs">VS</strong>
-                                        </li>
-                                        <li class="team-logo"><img src="@match.AwayTeamLogo" alt="" width="60"> <strong>@match.AwayTeamName</strong> </li>
-                                    </ul>
-                                </div>
-                                <!--Next Match Fixtures Width End  -->
-                            }
-                        </div>
-                        <partial name="_TablePoints" model="Model.PointTable">
+                        <partial name="_AfterNextMatch" model="Model.ThreeAfterNextMatches">
+                            <partial name="_TablePoints" model="Model.PointTable">
                 </div>
             </div>
         </section>
@@ -115,7 +96,7 @@
     <script>
         // ------- countdown ------- //
         if ($('.defaultCountdown').length) {
-            austDay = new Date(@Model.NextMatch.StartDate.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
+            austDay = new Date(@Model.NextMatch.EndTimeForPrediction.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
             $('.defaultCountdown').countdown({
                 until: austDay,
                 onExpiry: function() {

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MatchViewModel>
+
+<div class="col-lg-4 col-md-6">
+    @foreach (MatchViewModel match in Model)
+    {
+        <!--Next Match Fixtures Width Start  -->
+        <div class="next-match-fixtures">
+            <ul class="match-teams-vs">
+                <li class="team-logo"><img src="@match.HomeTeamLogo" alt="" width="60"> <strong>@match.HomeTeamName</strong> </li>
+                <li class="mvs">
+                    <p>
+                        <strong>@match.Tournament.Name</strong> @match.StartDate.ToLongDateString()
+                        @match.StartDate.ToLongTimeString()
+                    </p>
+                    <strong class="vs">VS</strong>
+                </li>
+                <li class="team-logo"><img src="@match.AwayTeamLogo" alt="" width="60"> <strong>@match.AwayTeamName</strong> </li>
+            </ul>
+        </div>
+        <!--Next Match Fixtures Width End  -->
+    }
+</div>

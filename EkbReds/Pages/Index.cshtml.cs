@@ -57,7 +57,7 @@ namespace EkbReds.Pages
             IEnumerable<Match> matches = await MatchRepository.IndexList(currentUser);
             matches = ConvertTimeToMatches(matches);
             NextMatch = GetNextMatch(matches);
-            NextMatch.StartDate = NextMatch.StartDate.AddHours(-2);
+            NextMatch.EndTimeForPrediction = NextMatch.StartDate.AddHours(-2);
             ThreeAfterNextMatches = GetThreeMatchesAfterNext(matches);
             ThreeBeforeNextMatches = GetThreeMatchesBeforeNext(matches);
 
@@ -71,6 +71,10 @@ namespace EkbReds.Pages
         /// </summary>
         public async Task<IActionResult> OnPostMakePredictionAsync(MatchViewModel match)
         {
+            Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
+
+            if (DateTime.Now >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/")); ;
+
             // TODO переделать на один запрос в БД
             if (match.Prediction.Id != 0)
             {
@@ -82,7 +86,7 @@ namespace EkbReds.Pages
             }
             else
             {
-                Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
+                
                 await PredictionCRUDRepository.AddAsync(
                     new Prediction
                     {
@@ -178,6 +182,7 @@ namespace EkbReds.Pages
                                            Prediction = match.Predictions
                                                                 .Select(prediction => new PredictionViewModel
                                                                 {
+                                                                    Id=prediction.Id,
                                                                     AwayTeamPredict = prediction.AwayTeamPredict,
                                                                     HomeTeamPredict = prediction.HomeTeamPredict
                                                                 }).FirstOrDefault()

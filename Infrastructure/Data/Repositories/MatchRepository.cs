@@ -67,15 +67,5 @@ namespace Infrastructure.Data.Repositories
 
             return pastMatches;
         }
-
-        /// <inheritdoc />
-        public IEnumerable<Match> Next(int count) => 
-            Context.Matches
-                .Include(match => match.Tournament)
-                    .ThenInclude(tournament => tournament.Season)
-                .OrderBy(match => match.StartDate)
-                    .AsNoTracking()
-                .Where(match => DateTime.Now < match.StartDate)
-                .Take(count);
     }
 }
