@@ -7,5 +7,9 @@ namespace ApplicationCore.Entities.Identity
     /// </summary>
     public class Role : IdentityRole<string>
     {
+        /// <summary>
+        /// Описание роли
+        /// </summary>
+        public string Description { get; set; }
     }
 }

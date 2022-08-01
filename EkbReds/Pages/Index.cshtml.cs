@@ -2,6 +2,7 @@
 using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -61,7 +62,7 @@ namespace EkbReds.Pages
             ThreeAfterNextMatches = GetThreeMatchesAfterNext(matches);
             ThreeBeforeNextMatches = GetThreeMatchesBeforeNext(matches);
 
-            PointTable = ScoringService.TopPredictionsByUsers(UserManager.Users, NextMatch.Tournament.Season)
+            PointTable = ScoringService.TopPredictionsByUsers(await UserManager.GetUsersInRoleAsync(RolesModel.User.ToString()), NextMatch.Tournament.Season)
                                        .OrderByDescending(point => point.Points)
                                        .Take(10);
         }

@@ -105,6 +105,7 @@ namespace EkbReds.Pages.Account
             switch (code)
             {
                 case "DuplicateUserName": return "Такое имя пользователя уже существует";
+                case "InvalidUserName": return "Имя пользователя не действительно, может содержать только буквы и цифры";
                 default: return "Неизвестная ошибка, обратитесь к администратору";
             }
         }
