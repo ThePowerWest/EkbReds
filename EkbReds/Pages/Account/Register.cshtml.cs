@@ -82,7 +82,7 @@ namespace EkbReds.Pages.Account
                 IdentityResult result = await UserManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user, "User");
+                    await UserManager.AddToRoleAsync(user, "Tipster");
                     return LocalRedirect(Url.Content($"~/Account/RegisterDone?" +
                         $"fullName={WebUtility.UrlEncode(user.FirstName + " " + user.SurName)}"));
                 }

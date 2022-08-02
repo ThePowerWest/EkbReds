@@ -12,5 +12,7 @@ namespace ApplicationCore.Interfaces.Repositories
         /// </summary>
         /// <returns>Текущий сезон</returns>
         Task<Season> CurrentAsync();
+
+        Task<Season> CurrentIncludeTourAsync();
     }
 }

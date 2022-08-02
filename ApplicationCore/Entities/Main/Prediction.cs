@@ -8,6 +8,11 @@ namespace ApplicationCore.Entities.Main
     public class Prediction : BaseEntity
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public DateTime CreateDate { get; set; }
+
+        /// <summary>
         /// Пользователь который проставил прогноз
         /// </summary>
         public User User { get; set; }

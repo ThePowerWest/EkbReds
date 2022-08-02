@@ -4,112 +4,42 @@
     ViewBag.Title = "Reds Bets";
 }
 
-<!--Main Slider Start-->
-<div class="main-slider">
-    <div class="home2-slider rev_slider_wrapper">
-        <!-- START REVOLUTION SLIDER -->
-        <div class="rev_slider_wrapper fullwidthbanner-container">
-            <div id="rev-slider2" class="rev_slider fullwidthabanner">
-                <ul>
-                    <li data-transition="fade">
-                        <img src="~/images/fans/20210821_182323.jpg" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
-                        <div class="tp-caption  tp-resizeme"
-                             data-x="right" data-hoffset="350"
-                             data-y="top" data-voffset="0"
-                             data-transform_idle="o:1;"
-                             data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
-                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
-                             data-mask_in="x:[100%];y:0;s:inherit;e:inherit;"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-start="700">
-                        </div>
-                    </li>
-
-                    <li data-transition="fade">
-                        <img src="~/images/fans/20210527_030115.jpg" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
-                        <div class="tp-caption  tp-resizeme"
-                             data-x="right" data-hoffset="350"
-                             data-y="top" data-voffset="0"
-                             data-transform_idle="o:1;"
-                             data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
-                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
-                             data-mask_in="x:[100%];y:0;s:inherit;e:inherit;"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-start="700">
-                        </div>
-                    </li>
-                    <li data-transition="fade">
-                        <img src="~/images/fans/20210527_012238.jpg" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
-                        <div class="tp-caption  tp-resizeme"
-                             data-x="right" data-hoffset="350"
-                             data-y="top" data-voffset="0"
-                             data-transform_idle="o:1;"
-                             data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
-                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
-                             data-mask_in="x:[100%];y:0;s:inherit;e:inherit;"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-start="700">
-                        </div>
-                    </li>
-                    <li data-transition="fade">
-                        <img src="~/images/fans/20220507_232419.jpg" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
-                        <div class="tp-caption  tp-resizeme"
-                             data-x="right" data-hoffset="350"
-                             data-y="top" data-voffset="0"
-                             data-transform_idle="o:1;"
-                             data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
-                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
-                             data-mask_in="x:[100%];y:0;s:inherit;e:inherit;"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-start="700">
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- END REVOLUTION SLIDER -->
-    </div>
-</div>
-<!--Main Slider Start-->
-<!--Main Content Start-->
-<div class="main-content wf100">
-    <partial name="_SlideTabs" model="Model.ThreeBeforeNextMatches">
-        <!--Sports Widgets Start-->
-        <section class="wf100 p80">
-            <div class="container">
-                <div class="row">
-                    <partial name="_NextMatch" model="Model.NextMatch">
-                        <partial name="_AfterNextMatch" model="Model.ThreeAfterNextMatches">
-                            <partial name="_TablePoints" model="Model.PointTable">
+<partial name="_Slider">
+    <!--Main Content Start-->
+    <div class="main-content wf100">
+        <partial name="_SlideTabs" model="Model.ThreeBeforeNextMatches">
+            <!--Sports Widgets Start-->
+            <section class="wf100 p80">
+                <div class="container">
+                    <div class="row">
+                        <partial name="_NextMatch" model="Model.NextMatch">
+                            <partial name="_AfterNextMatch" model="Model.ThreeAfterNextMatches">
+                                <partial name="_TablePoints" model="Model.PointTable">
+                    </div>
                 </div>
-            </div>
-        </section>
-        <!--Sports Widgets End-->
-</div>
-<!--Main Content End-->
-@section Scripts
-    {
-    <script>
-        // ------- countdown ------- //
-        if ($('.defaultCountdown').length) {
-            austDay = new Date(@Model.NextMatch.EndTimeForPrediction.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
-            $('.defaultCountdown').countdown({
-                until: austDay,
-                onExpiry: function() {
-                    hidePrediction();
-                }
-            });
-            $('#year').text(austDay.getFullYear());
-        }
+            </section>
+            <!--Sports Widgets End-->
+    </div>
+    <!--Main Content End-->
+    @section Scripts
+        {
+        <script>
+            // ------- countdown ------- //
+            if ($('.defaultCountdown').length) {
+                austDay = new Date(@Model.NextMatch.EndTimeForPrediction.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
+                $('.defaultCountdown').countdown({
+                    until: austDay,
+                    onExpiry: function() {
+                        hidePrediction();
+                    }
+                });
+                $('#year').text(austDay.getFullYear());
+            }
 
-        function hidePrediction() {
-            $('#makePrediction').hide();
-            $('#homePredict').prop("readonly", true);
-            $('#awayPredict').prop("readonly", true);
-        }
-    </script>
-}
+            function hidePrediction() {
+                $('#makePrediction').hide();
+                $('#homePredict').prop("readonly", true);
+                $('#awayPredict').prop("readonly", true);
+            }
+        </script>
+    }
