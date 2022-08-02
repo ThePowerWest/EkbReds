@@ -226,14 +226,21 @@ namespace ApplicationCore.Services
         {
             IEnumerable<SportScoreToken> sportScoreTokens = await SportScoreTokenReadRepository.ListAsync();
 
-            using (HttpClient client = new HttpClient())
+            foreach (SportScoreToken token in sportScoreTokens)
             {
-                client.DefaultRequestHeaders.Add(headerHost, hostUrl);
-                client.DefaultRequestHeaders.Add(hederKey, sportScoreTokens.First().Key);
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add(headerHost, hostUrl);
+                    client.DefaultRequestHeaders.Add(hederKey, token.Key);
 
-                HttpResponseMessage response = await client.GetAsync(url);
-                return response;
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return response;
+                    }
+                }
             }
+            return null;
         }
         #endregion  
     }
