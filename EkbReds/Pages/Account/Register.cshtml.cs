@@ -82,7 +82,7 @@ namespace EkbReds.Pages.Account
                 IdentityResult result = await UserManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user, "User");
+                    await UserManager.AddToRoleAsync(user, "Tipster");
                     return LocalRedirect(Url.Content($"~/Account/RegisterDone?" +
                         $"fullName={WebUtility.UrlEncode(user.FirstName + " " + user.SurName)}"));
                 }
@@ -105,6 +105,7 @@ namespace EkbReds.Pages.Account
             switch (code)
             {
                 case "DuplicateUserName": return "Такое имя пользователя уже существует";
+                case "InvalidUserName": return "Имя пользователя не действительно, может содержать только буквы и цифры";
                 default: return "Неизвестная ошибка, обратитесь к администратору";
             }
         }

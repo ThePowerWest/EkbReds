@@ -1,4 +1,5 @@
 using ApplicationCore.Entities.Identity;
+using ApplicationCore.Managers;
 using Hangfire;
 using Infrastructure;
 using Infrastructure.Data;
@@ -20,6 +21,7 @@ builder.Services.AddIdentity<User, Role>(options =>
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<MainContext>()
+  .AddUserManager<UserManagerEx>()
   .AddDefaultTokenProviders();
 
 builder.Services.AddHttpContextAccessor();

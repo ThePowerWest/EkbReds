@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20220801163241_Add description to Role")]
+    partial class AdddescriptiontoRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,9 +184,6 @@ namespace Infrastructure.Migrations
                     b.Property<byte>("AwayTeamPredict")
                         .HasColumnType("tinyint");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<byte>("HomeTeamPredict")
                         .HasColumnType("tinyint");
 
@@ -221,30 +220,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Seasons");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.Main.SeasonPaid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("SeasonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeasonId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SeasonPaid");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.SportScoreToken", b =>
@@ -422,25 +397,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.Main.SeasonPaid", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.Main.Season", "Season")
-                        .WithMany()
-                        .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Entities.Identity.User", "User")
-                        .WithMany("SeasonPaids")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Season");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ApplicationCore.Entities.Main.Tournament", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.Main.Season", "Season")
@@ -506,8 +462,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("ApplicationCore.Entities.Identity.User", b =>
                 {
                     b.Navigation("Predictions");
-
-                    b.Navigation("SeasonPaids");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Match", b =>

@@ -35,6 +35,7 @@ namespace Web.Services
                             {
                                 summ += 5;
                             }
+                            // Или ничья или верно спрогнозированный исход и разница мячей
                             else if ((predict.Match.HomeTeamScore.Value > predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict > predict.AwayTeamPredict && predict.Match.HomeTeamScore.Value - predict.Match.AwayTeamScore.Value == predict.HomeTeamPredict - predict.AwayTeamPredict) ||
                                      (predict.Match.HomeTeamScore.Value < predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict < predict.AwayTeamPredict && predict.Match.AwayTeamScore.Value - predict.Match.HomeTeamScore.Value == predict.AwayTeamPredict - predict.HomeTeamPredict) ||
                                      (predict.Match.HomeTeamScore.Value == predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict == predict.AwayTeamPredict))

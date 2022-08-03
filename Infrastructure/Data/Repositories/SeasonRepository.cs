@@ -19,8 +19,13 @@ namespace Infrastructure.Data.Repositories
         /// <inheritdoc />
         public async Task<Season> CurrentAsync() =>
             await Context.Seasons
+                .OrderByDescending(season => season.Id)
+                .FirstAsync();
+
+        /// <inheritdoc />
+        public async Task<Season> CurrentIncludeTourAsync() =>
+            await Context.Seasons
                 .Include(season => season.Tournaments)
-                    .ThenInclude(tournament => tournament.Matches)
                 .OrderByDescending(season => season.Id)
                 .FirstAsync();
     }

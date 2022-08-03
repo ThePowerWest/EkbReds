@@ -2,12 +2,11 @@
 using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Repositories;
-using Microsoft.AspNetCore.Identity;
+using ApplicationCore.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web.Interfaces;
 using Web.Models;
-using static Web.Services.ScoringService;
 
 namespace EkbReds.Pages
 {
@@ -16,9 +15,10 @@ namespace EkbReds.Pages
     /// </summary>
     public class IndexModel : PageModel
     {
-        private readonly UserManager<User> UserManager;
+        private readonly UserManagerEx UserManager;
         private readonly IRepository<Prediction> PredictionCRUDRepository;
         private readonly IMatchRepository MatchRepository;
+        private readonly ISeasonRepository SeasonRepository;
         private readonly IRepository<Match> MatchCRUDRepository;
         private readonly IPredictionRepository PredictionRepository;
         private readonly IScoringService ScoringService;
@@ -34,11 +34,12 @@ namespace EkbReds.Pages
         /// </summary>
         public IndexModel(
             IRepository<Prediction> predictionCRUDRepository,
-            UserManager<User> userManager,
+            UserManagerEx userManager,
             IMatchRepository matchRepository,
             IPredictionRepository predictionRepository,
             IRepository<Match> matchCRUDRepository,
-            IScoringService scoringService)
+            IScoringService scoringService,
+            ISeasonRepository seasonRepository)
         {
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
@@ -46,6 +47,7 @@ namespace EkbReds.Pages
             PredictionRepository = predictionRepository;
             MatchCRUDRepository = matchCRUDRepository;
             ScoringService = scoringService;
+            SeasonRepository = seasonRepository;
         }
 
         /// <summary>
@@ -53,15 +55,16 @@ namespace EkbReds.Pages
         /// </summary>
         public async Task OnGet()
         {
+            Season currentSeason = await SeasonRepository.CurrentAsync();
             User currentUser = await UserManager.GetUserAsync(User);
             IEnumerable<Match> matches = await MatchRepository.IndexList(currentUser);
             matches = ConvertTimeToMatches(matches);
             NextMatch = GetNextMatch(matches);
-            NextMatch.StartDate = NextMatch.StartDate.AddHours(-2);
+            NextMatch.EndTimeForPrediction = NextMatch.StartDate.AddHours(-2);
             ThreeAfterNextMatches = GetThreeMatchesAfterNext(matches);
             ThreeBeforeNextMatches = GetThreeMatchesBeforeNext(matches);
 
-            PointTable = ScoringService.TopPredictionsByUsers(UserManager.Users, NextMatch.Tournament.Season)
+            PointTable = ScoringService.TopPredictionsByUsers(await UserManager.FindUsersWithCurrentSeasonPaid(), NextMatch.Tournament.Season)
                                        .OrderByDescending(point => point.Points)
                                        .Take(10);
         }
@@ -71,25 +74,31 @@ namespace EkbReds.Pages
         /// </summary>
         public async Task<IActionResult> OnPostMakePredictionAsync(MatchViewModel match)
         {
+            Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
+
+            if (DateTime.Now >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/")); ;
+
             // TODO переделать на один запрос в БД
             if (match.Prediction.Id != 0)
             {
                 Prediction prediction = await PredictionCRUDRepository.GetByIdAsync(match.Prediction.Id);
                 prediction.AwayTeamPredict = match.Prediction.AwayTeamPredict;
                 prediction.HomeTeamPredict = match.Prediction.HomeTeamPredict;
+                prediction.CreateDate = DateTime.Now;
 
                 await PredictionCRUDRepository.UpdateAsync(prediction);
             }
             else
             {
-                Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
+
                 await PredictionCRUDRepository.AddAsync(
                     new Prediction
                     {
                         Match = currentMatch,
                         User = await UserManager.GetUserAsync(User),
                         HomeTeamPredict = match.Prediction.HomeTeamPredict,
-                        AwayTeamPredict = match.Prediction.AwayTeamPredict
+                        AwayTeamPredict = match.Prediction.AwayTeamPredict,
+                        CreateDate = DateTime.Now
                     });
             }
 
@@ -98,7 +107,7 @@ namespace EkbReds.Pages
 
         private IEnumerable<Match> ConvertTimeToMatches(IEnumerable<Match> matches)
         {
-            foreach(Match match in matches)
+            foreach (Match match in matches)
             {
                 match.StartDate = match.StartDate.AddHours(5);
             }
@@ -116,23 +125,23 @@ namespace EkbReds.Pages
                                 .Where(match => DateTime.Now > match.StartDate)
                                 .Take(3)
                                 .Select(match => new MatchViewModel
-                                  {
-                                      Id = match.Id,
-                                      HomeTeamName = match.HomeTeamName,
-                                      HomeTeamLogo = match.HomeTeamLogo,
-                                      HomeTeamScore = match.HomeTeamScore,
-                                      AwayTeamName = match.AwayTeamName,
-                                      AwayTeamLogo = match.AwayTeamLogo,
-                                      AwayTeamScore = match.AwayTeamScore,
-                                      StartDate = match.StartDate,
-                                      Tournament = match.Tournament,
-                                      Prediction = match.Predictions != null ? match.Predictions
+                                {
+                                    Id = match.Id,
+                                    HomeTeamName = match.HomeTeamName,
+                                    HomeTeamLogo = match.HomeTeamLogo,
+                                    HomeTeamScore = match.HomeTeamScore,
+                                    AwayTeamName = match.AwayTeamName,
+                                    AwayTeamLogo = match.AwayTeamLogo,
+                                    AwayTeamScore = match.AwayTeamScore,
+                                    StartDate = match.StartDate,
+                                    Tournament = match.Tournament,
+                                    Prediction = match.Predictions != null ? match.Predictions
                                                            .Select(prediction => new PredictionViewModel
                                                            {
                                                                AwayTeamPredict = prediction.AwayTeamPredict,
                                                                HomeTeamPredict = prediction.HomeTeamPredict
                                                            }).FirstOrDefault() : null
-                        });
+                                });
 
         /// <summary>
         /// Получить три следующий матчей после следующего
@@ -178,6 +187,7 @@ namespace EkbReds.Pages
                                            Prediction = match.Predictions
                                                                 .Select(prediction => new PredictionViewModel
                                                                 {
+                                                                    Id = prediction.Id,
                                                                     AwayTeamPredict = prediction.AwayTeamPredict,
                                                                     HomeTeamPredict = prediction.HomeTeamPredict
                                                                 }).FirstOrDefault()

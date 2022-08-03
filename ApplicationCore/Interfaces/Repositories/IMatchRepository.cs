@@ -15,12 +15,6 @@ namespace ApplicationCore.Interfaces.Repositories
         IEnumerable<Match> Currents();
 
         /// <summary>
-        /// Получить следующие матчи
-        /// </summary>
-        /// <returns>Список следующих матчей</returns>
-        IEnumerable<Match> Next(int count);
-
-        /// <summary>
         /// Список матчей для отображения на главной странице
         /// </summary>
         /// <returns>Матчи</returns>

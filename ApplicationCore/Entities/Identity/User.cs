@@ -22,5 +22,10 @@ namespace ApplicationCore.Entities.Identity
         /// Прогнозы пользователя на матчи
         /// </summary>
         public IEnumerable<Prediction>? Predictions { get; set; }
+
+        /// <summary>
+        /// Список сезонов в которых пользователь принимает/принимал/будет принимать участие в прогнозах
+        /// </summary>
+        public IEnumerable<SeasonPaid> SeasonPaids { get; set; }
     }
 }

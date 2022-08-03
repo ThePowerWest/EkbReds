@@ -36,7 +36,7 @@ namespace Web.Pages.Admin
         {
             if (!string.IsNullOrEmpty(Input.Name))
             {
-                IdentityResult result = await RoleManager.CreateAsync(new Role { Name = Input.Name });
+                IdentityResult result = await RoleManager.CreateAsync(new Role { Name = Input.Name, Description = "test" });
                 if (result.Succeeded) return LocalRedirect(Url.Content("~/Admin/Role/Roles"));
                 else
                 {
