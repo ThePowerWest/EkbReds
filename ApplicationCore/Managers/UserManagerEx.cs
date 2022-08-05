@@ -36,7 +36,7 @@ namespace ApplicationCore.Managers
         /// Найти пользователей кто оплатил текущий сезон
         /// </summary>
         /// <returns>Список пользователей</returns>
-        public async Task<IEnumerable<User>> FindUsersWithCurrentSeasonPaid()
+        public async Task<IEnumerable<User>> FindUsersWithCurrentSeasonPaidAsync()
         {
             Season currentSeason = await SeasonRepository.CurrentAsync();
             return base.Users.Where(user => user.SeasonPaids.Any(seasonPaid => seasonPaid.Season == currentSeason));

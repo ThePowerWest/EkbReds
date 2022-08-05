@@ -27,7 +27,7 @@ namespace EkbReds.Pages
         public IEnumerable<MatchViewModel> ThreeAfterNextMatches;
         public IEnumerable<MatchViewModel> ThreeBeforeNextMatches;
         public IEnumerable<MatchViewModel> Matches;
-        public IEnumerable<PointTable> PointTable;
+        public IEnumerable<PointTopTable> PointTable;
 
         /// <summary>
         /// ctor
@@ -64,7 +64,7 @@ namespace EkbReds.Pages
             ThreeAfterNextMatches = GetThreeMatchesAfterNext(matches);
             ThreeBeforeNextMatches = GetThreeMatchesBeforeNext(matches);
 
-            PointTable = ScoringService.TopPredictionsByUsers(await UserManager.FindUsersWithCurrentSeasonPaid(), NextMatch.Tournament.Season)
+            PointTable = ScoringService.TopPredictionsByUsers(await UserManager.FindUsersWithCurrentSeasonPaidAsync(), NextMatch.Tournament.Season)
                                        .OrderByDescending(point => point.Points)
                                        .Take(10);
         }
