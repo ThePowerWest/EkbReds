@@ -1,8 +1,11 @@
-﻿using ApplicationCore.Entities.Main;
+﻿using ApplicationCore.Entities.Identity;
+using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Models;
 using ApplicationCore.Models.SportScore.Teams;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using SSTournament = ApplicationCore.Models.SportScore.Teams.Tournament;
 using Tournament = ApplicationCore.Entities.Main.Tournament;
@@ -241,6 +244,34 @@ namespace ApplicationCore.Services
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Игрок, угадавший точный счет больше остальных
+        /// </summary>
+        public UserCountModel MostAccuratePlayer(IEnumerable<User> users)
+        {
+            List<UserCountModel> points = new List<UserCountModel>();
+            foreach (User user in users)
+            {
+                int matchesCount = 0;
+                if (user.Predictions != null)
+                {
+                    foreach (Prediction predict in user.Predictions)
+                    {
+                        if (predict.Match.HomeTeamScore.HasValue && predict.Match.AwayTeamScore.HasValue)
+                        {
+                            if (predict.Match.HomeTeamScore.Value == predict.HomeTeamPredict &&
+                                predict.Match.AwayTeamScore.Value == predict.AwayTeamPredict)
+                            {
+                                matchesCount += 1;
+                            }
+                        }
+                    }
+                }
+                points.Add(new UserCountModel { User = user, Count = matchesCount });
+            }
+            return points.OrderByDescending(pair => pair.Count).First();
         }
         #endregion  
     }

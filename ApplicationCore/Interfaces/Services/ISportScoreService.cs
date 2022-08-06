@@ -1,4 +1,7 @@
-﻿namespace ApplicationCore.Interfaces.Services
+﻿using ApplicationCore.Entities.Identity;
+using ApplicationCore.Models;
+
+namespace ApplicationCore.Interfaces.Services
 {
     /// <summary>
     /// Интерфейс сервиса для работы с API SportScore
@@ -19,5 +22,10 @@
         /// Проверить сколько матчей осталось в списке и при необходимости обновить
         /// </summary>
         Task UpdateMatches();
+
+        /// <summary>
+        /// Игрок, угадавший точный счет больше остальных
+        /// </summary>
+        UserCountModel MostAccuratePlayer(IEnumerable<User> users);
     }
 }
