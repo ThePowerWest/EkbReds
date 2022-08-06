@@ -20,7 +20,6 @@ namespace EkbReds.Pages
         private readonly IMatchRepository MatchRepository;
         private readonly ISeasonRepository SeasonRepository;
         private readonly IRepository<Match> MatchCRUDRepository;
-        private readonly IPredictionRepository PredictionRepository;
         private readonly IScoringService ScoringService;
 
         public MatchViewModel NextMatch;
@@ -28,6 +27,7 @@ namespace EkbReds.Pages
         public IEnumerable<MatchViewModel> ThreeBeforeNextMatches;
         public IEnumerable<MatchViewModel> Matches;
         public IEnumerable<PointTopTable> PointTable;
+        public IEnumerable<User> EkbRedsUsers;
 
         /// <summary>
         /// ctor
@@ -36,7 +36,6 @@ namespace EkbReds.Pages
             IRepository<Prediction> predictionCRUDRepository,
             UserManagerEx userManager,
             IMatchRepository matchRepository,
-            IPredictionRepository predictionRepository,
             IRepository<Match> matchCRUDRepository,
             IScoringService scoringService,
             ISeasonRepository seasonRepository)
@@ -44,7 +43,6 @@ namespace EkbReds.Pages
             PredictionCRUDRepository = predictionCRUDRepository;
             UserManager = userManager;
             MatchRepository = matchRepository;
-            PredictionRepository = predictionRepository;
             MatchCRUDRepository = matchCRUDRepository;
             ScoringService = scoringService;
             SeasonRepository = seasonRepository;
@@ -55,6 +53,8 @@ namespace EkbReds.Pages
         /// </summary>
         public async Task OnGet()
         {
+            EkbRedsUsers =  UserManager.GetRandomUsers();
+
             Season currentSeason = await SeasonRepository.CurrentAsync();
             User currentUser = await UserManager.GetUserAsync(User);
             IEnumerable<Match> matches = await MatchRepository.IndexList(currentUser);
@@ -76,7 +76,7 @@ namespace EkbReds.Pages
         {
             Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
 
-            if (DateTime.Now >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/")); ;
+            if (DateTime.Now >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/"));
 
             // TODO переделать на один запрос в БД
             if (match.Prediction.Id != 0)

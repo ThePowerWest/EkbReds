@@ -41,5 +41,13 @@ namespace ApplicationCore.Managers
             Season currentSeason = await SeasonRepository.CurrentAsync();
             return base.Users.Where(user => user.SeasonPaids.Any(seasonPaid => seasonPaid.Season == currentSeason));
         }
+
+        public IEnumerable<User> GetRandomUsers()
+        {
+            Random rnd = new();
+            IEnumerable<User> users = base.Users.Where(user => user.EmailConfirmed && user.UserName != "thepowerwest");
+
+            return users.OrderBy(x => rnd.Next()).Take(4);
+        }
     }
 }
