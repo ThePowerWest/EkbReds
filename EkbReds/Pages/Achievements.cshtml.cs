@@ -2,7 +2,6 @@ using ApplicationCore.Entities.Identity;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
