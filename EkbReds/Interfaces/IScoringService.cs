@@ -15,6 +15,6 @@ namespace Web.Interfaces
         /// <param name="users"></param>
         /// <param name="season"></param>
         /// <returns></returns>
-        IEnumerable<PointTable> TopPredictionsByUsers(IEnumerable<User> users, Season season);
+        IEnumerable<PointTopTable> TopPredictionsByUsers(IEnumerable<User> users, Season season);
     }
 }

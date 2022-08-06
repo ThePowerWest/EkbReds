@@ -28,5 +28,17 @@ namespace Infrastructure.Data.Repositories
                 .Include(season => season.Tournaments)
                 .OrderByDescending(season => season.Id)
                 .FirstAsync();
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<string>> GetMonths(int seasonId)
+        {
+            List<string> months = await Context.Matches
+                .Where(match => match.Tournament.Season.Id == seasonId)
+                .OrderBy(match => match.StartDate)
+                .Select(match => match.StartDate.ToString("MMMM"))
+                .ToListAsync();
+
+            return months.Distinct();
+        }
     }
 }

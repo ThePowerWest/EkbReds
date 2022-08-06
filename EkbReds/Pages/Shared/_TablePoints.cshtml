@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PointTable>
+﻿@model IEnumerable<PointTopTable>
 @using Web.Models
 @{
     int userCount = 1;
@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (PointTable point in Model)
+                @foreach (PointTopTable point in Model)
                 {
                     <tr>
                         <td>@(userCount++)</td>

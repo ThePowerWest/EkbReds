@@ -17,9 +17,9 @@ namespace Web.Services
         /// </summary>
         /// <param name="users"></param>
         /// <param name="season"></param>
-        public IEnumerable<PointTable> TopPredictionsByUsers(IEnumerable<User> users, Season season)
+        public IEnumerable<PointTopTable> TopPredictionsByUsers(IEnumerable<User> users, Season season)
         {
-            List<PointTable> points = new List<PointTable>();
+            List<PointTopTable> points = new List<PointTopTable>();
             foreach (User user in users)
             {
                 byte summ = 0;
@@ -57,7 +57,7 @@ namespace Web.Services
                         }
                     }
                 }
-                points.Add(new PointTable { User = user, Points = summ });
+                points.Add(new PointTopTable { User = user, Points = summ });
             }
 
             return points;

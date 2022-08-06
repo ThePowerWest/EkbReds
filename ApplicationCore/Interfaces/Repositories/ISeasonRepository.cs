@@ -14,5 +14,7 @@ namespace ApplicationCore.Interfaces.Repositories
         Task<Season> CurrentAsync();
 
         Task<Season> CurrentIncludeTourAsync();
+
+        Task<IEnumerable<string>> GetMonths(int seasonId);
     }
 }

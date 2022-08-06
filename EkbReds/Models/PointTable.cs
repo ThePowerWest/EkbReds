@@ -2,13 +2,23 @@
 
 namespace Web.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class PointTable
     {
+        public PointTable(User user)
+        {
+            User = user;
+        }
+
         public User User { get; set; }
 
-        public byte Points { get; set; }
+        public byte CorrectScore { get; set; }
+
+        public byte GoalDifference { get; set; }
+
+        public byte TeamVictory { get; set; }
+
+        public byte UnitedScores { get; set; }
+
+        public byte Sum { get; set; }
     }
 }
