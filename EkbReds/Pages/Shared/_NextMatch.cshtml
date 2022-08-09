@@ -1,4 +1,8 @@
 ﻿@model MatchViewModel
+@{
+    DateTime ekbDate = DateTime.Now.AddHours(2);
+}
+
 
 <div class="col-lg-4 col-md-6">
     <!--Next Match Widget Start-->
@@ -20,7 +24,7 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-                if (DateTime.Now < @Model.StartDate)
+                if (ekbDate < @Model.StartDate)
                 {
                     <form method="post" asp-page-handler="MakePrediction">
                         <input asp-for="@Model.Prediction.Id" type="hidden" name="Prediction.Id" id="Prediction.Id" class="form-control">

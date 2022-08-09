@@ -45,7 +45,7 @@ namespace ApplicationCore.Managers
         public IEnumerable<User> GetRandomUsers()
         {
             Random rnd = new();
-            IEnumerable<User> users = base.Users.Where(user => user.EmailConfirmed && user.UserName != "thepowerwest");
+            IEnumerable<User> users = base.Users.Where(user => user.EmailConfirmed);
 
             return users.OrderBy(x => rnd.Next()).Take(4);
         }
