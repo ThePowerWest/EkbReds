@@ -76,7 +76,7 @@ namespace EkbReds.Pages
         {
             Match currentMatch = await MatchCRUDRepository.GetByIdAsync(match.Id);
 
-            if (DateTime.Now >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/"));
+            if (DateTime.Now.AddHours(2) >= currentMatch.StartDate.AddHours(3)) return LocalRedirect(Url.Content("~/"));
 
             // TODO переделать на один запрос в БД
             if (match.Prediction.Id != 0)
