@@ -62,13 +62,13 @@
                             <!--Home team(слева)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label style="background: url(@Model.HomeTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" class="form-control">@Model.Prediction.HomeTeamPredict</label>
+                                    <label style="background: url(@Model.HomeTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" class="form-control">@(Model.Prediction != null ? Model.Prediction.HomeTeamPredict : "-")</label>
                                 </div>
                             </div>
                             <!--Away team(справа)-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label style="background: url(@Model.AwayTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" class="form-control">@Model.Prediction.AwayTeamPredict</label>
+                                    <label style="background: url(@Model.AwayTeamLogo) no-repeat 1px 2px;background-size: auto 90%;padding-left: 40px !important;" class="form-control">@(Model.Prediction != null ? Model.Prediction.AwayTeamPredict : "-")</label>
                                 </div>
                             </div>
                         </div>

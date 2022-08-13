@@ -73,7 +73,7 @@ namespace ApplicationCore.Services
         /// <inheritdoc />
         public async Task UpdateTournaments()
         {
-            Season currentSeason = await SeasonRepository.CurrentAsync();
+            Season currentSeason = await SeasonRepository.CurrentIncludeTourAsync();
             IEnumerable<SSTournament> tournaments = await GetTournamentsForThisSeason(currentSeason.YearEnd);
 
             if (currentSeason.Tournaments == null)

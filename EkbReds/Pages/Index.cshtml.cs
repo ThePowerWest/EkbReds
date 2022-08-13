@@ -122,7 +122,7 @@ namespace EkbReds.Pages
         /// <returns>Список матчей</returns>
         private IEnumerable<MatchViewModel> GetThreeMatchesBeforeNext(IEnumerable<Match> matches)
                         => matches
-                                .Where(match => DateTime.Now > match.StartDate)
+                                .Where(match => DateTime.Now.AddHours(2) > match.StartDate)
                                 .Take(3)
                                 .Select(match => new MatchViewModel
                                 {
@@ -149,7 +149,7 @@ namespace EkbReds.Pages
         /// <param name="matches">Список матчей</param>
         /// <returns>Список матчей</returns>
         private IEnumerable<MatchViewModel> GetThreeMatchesAfterNext(IEnumerable<Match> matches)
-                        => matches.Where(match => DateTime.Now < match.StartDate)
+                        => matches.Where(match => DateTime.Now.AddHours(2) < match.StartDate)
                                   .Skip(1)
                                   .Select(match => new MatchViewModel
                                   {
@@ -172,7 +172,7 @@ namespace EkbReds.Pages
         /// <param name="currentUser">Текущий пользователь</param>
         /// <returns>Следующий матч</returns>
         private MatchViewModel GetNextMatch(IEnumerable<Match> matches)
-                    => matches.Where(match => DateTime.Now < match.StartDate)
+                    => matches.Where(match => DateTime.Now.AddHours(2) < match.StartDate)
                                        .Select(match => new MatchViewModel
                                        {
                                            Id = match.Id,
