@@ -31,8 +31,8 @@
                             </div>
                         </div>
 
-                        <div class="point-table-widget">
-                            <table>
+                        <div class="point-table-widget table-responsive">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>№</th>
@@ -58,89 +58,89 @@
 </div>
 <!--Main Content End-->
 @section Scripts{
-    <script>
-        //--When page start
-        GetMonth();
-        //--
-
-        /**
-        * Configuration seasons dropdown when change item
-        */
-        $("#Season_Id").change(function(e) {
+        <script>
+            //--When page start
             GetMonth();
-        });
+            //--
 
-        /**
-         * Configuration tours dropdown when change item
-         */
-        $("#Month").change(function(e) {
-            LoadTablePoints();
-        });
+            /**
+            * Configuration seasons dropdown when change item
+            */
+            $("#Season_Id").change(function(e) {
+                GetMonth();
+            });
 
-        /**
-        * Update dropdown by months
-        */
-        function GetMonth() {
-            $("#Month").empty();
-            $.ajax({
-                url: '/Points?handler=GetMonths',
-                type: "POST",
-                data: { seasonId: $('#Season_Id option:selected').val() },
-                headers: {
-                    RequestVerificationToken:
-                        $('input:hidden[name="__RequestVerificationToken"]').val()
-                }
-            }).done(function(data) {
-                for (var i = 0; i < data.length; i++) {
-                    $('#Month').append(new Option(data[i], data[i], false, new Date().getMonth() == data[i]));
-                }
+            /**
+             * Configuration tours dropdown when change item
+             */
+            $("#Month").change(function(e) {
                 LoadTablePoints();
             });
-        }
 
-        /**
-        * Load all result
-        */
-        function LoadTablePoints() {
-            $.ajax({
-                url: '/Points?handler=GetTable',
-                type: "POST",
-                data: { seasonId: $('#Season_Id option:selected').val(), month: $('#Month option:selected').val() },
-                headers: {
-                    RequestVerificationToken:
-                        $('input:hidden[name="__RequestVerificationToken"]').val()
-                }
-            }).done(function(points) {
-                var content;
-                var number = 1;
-                for (i = 0; i < points.length; i++) {
-                    content += "<tr>"
-                    content += "<td>" + number++ + "</td>"
-                    content += "<td><strong>" + points[i].user.surName + " " + points[i].user.firstName + "</strong></td>"
-                    content += "<td>" + points[i].correctScore + "</td>"
-                    content += "<td>" + points[i].goalDifference + "</td>"
-                    content += "<td>" + points[i].teamVictory + "</td>"
-                    content += "<td>" + points[i].unitedScores + "</td>"
-                    content += "<td><strong>" + points[i].sum + "</strong></td>"
-                    content += "</tr>"
-                }
-                $('#mainPointTable').empty();
-                $('#mainPointTable').append(content);
+            /**
+            * Update dropdown by months
+            */
+            function GetMonth() {
+                $("#Month").empty();
+                $.ajax({
+                    url: '/Points?handler=GetMonths',
+                    type: "POST",
+                    data: { seasonId: $('#Season_Id option:selected').val() },
+                    headers: {
+                        RequestVerificationToken:
+                            $('input:hidden[name="__RequestVerificationToken"]').val()
+                    }
+                }).done(function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#Month').append(new Option(data[i], data[i], false, new Date().getMonth() == data[i]));
+                    }
+                    LoadTablePoints();
+                });
+            }
+
+            /**
+            * Load all result
+            */
+            function LoadTablePoints() {
+                $.ajax({
+                    url: '/Points?handler=GetTable',
+                    type: "POST",
+                    data: { seasonId: $('#Season_Id option:selected').val(), month: $('#Month option:selected').val() },
+                    headers: {
+                        RequestVerificationToken:
+                            $('input:hidden[name="__RequestVerificationToken"]').val()
+                    }
+                }).done(function(points) {
+                    var content;
+                    var number = 1;
+                    for (i = 0; i < points.length; i++) {
+                        content += "<tr>"
+                        content += "<td>" + number++ + "</td>"
+                        content += "<td><strong>" + points[i].user.surName + " " + points[i].user.firstName + "</strong></td>"
+                        content += "<td>" + points[i].correctScore + "</td>"
+                        content += "<td>" + points[i].goalDifference + "</td>"
+                        content += "<td>" + points[i].teamVictory + "</td>"
+                        content += "<td>" + points[i].unitedScores + "</td>"
+                        content += "<td><strong>" + points[i].sum + "</strong></td>"
+                        content += "</tr>"
+                    }
+                    $('#mainPointTable').empty();
+                    $('#mainPointTable').append(content);
+                });
+            }
+
+            /**
+            * Configuration tour dropdown
+            */
+            $("#Month").select2({
+                placeholder: "Выберите месяц"
             });
-        }
 
-        /**
-        * Configuration tour dropdown
-        */
-        $("#Month").select2({
-            placeholder: "Выберите месяц"
-        });
-
-        /**
-        * Configuration tour dropdown
-        */
-        $("#Season_Id").select2({
-            placeholder: "Выберите сезон"
-        });
-    </script>
+            /**
+            * Configuration tour dropdown
+            */
+            $("#Season_Id").select2({
+                placeholder: "Выберите сезон"
+            });
+        </script>
 }
