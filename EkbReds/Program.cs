@@ -32,16 +32,17 @@ builder.Services.AddRazorPages();
 
 WebApplication app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    //app.UseHangfireDashboard("/Dashboard");
+}
+else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    
 }
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseHangfireDashboard("/Dashboard");
-}
+app.UseHangfireDashboard("/Dashboard");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
