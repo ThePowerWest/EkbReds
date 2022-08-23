@@ -2,6 +2,7 @@
 using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -39,7 +40,11 @@ namespace ApplicationCore.Managers
         public async Task<IEnumerable<User>> FindUsersWithCurrentSeasonPaidAsync()
         {
             Season currentSeason = await SeasonRepository.CurrentAsync();
-            return base.Users.Where(user => user.SeasonPaids.Any(seasonPaid => seasonPaid.Season == currentSeason));
+            return base.Users.Where(user => user.SeasonPaids.Any(seasonPaid => seasonPaid.Season == currentSeason))
+                .Include(user => user.Predictions)
+                    .ThenInclude(prediction => prediction.Match)
+                        .ThenInclude(match => match.Tournament)
+                            .ThenInclude(tournament => tournament.Season);
         }
 
         public IEnumerable<User> GetRandomUsers()

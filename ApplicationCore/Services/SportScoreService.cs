@@ -7,6 +7,7 @@ using ApplicationCore.Models;
 using ApplicationCore.Models.SportScore.Teams;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using System.Text;
 using SSTournament = ApplicationCore.Models.SportScore.Teams.Tournament;
 using Tournament = ApplicationCore.Entities.Main.Tournament;
 
@@ -228,19 +229,28 @@ namespace ApplicationCore.Services
         private async Task<HttpResponseMessage> GetAsync(string url)
         {
             IEnumerable<SportScoreToken> sportScoreTokens = await SportScoreTokenReadRepository.ListAsync();
-
             foreach (SportScoreToken token in sportScoreTokens)
             {
                 using (HttpClient client = new HttpClient())
                 {
+                    Thread.Sleep(5000);
                     client.DefaultRequestHeaders.Add(headerHost, hostUrl);
                     client.DefaultRequestHeaders.Add(hederKey, token.Key);
 
                     HttpResponseMessage response = await client.GetAsync(url);
                     if (response.IsSuccessStatusCode)
                     {
+                        //using (StreamWriter w = new StreamWriter("test.txt", true, Encoding.GetEncoding(1251)))
+                        //{ 
+                        //    w.WriteLine($"{token.Key}");
+                        //}
+                        
                         return response;
                     }
+                    //using (StreamWriter w = new StreamWriter("test.txt", true, Encoding.GetEncoding(1251)))
+                    //{
+                    //    w.WriteLine($"{response.StatusCode}");
+                    //}
                 }
             }
             return null;

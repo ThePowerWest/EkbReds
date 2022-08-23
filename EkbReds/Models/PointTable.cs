@@ -1,15 +1,17 @@
-﻿using ApplicationCore.Entities.Identity;
-
-namespace Web.Models
+﻿namespace Web.Models
 {
     public class PointTable
     {
-        public PointTable(User user)
+        public PointTable(string firstname, string surname)
         {
-            User = user;
+            User = new UserViewModel
+            {
+                FirstName = firstname,
+                SurName = surname
+            };
         }
 
-        public User User { get; set; }
+        public UserViewModel User { get; set; }
 
         public byte CorrectScore { get; set; }
 

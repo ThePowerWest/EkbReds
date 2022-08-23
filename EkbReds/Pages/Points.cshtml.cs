@@ -62,7 +62,7 @@ namespace Web.Pages
 
             foreach (User user in users)
             {
-                PointTable point = new(user);
+                PointTable point = new(user.FirstName, user.SurName);
 
                 if (user.Predictions != null)
                 {
@@ -107,7 +107,7 @@ namespace Web.Pages
                 points.Add(point);
             }
 
-            return new JsonResult(points);
+            return new JsonResult(points.ToList());
         }
     }
 }

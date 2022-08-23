@@ -6,8 +6,12 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Web.Configuration;
 
+
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
+
+builder.Services.AddAuthentication().AddCookie();
+builder.HangfireInitialize();
 
 Dependencies.ConfigureServices(builder.Services);
 
@@ -24,13 +28,22 @@ builder.Services.AddIdentity<User, Role>(options =>
   .AddUserManager<UserManagerEx>()
   .AddDefaultTokenProviders();
 
+
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddCoreServices(builder.Configuration);
-builder.HangfireInitialize();
+
 
 builder.Services.AddRazorPages();
 
 WebApplication app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new HangfireAuthorizationFilter () }
+});
 
 if (app.Environment.IsDevelopment())
 {
@@ -42,13 +55,13 @@ else
     app.UseHsts();
     
 }
-app.UseHangfireDashboard("/Dashboard");
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
+
 app.MapRazorPages();
 
 app.Run();
