@@ -66,7 +66,7 @@ namespace Web.Pages
 
                 if (user.Predictions != null)
                 {
-                    foreach (Prediction predict in user.Predictions.Where(predict => 
+                    foreach (Prediction predict in user.Predictions.Where(predict =>
                         predict.Match.StartDate.Month == DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month &&
                         predict.Match.Tournament.Season.Id == seasonId))
                     {
@@ -107,7 +107,7 @@ namespace Web.Pages
                 points.Add(point);
             }
 
-            return new JsonResult(points.ToList());
+            return new JsonResult(points.OrderByDescending(point => point.Sum));
         }
     }
 }

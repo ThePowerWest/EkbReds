@@ -5,9 +5,8 @@ using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Models;
 using ApplicationCore.Models.SportScore.Teams;
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using System.Text;
+using System.Net;
 using SSTournament = ApplicationCore.Models.SportScore.Teams.Tournament;
 using Tournament = ApplicationCore.Entities.Main.Tournament;
 
@@ -120,16 +119,21 @@ namespace ApplicationCore.Services
                                             matchSS.Tournament.Name == matchDB.Tournament.Name);
                 if (foundMatch == null)
                 {
-                    await MatchCRUDRepository.AddAsync(
-                            new Match
-                            {
-                                HomeTeamName = matchSS.HomeTeam.Name,
-                                HomeTeamLogo = matchSS.HomeTeam.Logo,
-                                AwayTeamName = matchSS.AwayTeam.Name,
-                                AwayTeamLogo = matchSS.AwayTeam.Logo,
-                                StartDate = matchSS.StartAt,
-                                Tournament = currentTournaments.First(tournament => tournament.Name == matchSS.Tournament.Name)
-                            });
+                    Tournament tournament = currentTournaments.FirstOrDefault(tournament => tournament.Name == matchSS.Tournament.Name);
+
+                    if (tournament != null)
+                    {
+                        await MatchCRUDRepository.AddAsync(
+                                new Match
+                                {
+                                    HomeTeamName = matchSS.HomeTeam.Name,
+                                    HomeTeamLogo = matchSS.HomeTeam.Logo,
+                                    AwayTeamName = matchSS.AwayTeam.Name,
+                                    AwayTeamLogo = matchSS.AwayTeam.Logo,
+                                    StartDate = matchSS.StartAt,
+                                    Tournament = tournament
+                                });
+                    }
                 }
                 else
                 {
@@ -165,7 +169,7 @@ namespace ApplicationCore.Services
         {
             HttpResponseMessage response = await GetAsync($"https://{hostUrl}/teams/{teamId}/events?page=1");
             Events events = JsonConvert.DeserializeObject<Events>(await response.Content.ReadAsStringAsync());
-            return events.Data.Where(match => match.Tournament.YearEnd == yearEnd);
+            return events.Data.Where(match => match.Tournament != null && match.Tournament.YearEnd == yearEnd);
         }
 
         /// <summary>
@@ -228,10 +232,16 @@ namespace ApplicationCore.Services
         /// <returns>Модель ответа</returns>
         private async Task<HttpResponseMessage> GetAsync(string url)
         {
+            //System.Net.WebProxy[] proxies = new[] {
+            //        null,
+            //        new System.Net.WebProxy("89.208.219.121", 8080)
+            //    };
+            //WebProxyService proxyService = new WebProxyService();
+            //proxyService.Proxy = proxies[0];
             IEnumerable<SportScoreToken> sportScoreTokens = await SportScoreTokenReadRepository.ListAsync();
             foreach (SportScoreToken token in sportScoreTokens)
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient(/*new HttpClientHandler { UseProxy = true, Proxy = proxyService })*/))
                 {
                     Thread.Sleep(5000);
                     client.DefaultRequestHeaders.Add(headerHost, hostUrl);
@@ -244,7 +254,7 @@ namespace ApplicationCore.Services
                         //{ 
                         //    w.WriteLine($"{token.Key}");
                         //}
-                        
+
                         return response;
                     }
                     //using (StreamWriter w = new StreamWriter("test.txt", true, Encoding.GetEncoding(1251)))
