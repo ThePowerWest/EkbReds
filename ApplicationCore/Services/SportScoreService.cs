@@ -232,16 +232,16 @@ namespace ApplicationCore.Services
         /// <returns>Модель ответа</returns>
         private async Task<HttpResponseMessage> GetAsync(string url)
         {
-            //System.Net.WebProxy[] proxies = new[] {
-            //        null,
-            //        new System.Net.WebProxy("89.208.219.121", 8080)
-            //    };
-            //WebProxyService proxyService = new WebProxyService();
-            //proxyService.Proxy = proxies[0];
+            System.Net.WebProxy[] proxies = new[] {
+                    null,
+                    new System.Net.WebProxy("192.111.138.29", 4145)
+                };
+            WebProxyService proxyService = new WebProxyService();
+            proxyService.Proxy = proxies[0];
             IEnumerable<SportScoreToken> sportScoreTokens = await SportScoreTokenReadRepository.ListAsync();
             foreach (SportScoreToken token in sportScoreTokens)
             {
-                using (HttpClient client = new HttpClient(/*new HttpClientHandler { UseProxy = true, Proxy = proxyService })*/))
+                using (HttpClient client = new HttpClient(new HttpClientHandler { UseProxy = true, Proxy = proxyService }))
                 {
                     Thread.Sleep(5000);
                     client.DefaultRequestHeaders.Add(headerHost, hostUrl);

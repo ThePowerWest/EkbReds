@@ -21,8 +21,8 @@ namespace Web.Configuration
             builder.Services.AddHangfireServer();
 
             #region Задачи
-            RecurringJob.AddOrUpdate<ISportScoreService>("Обновить сезон", job => job.UpdateSeason(), "0 */23 * * *");
-            RecurringJob.AddOrUpdate<ISportScoreService>("Обновить турниры", job => job.UpdateTournaments(), "0 */23 * * *");
+            //RecurringJob.AddOrUpdate<ISportScoreService>("Обновить сезон", job => job.UpdateSeason(), "0 */23 * * *");
+            //RecurringJob.AddOrUpdate<ISportScoreService>("Обновить турниры", job => job.UpdateTournaments(), "0 */23 * * *");
             RecurringJob.AddOrUpdate<ISportScoreService>("Обновить матчи", job => job.UpdateMatches(), "0 */23 * * *");
             #endregion
         }
