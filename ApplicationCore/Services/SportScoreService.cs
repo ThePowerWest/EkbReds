@@ -144,6 +144,13 @@ namespace ApplicationCore.Services
 
                         await MatchCRUDRepository.UpdateAsync(foundMatch);
                     }
+
+                    if(matchSS.StartAt != foundMatch.StartDate)
+                    {
+                        foundMatch.StartDate = matchSS.StartAt;
+
+                        await MatchCRUDRepository.UpdateAsync(foundMatch);
+                    }
                 }
             }
         }
