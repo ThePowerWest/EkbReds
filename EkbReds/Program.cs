@@ -4,6 +4,9 @@ using Hangfire;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Web.Configuration;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
@@ -25,6 +28,11 @@ builder.Services.AddIdentity<User, Role>(options =>
 }).AddEntityFrameworkStores<MainContext>()
   .AddUserManager<UserManagerEx>()
   .AddDefaultTokenProviders();
+
+builder.Services.Configure<WebEncoderOptions>(options =>
+{
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+});
 
 builder.Services.AddAuthentication().AddCookie();
 builder.Services.AddHttpContextAccessor();

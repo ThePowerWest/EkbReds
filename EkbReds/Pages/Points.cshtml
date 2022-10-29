@@ -92,8 +92,7 @@
                 }
             }).done(function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    debugger;
-                    $('#Month').append(new Option(data[i], data[i], false, new Date().toLocaleString('default', { month: 'long' }) == data[i]));
+                    $('#Month').append(new Option(data[i], data[i], false, '@(DateTime.Now.ToString("MMMM"))' == data[i]));
                 }
                 LoadTablePoints();
             });
