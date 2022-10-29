@@ -11,12 +11,12 @@ namespace ApplicationCore.Entities.Identity
         /// <summary>
         /// Имя
         /// </summary>
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
         /// <summary>
         /// Фамилия
         /// </summary>
-        public string SurName { get; set; }
+        public string SurName { get; set; } = string.Empty;
 
         /// <summary>
         /// Прогнозы пользователя на матчи
@@ -26,6 +26,6 @@ namespace ApplicationCore.Entities.Identity
         /// <summary>
         /// Список сезонов в которых пользователь принимает/принимал/будет принимать участие в прогнозах
         /// </summary>
-        public IEnumerable<SeasonPaid> SeasonPaids { get; set; }
+        public IEnumerable<SeasonPaid>? SeasonPaids { get; set; }
     }
 }

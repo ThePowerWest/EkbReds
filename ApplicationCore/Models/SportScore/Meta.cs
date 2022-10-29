@@ -11,24 +11,24 @@ namespace ApplicationCore.Models.SportScore
         /// Текущая страница
         /// </summary>
         [JsonProperty("current_page")]
-        public int CurrentPage { get; set; }
+        public byte CurrentPage { get; set; }
 
         /// <summary>
         /// Сколько всего страниц
         /// </summary>
         [JsonProperty("from")]
-        public int From { get; set; }
+        public byte From { get; set; }
 
         /// <summary>
         /// Сколько всего объектов на странице
         /// </summary>
         [JsonProperty("per_page")]
-        public int PerPage { get; set; }
+        public byte PerPage { get; set; }
 
         /// <summary>
         /// Сколько максимум объектов на странице
         /// </summary>
         [JsonProperty("to")]
-        public int To { get; set; }
+        public byte To { get; set; }
     }
 }

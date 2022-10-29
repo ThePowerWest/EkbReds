@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Entities.Identity;
-using ApplicationCore.Models;
+﻿using ApplicationCore.Models.SportScore.Teams;
 
 namespace ApplicationCore.Interfaces.Services
 {
@@ -9,23 +8,22 @@ namespace ApplicationCore.Interfaces.Services
     public interface ISportScoreService
     {
         /// <summary>
-        /// Проверить какой сейчас сезон и при необходимости обновить
+        /// Получить текущий сезон из SportScore
         /// </summary>
-        Task UpdateSeason();
+        /// <returns>Текущий сезон</returns>
+        Task<Tournament> CurrentSeasonAsync();
 
         /// <summary>
-        /// Проверить список турниров и при необходимости обновить
+        /// Получить все матчи с 1й страницы
         /// </summary>
-        Task UpdateTournaments();
+        /// <returns>Список матчей</returns>
+        Task<IEnumerable<EventData>> AllMatchesAsync();
 
         /// <summary>
-        /// Проверить сколько матчей осталось в списке и при необходимости обновить
+        /// Получить список всех турниров за этот сезон
         /// </summary>
-        Task UpdateMatches();
-
-        /// <summary>
-        /// Игрок, угадавший точный счет больше остальных
-        /// </summary>
-        UserCountModel MostAccuratePlayer(IEnumerable<User> users);
+        /// <param name="yearEnd">Год окончания сезона</param>
+        /// <returns>Список турниров</returns>
+        Task<IEnumerable<Tournament>> GetTournamentsCurrentSeasonAsync(int yearEnd);
     }
 }

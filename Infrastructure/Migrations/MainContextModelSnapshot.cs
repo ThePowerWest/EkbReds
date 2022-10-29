@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -158,6 +158,9 @@ namespace Infrastructure.Migrations
                     b.Property<byte?>("HomeTeamScore")
                         .HasColumnType("tinyint");
 
+                    b.Property<byte>("MatchStatusId")
+                        .HasColumnType("tinyint");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -169,6 +172,37 @@ namespace Infrastructure.Migrations
                     b.HasIndex("TournamentId");
 
                     b.ToTable("Matches");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Main.MatchStatus", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MatchStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)0,
+                            Name = "NotStarted"
+                        },
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "Finished"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "Postponed"
+                        });
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Prediction", b =>
@@ -191,6 +225,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("MatchId")
                         .HasColumnType("int");
 
+                    b.Property<byte?>("Point")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -202,6 +239,34 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Predictions");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Main.Proxy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("IP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("Port")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proxies");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Main.Season", b =>

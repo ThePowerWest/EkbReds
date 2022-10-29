@@ -1,4 +1,6 @@
-﻿namespace ApplicationCore.Entities.Main
+﻿using ApplicationCore.Entities.Base;
+
+namespace ApplicationCore.Entities.Main
 {
     /// <summary>
     /// Сезон
@@ -18,6 +20,6 @@
         /// <summary>
         /// Список турниров в сезоне
         /// </summary>
-        public IEnumerable<Tournament> Tournaments { get; set; }
+        public IEnumerable<Tournament>? Tournaments { get; set; }
     }
 }

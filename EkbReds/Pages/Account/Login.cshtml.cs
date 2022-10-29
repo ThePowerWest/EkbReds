@@ -69,21 +69,19 @@ namespace EkbReds.Pages.Account
                 }
             }
             return Page();
-        }    
-        
+        }
+
         /// <summary>
         /// Перевод ошибок
         /// </summary>
         /// <param name="code">Код ошибки</param>
         /// <returns>Русифицированная версия полученной ошибки</returns>
-        private string TranslationErrorCode(string code)
-        {
-            switch (code)
+        private string TranslationErrorCode(string code) =>
+            code switch
             {
-                case "NotAllowed": return "Данный пользователь ещё не подтверждён администратором";
-                case "Failed": return "Не верный логин или пароль";
-                default: return "Неизвестная ошибка, обратитесь к администратору";
-            }
-        }
+                "NotAllowed" => "Данный пользователь ещё не подтверждён администратором",
+                "Failed" => "Не верный логин или пароль",
+                _ => "Неизвестная ошибка, обратитесь к администратору",
+            };
     }
 }

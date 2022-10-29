@@ -11,6 +11,6 @@ namespace ApplicationCore.Interfaces.Repositories
         /// Список турниров за этот сезон
         /// </summary>
         ///<returns>Турниры</returns>
-        IEnumerable<Tournament> Currents();
+        Task<IEnumerable<Tournament>> CurrentsAsync();
     }
 }

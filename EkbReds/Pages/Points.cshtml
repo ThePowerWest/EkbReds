@@ -58,89 +58,90 @@
 </div>
 <!--Main Content End-->
 @section Scripts{
-        <script>
-            //--When page start
+    <script>
+        //-- Вызов метода при старте страницы
+        GetMonth();
+        //--
+
+        /**
+        * Задача при изменении данных в Сезоназ
+        */
+        $("#Season_Id").change(function (e) {
             GetMonth();
-            //--
+        });
 
-            /**
-            * Configuration seasons dropdown when change item
-            */
-            $("#Season_Id").change(function(e) {
-                GetMonth();
-            });
+        /**
+         * Задача при изменении данных в Месяцах
+         */
+        $("#Month").change(function (e) {
+            LoadTablePoints();
+        });
 
-            /**
-             * Configuration tours dropdown when change item
-             */
-            $("#Month").change(function(e) {
+        /**
+        * Получить и установить месяц
+        */
+        function GetMonth() {
+            $("#Month").empty();
+            $.ajax({
+                url: '/Points?handler=GetMonths',
+                type: "POST",
+                data: { seasonId: $('#Season_Id option:selected').val() },
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                }
+            }).done(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    debugger;
+                    $('#Month').append(new Option(data[i], data[i], false, new Date().toLocaleString('default', { month: 'long' }) == data[i]));
+                }
                 LoadTablePoints();
             });
+        }
 
-            /**
-            * Update dropdown by months
-            */
-            function GetMonth() {
-                $("#Month").empty();
-                $.ajax({
-                    url: '/Points?handler=GetMonths',
-                    type: "POST",
-                    data: { seasonId: $('#Season_Id option:selected').val() },
-                    headers: {
-                        RequestVerificationToken:
-                            $('input:hidden[name="__RequestVerificationToken"]').val()
-                    }
-                }).done(function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $('#Month').append(new Option(data[i], data[i], false, new Date().getMonth() == data[i]));
-                    }
-                    LoadTablePoints();
-                });
-            }
-
-            /**
-            * Load all result
-            */
-            function LoadTablePoints() {
-                $.ajax({
-                    url: '/Points?handler=GetTable',
-                    type: "POST",
-                    data: { seasonId: $('#Season_Id option:selected').val(), month: $('#Month option:selected').val() },
-                    headers: {
-                        RequestVerificationToken:
-                            $('input:hidden[name="__RequestVerificationToken"]').val()
-                    }
-                }).done(function(data) {
-                    var content;
-                    var number = 1;
+        /**
+        * Загрузить таблицу с очками за месяц
+        */
+        function LoadTablePoints() {
+            $.ajax({
+                url: '/Points?handler=GetTable',
+                type: "POST",
+                data: { seasonId: $('#Season_Id option:selected').val(), month: $('#Month option:selected').val() },
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                }
+            }).done(function (data) {
+                var content;
+                var number = 1;
                 for (i = 0; i < data.length; i++) {
-                        content += "<tr>"
-                        content += "<td>" + number++ + "</td>"
-                        content += "<td><strong>" + data[i].user.surName + " " + data[i].user.firstName + "</strong></td>"
-                        content += "<td>" + data[i].correctScore + "</td>"
-                        content += "<td>" + data[i].goalDifference + "</td>"
-                        content += "<td>" + data[i].teamVictory + "</td>"
-                        content += "<td>" + data[i].unitedScores + "</td>"
-                        content += "<td><strong>" + data[i].sum + "</strong></td>"
-                        content += "</tr>"
-                    }
-                    $('#mainPointTable').empty();
-                    $('#mainPointTable').append(content);
-                });
-            }
-
-            /**
-            * Configuration tour dropdown
-            */
-            $("#Month").select2({
-                placeholder: "Выберите месяц"
+                    content += "<tr>"
+                    content += "<td>" + number++ + "</td>"
+                    content += "<td><strong>" + data[i].fio + "</strong></td>"
+                    content += "<td>" + data[i].rightScore + "</td>"
+                    content += "<td>" + data[i].goalDifferenceOrDraw + "</td>"
+                    content += "<td>" + data[i].matchOutcome + "</td>"
+                    content += "<td>" + data[i].unitedGoals + "</td>"
+                    content += "<td><strong>" + data[i].sum + "</strong></td>"
+                    content += "</tr>"
+                }
+                $('#mainPointTable').empty();
+                $('#mainPointTable').append(content);
             });
+        }
 
-            /**
-            * Configuration tour dropdown
-            */
-            $("#Season_Id").select2({
-                placeholder: "Выберите сезон"
-            });
-        </script>
+        /**
+        * Настройка выпадающего списка для Месяца
+        */
+        $("#Month").select2({
+            placeholder: "Выберите месяц"
+        });
+
+        /**
+         * Настройка выпадающего списка для Сезона
+         */
+        $("#Season_Id").select2({
+            placeholder: "Выберите сезон"
+        });
+    </script>
 }

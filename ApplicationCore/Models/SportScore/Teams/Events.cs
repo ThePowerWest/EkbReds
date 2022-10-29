@@ -12,7 +12,7 @@ namespace ApplicationCore.Models.SportScore.Teams
         /// Список событий
         /// </summary>
         [JsonProperty("data")]
-        public IEnumerable<EventData> Data { get; set; }
+        public IEnumerable<EventData>? Data { get; set; }
     }
 
     /// <summary>
@@ -24,13 +24,13 @@ namespace ApplicationCore.Models.SportScore.Teams
         /// Идентификатор сезона
         /// </summary>
         [JsonProperty("season_id")]
-        public int? SeasonId { get; set; }
+        public ushort SeasonId { get; set; }
 
         /// <summary>
         /// Текущий статус матча
         /// </summary>
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
 
         /// <summary>
         /// Дата и время начала матча
@@ -42,7 +42,7 @@ namespace ApplicationCore.Models.SportScore.Teams
         /// Домашняя команда
         /// </summary>
         [JsonProperty("home_team")]
-        public Team HomeTeam { get; set; }
+        public Team HomeTeam { get; set; } = new Team();
 
         /// <summary>
         /// Очки домашней команды
@@ -54,7 +54,7 @@ namespace ApplicationCore.Models.SportScore.Teams
         /// Гостевая команда
         /// </summary>
         [JsonProperty("away_team")]
-        public Team AwayTeam { get; set; }
+        public Team AwayTeam { get; set; } = new Team();
 
         /// <summary>
         /// Очки гостевой команды
@@ -66,6 +66,6 @@ namespace ApplicationCore.Models.SportScore.Teams
         /// Турнир
         /// </summary>
         [JsonProperty("season")]
-        public Tournament Tournament { get; set; }
+        public Tournament Tournament { get; set; } = new Tournament();
     }
 }
