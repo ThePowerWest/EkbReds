@@ -33,7 +33,7 @@ namespace ApplicationCore.Services
         {
             Season currentSeason = await _seasonRepository.CurrentIncTAsync();
             IEnumerable<SportScoreTournament> tournaments = 
-                await _sportScoreService.GetTournamentsCurrentSeason(currentSeason.YearEnd);
+                await _sportScoreService.GetTournamentsCurrentSeasonAsync(currentSeason.YearEnd);
 
             if (currentSeason.Tournaments == null)
             {
