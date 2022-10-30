@@ -4,8 +4,6 @@ using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
-using Web.Interfaces;
-using Web.Services;
 
 namespace Web.Configuration
 {
@@ -15,20 +13,24 @@ namespace Web.Configuration
     public static class ConfigureCoreServices
     {
         /// <summary>
-        /// Подключение сервисов
+        /// Подключение сервисов и репозиториев
         /// </summary>
-        public static IServiceCollection AddCoreServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IReadRepository<>), typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 
             services.AddScoped<ISportScoreService, SportScoreService>();
+            services.AddScoped<ISeasonService, SeasonService>();
+            services.AddScoped<IMatchService, MatchService>();
+            services.AddScoped<IScoreService, ScoreService>();
+            services.AddScoped<ITournamentService, TournamentService>();
 
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchRepository, MatchRepository>();
-            services.AddScoped<IPredictionRepository, PredictionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
-            services.AddScoped<IScoringService, ScoringService>();
+            services.AddScoped<IPredictionRepository, PredictionRepository>();
 
             return services;
         }

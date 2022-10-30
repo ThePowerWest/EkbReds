@@ -4,10 +4,15 @@ using Hangfire;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Web.Configuration;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
+
+builder.HangfireInitialize();
 
 Dependencies.ConfigureServices(builder.Services);
 
@@ -24,31 +29,35 @@ builder.Services.AddIdentity<User, Role>(options =>
   .AddUserManager<UserManagerEx>()
   .AddDefaultTokenProviders();
 
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddCoreServices(builder.Configuration);
-builder.HangfireInitialize();
+builder.Services.Configure<WebEncoderOptions>(options =>
+{
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+});
 
+builder.Services.AddAuthentication().AddCookie();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddCoreServices();
 builder.Services.AddRazorPages();
 
 WebApplication app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 
-if (app.Environment.IsDevelopment())
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
-    //app.UseHangfireDashboard("/Dashboard");
-}
-else
+    Authorization = new[] { new HangfireAuthorizationFilter () }
+});
+
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    
 }
-app.UseHangfireDashboard("/Dashboard");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
+
 app.MapRazorPages();
 
 app.Run();

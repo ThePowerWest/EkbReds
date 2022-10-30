@@ -1,4 +1,6 @@
-﻿namespace ApplicationCore.Entities.Main
+﻿using ApplicationCore.Entities.Base;
+
+namespace ApplicationCore.Entities.Main
 {
     /// <summary>
     /// Матч
@@ -8,12 +10,12 @@
         /// <summary>
         /// Название домашней команды
         /// </summary>
-        public string HomeTeamName { get; set; }
+        public string HomeTeamName { get; set; } = string.Empty;    
 
         /// <summary>
         /// Ссылка на эмблему домашней команды
         /// </summary>
-        public string HomeTeamLogo { get; set; }
+        public string HomeTeamLogo { get; set; } = string.Empty; 
 
         /// <summary>
         /// Количество голов, которые забила домашняя команда
@@ -23,12 +25,12 @@
         /// <summary>
         /// Название выездной команды
         /// </summary>
-        public string AwayTeamName { get; set; }
+        public string AwayTeamName { get; set; } = string.Empty;
 
         /// <summary>
         /// Ссылка на эмблему выездной команды
         /// </summary>
-        public string AwayTeamLogo { get; set; }
+        public string AwayTeamLogo { get; set; } = string.Empty;
 
         /// <summary>
         /// Количество голов, которые забила выездная команда
@@ -43,11 +45,16 @@
         /// <summary>
         /// Турнир, по которому идет матч
         /// </summary>
-        public Tournament Tournament { get; set; }
+        public Tournament Tournament { get; set; } = new Tournament();
 
         /// <summary>
         /// Список прогнозов
         /// </summary>
         public IEnumerable<Prediction>? Predictions { get; set; }
+
+        /// <summary>
+        /// Статус матча
+        /// </summary>
+        public MatchStatusId MatchStatusId { get; set; } = MatchStatusId.NotStarted;
     }
 }

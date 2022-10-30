@@ -1,12 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
 {
+    /// <summary>
+    /// Страница О нас
+    /// </summary>
     public class AboutModel : PageModel
-    {
-        public void OnGet()
-        {
-        }
-    }
+    { }
 }

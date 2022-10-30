@@ -1,4 +1,6 @@
-﻿namespace ApplicationCore.Entities.Main
+﻿using ApplicationCore.Entities.Base;
+
+namespace ApplicationCore.Entities.Main
 {
     /// <summary>
     /// API токен для авторизации на SportScore
@@ -8,6 +10,6 @@
         /// <summary>
         /// Ключ токена
         /// </summary>
-        public string Key { get; set; }
+        public string Key { get; set; } = string.Empty;
     }
 }

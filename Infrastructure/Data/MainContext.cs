@@ -2,6 +2,7 @@
 using ApplicationCore.Entities.Main;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Infrastructure.Data
 {
@@ -18,22 +19,16 @@ namespace Infrastructure.Data
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().Property(user => user.Id).ValueGeneratedOnAdd();
-            builder.Entity<Role>().Property(role => role.Id).ValueGeneratedOnAdd();
-
-            builder.Entity<User>().HasMany(user => user.Predictions).WithOne(prediction => prediction.User).OnDelete(DeleteBehavior.Cascade);
-
             base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());           
         }
 
         public DbSet<Season> Seasons { get; set; }
-
         public DbSet<Tournament> Tournaments { get; set; }
-
         public DbSet<Match> Matches { get; set; }
-
         public DbSet<Prediction> Predictions { get; set; }
-
         public DbSet<SportScoreToken> SportScoreTokens { get; set; }
+        public DbSet<Proxy> Proxies { get; set; }
+        public DbSet<MatchStatus> MatchStatuses { get; set; }
     }
 }

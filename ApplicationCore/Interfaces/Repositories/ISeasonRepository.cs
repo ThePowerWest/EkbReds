@@ -13,8 +13,18 @@ namespace ApplicationCore.Interfaces.Repositories
         /// <returns>Текущий сезон</returns>
         Task<Season> CurrentAsync();
 
-        Task<Season> CurrentIncludeTourAsync();
+        /// <summary>
+        /// Получить текущий сезон
+        /// включая турниры
+        /// </summary>
+        /// <returns>Текущий сезон</returns>
+        Task<Season> CurrentIncTAsync();
 
-        Task<IEnumerable<string>> GetMonths(int seasonId);
+        /// <summary>
+        /// Получить названия месяцев в сезоне
+        /// </summary>
+        /// <param name="seasonId">Идентификатор сезона</param>
+        /// <returns>Наименование месяцев</returns>
+        Task<IEnumerable<string>> GetMonthsAsync(int seasonId);
     }
 }

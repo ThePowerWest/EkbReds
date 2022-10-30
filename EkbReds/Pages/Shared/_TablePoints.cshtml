@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PointTopTable>
+﻿@model IEnumerable<TopUser>
 @using Web.Models
 @{
     int userCount = 1;
@@ -14,12 +14,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (PointTopTable point in Model)
+                @foreach (TopUser point in Model)
                 {
                     <tr>
                         <td>@(userCount++)</td>
-                        <td><img src="images/tl-logo1.png" alt=""> <strong>@point.User.FirstName @point.User.SurName</strong></td>
-                        <td><strong>@point.Points</strong></td>
+                        <td><img src="images/tl-logo1.png" alt=""> <strong>@point.FIO</strong></td>
+                        <td><strong>@point.Point</strong></td>
                     </tr>
                 }
             </tbody>

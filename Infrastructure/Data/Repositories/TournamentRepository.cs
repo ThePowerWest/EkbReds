@@ -17,9 +17,9 @@ namespace Infrastructure.Data.Repositories
         { }
 
         /// <inheritdoc />
-        public IEnumerable<Tournament> Currents() => 
-            Context.Tournaments.Where(tournament => 
-                tournament.Season == Context.Seasons.OrderByDescending(season => season.YearStart)
-                                                    .First());
+        public async Task<IEnumerable<Tournament>> CurrentsAsync() => 
+            await Context.Tournaments.Where(tournament => 
+                    tournament.Season == Context.Seasons.OrderByDescending(season => season.YearStart)
+                                                        .First()).AsNoTracking().ToListAsync();
     }
 }

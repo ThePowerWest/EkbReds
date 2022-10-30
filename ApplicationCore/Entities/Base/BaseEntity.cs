@@ -1,15 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-/// <summary>
-/// Базовая сущность
-/// </summary>
-public class BaseEntity
+namespace ApplicationCore.Entities.Base
 {
     /// <summary>
-    /// Самогенерирующийся идентификатор
+    /// Базовая сущность
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public virtual int Id { get; protected set; }
+    public abstract class BaseEntity
+    {
+        /// <summary>
+        /// Самогенерирующийся идентификатор
+        /// </summary>
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; protected set; }
+    }
 }

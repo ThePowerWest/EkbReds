@@ -7,13 +7,13 @@
 <partial name="_Slider">
     <!--Main Content Start-->
     <div class="main-content wf100">
-        <partial name="_SlideTabs" model="Model.ThreeBeforeNextMatches">
+        <partial name="_SlideTabs" model="Model.PreviousMatches">
             <!--Sports Widgets Start-->
             <section class="wf100 p80">
                 <div class="container">
                     <div class="row">
                         <partial name="_NextMatch" model="Model.NextMatch">
-                            <partial name="_AfterNextMatch" model="Model.ThreeAfterNextMatches">
+                            <partial name="_AfterNextMatch" model="Model.FutureMatches">
                                 <partial name="_TablePoints" model="Model.PointTable">
                     </div>
                 </div>
@@ -65,7 +65,7 @@
         <script>
             // ------- countdown ------- //
             if ($('.defaultCountdown').length) {
-                austDay = new Date(@Model.NextMatch.EndTimeForPrediction.AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
+                austDay = new Date(@Model.NextMatch.PredictionEndDate.AddHours(1).AddMonths(-1).ToString("yyyy,MM,dd,HH,mm,ss"));
                 $('.defaultCountdown').countdown({
                     until: austDay,
                     onExpiry: function() {

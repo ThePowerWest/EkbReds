@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Entities.Identity;
+﻿using ApplicationCore.Entities.Base;
+using ApplicationCore.Entities.Identity;
 
 namespace ApplicationCore.Entities.Main
 {
@@ -10,11 +11,11 @@ namespace ApplicationCore.Entities.Main
         /// <summary>
         /// Пользователь
         /// </summary>
-        public User User { get; set; }
+        public User User { get; set; } = new User();
 
         /// <summary>
         /// Сезон
         /// </summary>
-        public Season Season { get; set; }
+        public Season Season { get; set; } = new Season();
     }
 }

@@ -1,11 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
 using ApplicationCore.Entities.Identity;
-using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace EkbReds.Pages.Account
 {
@@ -65,13 +64,13 @@ namespace EkbReds.Pages.Account
         }
 
         /// <summary>
-        /// Регистрация
+        /// Зарегиcтрировать пользователя
         /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                User user = new User
+                User user = new()
                 {
                     Email = Input.UserName + "@ekaterinburgreds.ru",
                     UserName = Input.UserName,
@@ -91,7 +90,6 @@ namespace EkbReds.Pages.Account
                     ModelState.AddModelError(string.Empty, TranslationErrorCode(error.Code));
                 }
             }
-
             return Page();
         }
 
@@ -100,14 +98,12 @@ namespace EkbReds.Pages.Account
         /// </summary>
         /// <param name="code">Код ошибки</param>
         /// <returns>Русифицированная версия полученной ошибки</returns>
-        private string TranslationErrorCode(string code)
-        {
-            switch (code)
+        private string TranslationErrorCode(string code) =>
+            code switch
             {
-                case "DuplicateUserName": return "Такое имя пользователя уже существует";
-                case "InvalidUserName": return "Имя пользователя не действительно, может содержать только буквы и цифры";
-                default: return "Неизвестная ошибка, обратитесь к администратору";
-            }
-        }
+                "DuplicateUserName" => "Такое имя пользователя уже существует",
+                "InvalidUserName" => "Имя пользователя не действительно, может содержать только буквы и цифры",
+                _ => "Неизвестная ошибка, обратитесь к администратору",
+            };
     }
 }

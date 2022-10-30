@@ -12,6 +12,6 @@ namespace Web.Configuration
         /// </summary>
         /// <param name="context">Контекст планировщика</param>
         /// <returns>Разрешить вход или нет</returns>
-        public bool Authorize(DashboardContext context) => context.GetHttpContext().User.Identity.IsAuthenticated;
+        public bool Authorize(DashboardContext context) => context.GetHttpContext().User.IsInRole("Admin");
     }
 }

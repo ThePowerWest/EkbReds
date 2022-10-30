@@ -1,4 +1,3 @@
-using ApplicationCore.Entities.Identity;
 using ApplicationCore.Entities.Main;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Repositories;
@@ -7,107 +6,81 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
-using Web.Models;
 
 namespace Web.Pages
 {
+    /// <summary>
+    /// Страница отображающая очки за сезоны и месяцы
+    /// </summary>
     public class PointsModel : PageModel
     {
-        private readonly IReadRepository<Season> SeasonReadRepository;
-        private readonly ISeasonRepository SeasonRepository;
-        private readonly UserManagerEx UserManager;
+        private readonly IReadRepository<Season> _seasonReadRepository;
+        private readonly IPredictionRepository _predictionRepository;
+        private readonly ISeasonRepository _seasonRepository;
+        private readonly UserManagerEx _userManager;
 
         public List<SelectListItem> Seasons = new();
 
+        /// <summary>
+        /// ctor
+        /// </summary>
         public PointsModel(
             IReadRepository<Season> seasonReadRepository,
             ISeasonRepository seasonRepository,
-            UserManagerEx userManager)
+            UserManagerEx userManager,
+            IPredictionRepository predictionRepository)
         {
-            SeasonReadRepository = seasonReadRepository;
-            SeasonRepository = seasonRepository;
-            UserManager = userManager;
+            _seasonReadRepository = seasonReadRepository;
+            _seasonRepository = seasonRepository;
+            _userManager = userManager;
+            _predictionRepository = predictionRepository;
         }
 
+        /// <summary>
+        /// Отобразить основную страницу с очками
+        /// </summary>
         public async Task OnGet()
         {
-            await GetSeasons();
+            await SetSeasons();
         }
 
-        private async Task GetSeasons()
-        {
-            IEnumerable<Season> seasons = await SeasonReadRepository.ListAsync();
-            for (int i = 0; i < seasons.Count(); i++)
-            {
-                Season selectSeason = seasons.ElementAt(i);
-                Seasons.Add(new SelectListItem
-                {
-                    Value = selectSeason.Id.ToString(),
-                    Text = $"{selectSeason.YearStart}/{selectSeason.YearEnd} сезон",
-                    Selected = i == seasons.Count() - 1
-                });
-            }
-        }
-
+        /// <summary>
+        /// Получить и установить список месяцев в этом сезоне
+        /// </summary>
+        /// <param name="seasonId">Идентификатор сезона</param>
         public async Task<IActionResult> OnPostGetMonths(int seasonId)
         {
-            IEnumerable<string> months = await SeasonRepository.GetMonths(seasonId);
+            IEnumerable<string> months = await _seasonRepository.GetMonthsAsync(seasonId);
             return new JsonResult(months);
         }
 
-        public async Task<IActionResult> OnPostGetTable(int seasonId, string month)
+        /// <summary>
+        /// Сформировать таблицу за текущий месяц
+        /// </summary>
+        /// <param name="seasonId">Идентификатор сезона</param>
+        /// <param name="month">Наименование месяца</param>
+        public async Task<IActionResult> OnPostGetTable(int seasonId, string month) =>
+            new JsonResult(
+                await _predictionRepository.PointsPerMonthAsync(
+                    seasonId, 
+                    DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month));
+
+        #region Private Region
+        /// <summary>
+        /// Получить и установить список сезонов для выбора
+        /// </summary>
+        private async Task SetSeasons()
         {
-            IEnumerable<User> users = await UserManager.FindUsersWithCurrentSeasonPaidAsync();
-            List<PointTable> points = new();
-
-            foreach (User user in users)
+            foreach(Season season in await _seasonReadRepository.ListAsync())
             {
-                PointTable point = new(user);
-
-                if (user.Predictions != null)
+                Seasons.Add(new SelectListItem
                 {
-                    foreach (Prediction predict in user.Predictions.Where(predict => 
-                        predict.Match.StartDate.Month == DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month &&
-                        predict.Match.Tournament.Season.Id == seasonId))
-                    {
-                        if (predict.Match.HomeTeamScore.HasValue && predict.Match.AwayTeamScore.HasValue)
-                        {
-                            // Точно угаданный счёт
-                            if (predict.Match.HomeTeamScore.Value == predict.HomeTeamPredict &&
-                                predict.Match.AwayTeamScore.Value == predict.AwayTeamPredict)
-                            {
-                                point.Sum += 5;
-                                point.CorrectScore += 1;
-                            }
-                            // Или ничья или верно спрогнозированный исход и разница мячей
-                            else if ((predict.Match.HomeTeamScore.Value > predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict > predict.AwayTeamPredict && predict.Match.HomeTeamScore.Value - predict.Match.AwayTeamScore.Value == predict.HomeTeamPredict - predict.AwayTeamPredict) ||
-                                     (predict.Match.HomeTeamScore.Value < predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict < predict.AwayTeamPredict && predict.Match.AwayTeamScore.Value - predict.Match.HomeTeamScore.Value == predict.AwayTeamPredict - predict.HomeTeamPredict) ||
-                                     (predict.Match.HomeTeamScore.Value == predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict == predict.AwayTeamPredict))
-                            {
-                                point.Sum += 3;
-                                point.GoalDifference += 1;
-                            }
-                            // Угадан исход матча
-                            else if ((predict.Match.HomeTeamScore.Value > predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict > predict.AwayTeamPredict) ||
-                                    (predict.Match.HomeTeamScore.Value < predict.Match.AwayTeamScore.Value && predict.HomeTeamPredict < predict.AwayTeamPredict))
-                            {
-                                point.Sum += 2;
-                                point.TeamVictory += 1;
-                            }
-                            // Угаданы забитые голы только клуба Manchester United
-                            else if ((predict.Match.AwayTeamName == "Manchester United" && predict.AwayTeamPredict == predict.Match.AwayTeamScore.Value) ||
-                                    (predict.Match.HomeTeamName == "Manchester United" && predict.HomeTeamPredict == predict.Match.HomeTeamScore.Value))
-                            {
-                                point.Sum += 1;
-                                point.UnitedScores += 1;
-                            }
-                        }
-                    }
-                }
-                points.Add(point);
+                    Value = season.Id.ToString(),
+                    Text = $"{season.YearStart}/{season.YearEnd} сезон"
+                });
             }
-
-            return new JsonResult(points);
+            Seasons.OrderByDescending(season => season).First().Selected = true;
         }
+        #endregion
     }
 }

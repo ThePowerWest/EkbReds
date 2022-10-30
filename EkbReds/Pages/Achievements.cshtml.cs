@@ -1,38 +1,35 @@
-using ApplicationCore.Entities.Identity;
-using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Models;
-using Microsoft.AspNetCore.Identity;
+using ApplicationCore.Models.Achievement;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
 {
     /// <summary>
-    /// Страница с ачивками
+    /// Страница с достижениями пользователей
     /// </summary>
     public class AchievementsModel : PageModel
     {
-        private readonly UserManager<User> UserManager;
-        ISportScoreService SportScoreService;
-        IEnumerable<User> Users;
+        protected readonly IPredictionRepository _predictionRepository;
 
-        public UserCountModel MostAccuratePlayer;
+        public MostAccurateUser? MostAccurateUser;
+        public TopUser? TopUser;
 
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="userManager"></param>
-        public AchievementsModel(UserManager<User> userManager,
-            ISportScoreService sportScoreService)
+        public AchievementsModel(IPredictionRepository predictionRepository)
         {
-            UserManager = userManager;
-            SportScoreService = sportScoreService;
+            _predictionRepository = predictionRepository;
         }
 
-        public void OnGet()
+        /// <summary>
+        /// Отображение страницы
+        /// </summary>
+        public async Task OnGet()
         {
-            Users = UserManager.Users.Where(u => u.UserName != "thepowerwest");
-
-            MostAccuratePlayer = SportScoreService.MostAccuratePlayer(Users);
+            MostAccurateUser = await _predictionRepository.MostAccuratePredictionsUser();
+            TopUser = await _predictionRepository.TopUserAsync();
         }
     }
 }
