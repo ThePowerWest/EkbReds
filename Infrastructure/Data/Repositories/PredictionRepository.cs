@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Models;
+using ApplicationCore.Models.Achievement;
 using Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -101,5 +102,21 @@ namespace Infrastructure.Data.Repositories
                                    CreateDate = GETDATE()
                                WHERE Predictions.Id = (SELECT PredictionId FROM @nextMatch)
                            END");
+
+        /// <inheritdoc />
+        public async Task<MostAccurateUser?> MostAccuratePredictionsUser() =>
+             await Context.RawSqlFirstOrDefaultAsync(
+                $@"SELECT TOP(1) 
+                          AspNetUsers.SurName + ' ' + AspNetUsers.FirstName AS FIO
+                         ,COUNT(CASE WHEN Point=5 THEN 5 END) AS Five
+                   FROM Predictions
+                   LEFT JOIN AspNetUsers ON AspNetUsers.Id = Predictions.UserId
+                   GROUP BY AspNetUsers.SurName + ' ' + AspNetUsers.FirstName
+                   ORDER BY Five DESC",
+                table => new MostAccurateUser
+                {
+                    FIO = (string)table[0],
+                    Point = (int)table[1]
+                });
     }
 }

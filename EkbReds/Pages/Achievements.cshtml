@@ -17,10 +17,6 @@
         <div class="player-squad">
             <div class="container">
                 <div class="row">
-                    @* <div class="col-md-3 mb-3">
-                    <label>Сезон</label>
-                    @Html.DropDownList("Season.Id", Enumerable.Empty<SelectListItem>(), "", new { style = "width: 100%", @class = "form-control" })
-                    </div>*@
                     <!--Fixture Start-->
                     <div class="col-lg-12">
 @*                        <!--Last Match Result Start-->
@@ -42,12 +38,12 @@
                                 <!--col start-->
                                 <div class="col-lg-4">
                                     <div class="next-match-box">
-                                        <h6>Больше всех угадал точный счет</h6>
+                                        <h6>Максимум точных счётов</h6>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="nms-info">
-                                                  @*  <p> <strong>@Model.MostAccuratePlayer.User.FirstName @Model.MostAccuratePlayer.User.SurName</strong></p>
-                                                    <p> <strong>@Model.MostAccuratePlayer.Count матчей</strong></p>*@
+                                                    <p> <strong>@Model.MostAccurateUser.FIO</strong></p>
+                                                    <p> <strong>@Model.MostAccurateUser.Point матчей</strong></p>
                                                 </div>
                                             </div>
                                         </div>

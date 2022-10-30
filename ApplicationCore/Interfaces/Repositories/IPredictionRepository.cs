@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Models;
+using ApplicationCore.Models.Achievement;
 
 namespace ApplicationCore.Interfaces.Repositories
 {
@@ -36,5 +37,11 @@ namespace ApplicationCore.Interfaces.Repositories
         /// <param name="homeTeamPredict">Прогноз голов на домашнюю команду</param>
         /// <param name="awayTeamPredict">Прогноз голов на гостевую команду</param>
         Task CreateOrUpdateAsync(string userId, byte homeTeamPredict, byte awayTeamPredict);
+
+        /// <summary>
+        /// Получить пользователя c самыми точными прогнозами за всё время
+        /// </summary>
+        /// <returns>Пользователь с количеством точных прогнозов</returns>
+        Task<MostAccurateUser?> MostAccuratePredictionsUser();
     }
 }
