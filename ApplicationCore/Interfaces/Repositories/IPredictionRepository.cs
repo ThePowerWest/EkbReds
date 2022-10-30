@@ -20,7 +20,13 @@ namespace ApplicationCore.Interfaces.Repositories
         /// </summary>
         /// <param name="userNumbers">Количество пользователей</param>
         /// <returns>Топ пользователей с суммой очков</returns>
-        Task<IEnumerable<TopUsers>> TopUsersAsync(byte userNumbers);
+        Task<IEnumerable<TopUser>> TopUsersAsync(byte userNumbers);
+        
+        /// <summary>
+        /// Получить пользователя набравший больше всего очков за всё время
+        /// </summary>
+        /// <returns>Пользователь и сумма его очков</returns>
+        Task<TopUser?> TopUserAsync();
 
         /// <summary>
         /// Сформировать таблицу очков всех пользователей которые участвуют в прогнозах за месяц

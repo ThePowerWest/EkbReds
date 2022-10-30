@@ -20,28 +20,23 @@ namespace Infrastructure.Helpers
         /// <returns>Уникальная модель</returns>
         public static async Task<List<T>> RawSqlQueryAsync<T>(this MainContext context, string query, Func<DbDataReader, T> map)
         {
-            using (context)
+            using (DbCommand command = context.Database.GetDbConnection().CreateCommand())
             {
-                using (DbCommand command = context.Database.GetDbConnection().CreateCommand())
+                command.CommandText = query;
+                command.CommandType = CommandType.Text;
+
+                await context.Database.OpenConnectionAsync();
+
+                using (DbDataReader result = await command.ExecuteReaderAsync())
                 {
-                    command.CommandText = query;
-                    command.CommandType = CommandType.Text;
+                    List<T> entities = new List<T>();
 
-                    await context.Database.OpenConnectionAsync();
-
-                    using (DbDataReader result = await command.ExecuteReaderAsync())
+                    while (result.Read())
                     {
-                        List<T> entities = new List<T>();
+                        entities.Add(map(result));
+                    }
 
-                        while (result.Read())
-                        {
-                            entities.Add(map(result));
-                        }
-
-                        await context.Database.CloseConnectionAsync();
-
-                        return entities;
-                    }                   
+                    return entities;
                 }
             }
         }
@@ -56,23 +51,18 @@ namespace Infrastructure.Helpers
         /// <returns>Уникальная модель</returns>
         public static async Task<T?> RawSqlFirstOrDefaultAsync<T>(this MainContext context, string query, Func<DbDataReader, T> map)
         {
-            using (context)
+            using (DbCommand command = context.Database.GetDbConnection().CreateCommand())
             {
-                using (DbCommand command = context.Database.GetDbConnection().CreateCommand())
+                command.CommandText = query;
+                command.CommandType = CommandType.Text;
+
+                await context.Database.OpenConnectionAsync();
+
+                using (DbDataReader result = await command.ExecuteReaderAsync())
                 {
-                    command.CommandText = query;
-                    command.CommandType = CommandType.Text;
-
-                    await context.Database.OpenConnectionAsync();
-
-                    using (DbDataReader result = await command.ExecuteReaderAsync())
+                    while (result.Read())
                     {
-                        while (result.Read())
-                        {
-                            return map(result);
-                        }
-
-                        await context.Database.CloseConnectionAsync();
+                        return map(result);
                     }
                 }
             }

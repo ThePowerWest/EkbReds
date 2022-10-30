@@ -21,7 +21,7 @@ namespace EkbReds.Pages
         public NextMatch? NextMatch;
         public IEnumerable<PreviousMatch> PreviousMatches;
         public IEnumerable<FutureMatch> FutureMatches;
-        public IEnumerable<TopUsers> PointTable;
+        public IEnumerable<TopUser> PointTable;
         public IEnumerable<User> EkbRedsUsers;
 
         /// <summary>

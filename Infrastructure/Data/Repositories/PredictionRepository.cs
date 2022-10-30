@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Repositories
             await Context.Database.ExecuteSqlRawAsync($"UPDATE Predictions SET Point={point} WHERE Id={id}");
 
         /// <inheritdoc />
-        public async Task<IEnumerable<TopUsers>> TopUsersAsync(byte userNumbers) =>
+        public async Task<IEnumerable<TopUser>> TopUsersAsync(byte userNumbers) =>
             await Context.RawSqlQueryAsync(
                 $@"SELECT TOP ({userNumbers})
 	                   AspNetUsers.SurName + ' ' + AspNetUsers.FirstName as FIO, 
@@ -39,10 +39,26 @@ namespace Infrastructure.Data.Repositories
 							                     ORDER BY Id DESC)
                    GROUP BY AspNetUsers.SurName + ' ' + AspNetUsers.FirstName
                    ORDER BY Point DESC", 
-                table => new TopUsers 
+                table => new TopUser 
                 {
                     FIO = (string)table[0], 
                     Point = (int)table[1] 
+                });
+
+        /// <inheritdoc />
+        public async Task<TopUser?> TopUserAsync() =>
+            await Context.RawSqlFirstOrDefaultAsync(
+                $@"SELECT TOP (1)
+	                   AspNetUsers.SurName + ' ' + AspNetUsers.FirstName as FIO, 
+	                   SUM(Point) as Point
+                   FROM Predictions
+                   LEFT JOIN AspNetUsers ON AspNetUsers.Id = Predictions.UserId
+                   GROUP BY AspNetUsers.SurName + ' ' + AspNetUsers.FirstName
+                   ORDER BY Point DESC",
+                table => new TopUser
+                {
+                    FIO = (string)table[0],
+                    Point = (int)table[1]
                 });
 
         /// <inheritdoc />

@@ -3,7 +3,7 @@
     /// <summary>
     /// Пользователи набравшие больше всего очков в прогнозаъ
     /// </summary>
-    public class TopUsers
+    public class TopUser
     {
         /// <summary>
         /// ФИО пользователя

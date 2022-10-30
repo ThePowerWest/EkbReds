@@ -1,4 +1,5 @@
 using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Models;
 using ApplicationCore.Models.Achievement;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,6 +13,7 @@ namespace Web.Pages
         protected readonly IPredictionRepository _predictionRepository;
 
         public MostAccurateUser? MostAccurateUser;
+        public TopUser? TopUser;
 
         /// <summary>
         /// ctor
@@ -27,6 +29,7 @@ namespace Web.Pages
         public async Task OnGet()
         {
             MostAccurateUser = await _predictionRepository.MostAccuratePredictionsUser();
+            TopUser = await _predictionRepository.TopUserAsync();
         }
     }
 }
